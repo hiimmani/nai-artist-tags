@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#dcf1fc">
+<title>NAI 작태 모음</title>
+<style>
+:root{
+  --bg:#f1fafe;
+  --bg-grad:linear-gradient(180deg,#d8f0fc 0%,#f4fbfe 280px,#f6fcfe 100%);
+  --card:#ffffff;
+  --line:#c9e8f8;
+  --line-soft:#e0f3fc;
+  --text:#1b4a63;
+  --muted:#6b95ab;
+  --sky:#4ec4f0;
+  --sky-deep:#1a9ad4;
+  --sky-soft:#d3eefc;
+  --sky-tint:#eaf7fe;
+  --shadow:0 1px 2px rgba(26,154,212,.07), 0 6px 18px rgba(26,154,212,.10);
+  --shadow-lift:0 4px 10px rgba(26,154,212,.12), 0 14px 34px rgba(26,154,212,.18);
+  --r:16px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  background-image:var(--bg-grad);
+  background-attachment:fixed;
+  color:var(--text);
+  font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* ── 헤더 ───────────────────────────── */
+header{padding:34px 0 6px;text-align:center;position:relative}
+h1{
+  margin:0;
+  font-size:clamp(25px,6.2vw,38px);
+  font-weight:800;letter-spacing:-.02em;
+  color:#0f5d80;
+}
+.sub{
+  margin:8px 0 0;
+  font-size:clamp(12px,3.2vw,14px);
+  font-weight:500;color:var(--muted);
+}
+#editHead{
+  display:none;
+  margin:12px auto 0;
+  padding:6px 14px;border-radius:999px;
+  background:var(--sky-soft);color:var(--sky-deep);
+  font-size:12px;font-weight:650;
+}
+#editHead.on{display:inline-block}
+
+/* ── 검색 (고정) ────────────────────── */
+.bar{
+  position:sticky;top:0;z-index:30;
+  padding:14px 0 12px;margin-top:12px;
+  background:rgba(246,252,254,.84);
+  backdrop-filter:saturate(160%) blur(12px);
+  -webkit-backdrop-filter:saturate(160%) blur(12px);
+  border-bottom:1px solid transparent;transition:border-color .2s;
+}
+.bar.stuck{border-bottom-color:var(--line)}
+.search{position:relative;display:flex;align-items:center}
+.search svg{position:absolute;left:15px;width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;pointer-events:none}
+#q{
+  width:100%;padding:13px 44px 13px 43px;
+  border:1px solid var(--line);border-radius:999px;
+  background:var(--card);box-shadow:var(--shadow);
+  font-size:16px;outline:none;
+  transition:border-color .16s,box-shadow .16s;
+}
+#q::placeholder{color:#9cc4da}
+#q:focus{border-color:var(--sky);box-shadow:0 0 0 4px var(--sky-soft)}
+#clearQ{
+  position:absolute;right:8px;width:30px;height:30px;border-radius:50%;
+  display:none;place-items:center;color:var(--muted);font-size:17px;line-height:1;
+}
+#clearQ.on{display:grid}
+#clearQ:hover{background:var(--sky-soft)}
+
+/* ── 목록 헤더: 장수 + 정렬 ─────────── */
+.meta{display:flex;align-items:center;gap:10px;margin-top:14px;padding:0 3px}
+.count{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 13px;border-radius:999px;
+  background:var(--sky-soft);color:#0d7ba9;
+  font-weight:700;font-size:13px;white-space:nowrap;
+}
+.count b{font-variant-numeric:tabular-nums;font-weight:800}
+.count.clickable{cursor:pointer}
+.count .x{font-size:12px;opacity:.65}
+.meta .grow{flex:1}
+#sort{
+  border:1px solid var(--line);background:var(--card);
+  border-radius:999px;padding:6px 11px;font-size:13px;color:var(--muted);
+  box-shadow:var(--shadow);outline:none;
+}
+
+/* ── 태그 목록 ──────────────────────── */
+.tags{
+  display:none;gap:7px;margin-top:11px;
+  overflow-x:auto;padding:2px 3px 4px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.tags::-webkit-scrollbar{display:none}
+.tags.on{display:flex}
+.tag{
+  flex:none;
+  padding:6px 12px;border-radius:999px;
+  border:1px solid var(--line);background:var(--card);
+  color:#3d7c9b;font-size:12.5px;font-weight:600;
+  white-space:nowrap;box-shadow:var(--shadow);
+  transition:background .14s,color .14s,border-color .14s;
+}
+.tag .n{opacity:.5;font-weight:700;margin-left:3px;font-variant-numeric:tabular-nums}
+.tag.sel{
+  background:linear-gradient(160deg,#5cc9f0,#189fd6);
+  border-color:transparent;color:#fff;
+  box-shadow:0 3px 12px rgba(26,154,212,.35);
+}
+.tag.sel .n{opacity:.75}
+@media (hover:hover){.tag:not(.sel):hover{background:var(--sky-tint);border-color:var(--sky)}}
+
+/* ── 그리드 ─────────────────────────── */
+#grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(148px,1fr));
+  gap:14px;padding:16px 0 40px;
+}
+@media (min-width:700px){#grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px}}
+.card{
+  content-visibility:auto;contain-intrinsic-size:auto 280px;
+  background:var(--card);border:1px solid var(--line-soft);
+  border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);
+  transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s;
+  text-align:left;display:block;width:100%;padding:0;
+}
+@media (hover:hover){.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift)}}
+.card:active{transform:scale(.985)}
+.thumb{position:relative;aspect-ratio:3/4;background:linear-gradient(135deg,#e4f5fd,#d2ecfa);overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .28s ease}
+.thumb img.ready{opacity:1}
+.cap{padding:9px 11px 11px}
+.cap .nm{
+  font-size:13px;font-weight:650;color:#175f80;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;line-height:1.35;
+}
+.cap .tg{
+  margin-top:4px;font-size:11px;color:#5aa3c4;font-weight:600;
+  display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+.empty{grid-column:1/-1;padding:64px 20px;text-align:center;color:var(--muted)}
+.empty .big{font-size:38px;margin-bottom:12px;opacity:.5}
+.empty p{margin:6px 0;font-size:14px}
+.empty .hint{font-size:12.5px;color:#96bed3}
+
+/* ── 라이트박스 ─────────────────────── */
+.lb{position:fixed;inset:0;z-index:100;display:none;background:rgba(14,58,79,.74);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.lb.on{display:block}
+.lb-scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(56px + env(safe-area-inset-top,0px)) 12px calc(28px + var(--safe-b))}
+.lb-inner{max-width:760px;margin:0 auto}
+.lb-img{width:100%;border-radius:14px;display:block;background:#e4f5fd;box-shadow:0 18px 50px rgba(8,45,64,.4)}
+.lb-info{margin-top:14px;background:var(--card);border-radius:var(--r);padding:16px 17px 18px;box-shadow:0 10px 30px rgba(8,45,64,.2)}
+.lb-info h2{margin:0;font-size:17px;font-weight:750;color:#0f5d80;line-height:1.35}
+.lb-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.lb-tags .t{padding:5px 11px;border-radius:999px;background:var(--sky-soft);color:#0d7ba9;font-size:12.5px;font-weight:650}
+.lb-tags .none{color:#a8cadd;font-size:12.5px;padding:5px 0}
+.lb-actions{display:flex;gap:8px;margin-top:15px}
+.lb-actions button{flex:1;padding:10px;border-radius:11px;font-size:13.5px;font-weight:650;background:var(--sky-soft);color:#0d7ba9}
+.lb-actions .del{background:#fdecee;color:#c9636c}
+.lb-top{position:absolute;top:env(safe-area-inset-top,0px);left:0;right:0;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;z-index:2;pointer-events:none}
+.lb-top>*{pointer-events:auto}
+.icob{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.92);color:#2b6b8a;font-size:19px;line-height:1;box-shadow:0 3px 12px rgba(8,45,64,.24)}
+.lb-pos{padding:6px 13px;border-radius:999px;background:rgba(255,255,255,.92);color:#2b6b8a;font-size:12.5px;font-weight:650;font-variant-numeric:tabular-nums;box-shadow:0 3px 12px rgba(8,45,64,.24)}
+.nav{position:fixed;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.88);color:#2b6b8a;display:grid;place-items:center;font-size:20px;box-shadow:0 3px 12px rgba(8,45,64,.24);z-index:3}
+.nav.prev{left:10px}.nav.next{right:10px}
+@media (max-width:640px){.nav{display:none}}
+
+/* ── 하단 버튼 ──────────────────────── */
+.fab{
+  position:fixed;right:18px;bottom:calc(18px + var(--safe-b));z-index:40;
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(160deg,#5cc9f0,#189fd6);
+  color:#fff;font-size:28px;font-weight:300;line-height:1;
+  display:none;place-items:center;box-shadow:0 6px 20px rgba(26,154,212,.45);
+}
+.fab.on{display:grid}
+.fab:active{transform:scale(.94)}
+.lockrow{padding:10px 0 40px;text-align:center}
+#lockBtn{font-size:12px;color:#a6c9dc;padding:8px 14px;border-radius:999px}
+#lockBtn:hover{background:var(--sky-soft);color:#3d8fb5}
+
+/* ── 시트 ───────────────────────────── */
+.sheet{position:fixed;inset:0;z-index:120;display:none;background:rgba(14,58,79,.52);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.sheet.on{display:block}
+.sheet-box{
+  position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;background:var(--card);
+  border-radius:22px 22px 0 0;padding:8px 18px calc(20px + var(--safe-b));
+  box-shadow:0 -8px 40px rgba(8,45,64,.28);animation:up .26s cubic-bezier(.2,.8,.3,1);
+}
+@keyframes up{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
+@media (min-width:720px){
+  .sheet-box{left:50%;right:auto;bottom:auto;top:50%;transform:translate(-50%,-50%);width:520px;border-radius:20px;max-height:88vh}
+  @keyframes up{from{transform:translate(-50%,-46%);opacity:.4}to{transform:translate(-50%,-50%);opacity:1}}
+}
+.grip{width:38px;height:4px;border-radius:99px;background:#d2eaf6;margin:6px auto 14px}
+@media (min-width:720px){.grip{display:none}}
+.sheet h3{margin:2px 0 16px;font-size:17px;font-weight:750;color:#0f5d80}
+
+label.f{display:block;margin-bottom:13px}
+label.f span{display:block;font-size:12.5px;font-weight:650;color:#4c86a3;margin-bottom:6px}
+label.f input{
+  width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;
+  background:#fafdff;font-size:16px;outline:none;transition:border-color .16s,box-shadow .16s;
+}
+label.f input:focus{border-color:var(--sky);box-shadow:0 0 0 4px var(--sky-soft)}
+label.f .tip{font-size:11.5px;color:#96bed3;margin-top:5px;font-weight:400;display:block}
+
+/* 태그 입력 */
+.taginput{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+  border:1px solid var(--line);border-radius:11px;background:#fafdff;
+  padding:7px 9px;transition:border-color .16s,box-shadow .16s;
+}
+.taginput.focus{border-color:var(--sky);box-shadow:0 0 0 4px var(--sky-soft)}
+.taginput .chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 6px 5px 10px;border-radius:999px;
+  background:var(--sky-soft);color:#0d7ba9;font-size:12.5px;font-weight:650;
+}
+.taginput .chip b{cursor:pointer;font-size:13px;opacity:.55;font-weight:700;padding:0 2px}
+.taginput .chip b:hover{opacity:1}
+.taginput input{
+  flex:1;min-width:88px;width:88px;
+  border:0;outline:none;background:none;padding:5px 2px;font-size:16px;
+}
+.taginput input::placeholder{color:#a8cadd}
+
+.drop{
+  border:1.5px dashed #b3dff5;border-radius:14px;background:#f4fcff;
+  padding:22px 14px;text-align:center;color:var(--muted);font-size:13.5px;
+  margin-bottom:14px;cursor:pointer;transition:background .16s,border-color .16s;
+}
+.drop:hover,.drop.over{background:var(--sky-soft);border-color:var(--sky)}
+.drop .ic{font-size:26px;display:block;margin-bottom:6px;opacity:.7}
+.previews{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.previews img{width:62px;height:82px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}
+.previews .more{width:62px;height:82px;border-radius:9px;background:var(--sky-soft);display:grid;place-items:center;font-size:12px;font-weight:700;color:#1a9ad4}
+
+.btns{display:flex;gap:9px;margin-top:6px}
+.btn{flex:1;padding:13px;border-radius:12px;font-size:14.5px;font-weight:700;background:#e9f5fb;color:#4c86a3}
+.btn.pri{background:linear-gradient(160deg,#5cc9f0,#189fd6);color:#fff;box-shadow:0 4px 14px rgba(26,154,212,.35)}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.note{background:var(--sky-tint);border:1px solid var(--line-soft);border-radius:11px;padding:11px 13px;font-size:12px;color:#4c86a3;line-height:1.65;margin-bottom:14px}
+.note b{color:#1a9ad4}
+.note code{background:#d9eff9;padding:1px 5px;border-radius:5px;font-size:11.5px}
+
+#prog{position:fixed;left:0;top:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,#5cc9f0,#189fd6);transition:width .25s ease,opacity .3s}
+#toast{
+  position:fixed;left:50%;bottom:calc(26px + var(--safe-b));
+  transform:translateX(-50%) translateY(12px);z-index:210;opacity:0;pointer-events:none;
+  background:#0f5d80;color:#fff;padding:11px 18px;border-radius:999px;
+  font-size:13.5px;font-weight:600;box-shadow:0 8px 26px rgba(8,45,64,.32);
+  transition:opacity .22s,transform .22s;max-width:calc(100vw - 32px);text-align:center;
+}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.skel{background:linear-gradient(100deg,#e9f6fd 30%,#d8eefb 50%,#e9f6fd 70%);background-size:220% 100%;animation:sk 1.2s linear infinite}
+@keyframes sk{to{background-position:-220% 0}}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<div class="wrap">
+  <header>
+    <h1 id="siteTitle">NAI 작태 모음</h1>
+    <p class="sub" id="siteSub">V5 기준 계속 추가 됨</p>
+    <button id="editHead">✎ 제목 수정</button>
+  </header>
+
+  <div class="bar" id="bar">
+    <div class="search">
+      <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+      <input id="q" type="search" placeholder="이름 · 태그로 검색" autocomplete="off" enterkeyhint="search">
+      <button id="clearQ" aria-label="검색어 지우기">✕</button>
+    </div>
+  </div>
+
+  <div class="meta">
+    <span class="count" id="count">총 <b>0</b>장</span>
+    <span class="grow"></span>
+    <select id="sort" aria-label="정렬">
+      <option value="new">최신순</option>
+      <option value="old">오래된순</option>
+      <option value="name">이름순</option>
+    </select>
+  </div>
+
+  <div class="tags" id="tagbar"></div>
+
+  <div id="grid"></div>
+
+  <div class="lockrow"><button id="lockBtn">🔒 관리</button></div>
+</div>
+
+<button class="fab" id="fab" aria-label="이미지 추가">＋</button>
+
+<div class="lb" id="lb">
+  <div class="lb-scroll" id="lbScroll">
+    <div class="lb-inner">
+      <img class="lb-img" id="lbImg" alt="">
+      <div class="lb-info">
+        <h2 id="lbName"></h2>
+        <div class="lb-tags" id="lbTags"></div>
+        <div class="lb-actions" id="lbActions" style="display:none">
+          <button id="lbEdit">✎ 수정</button>
+          <button id="lbDel" class="del">삭제</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="lb-top">
+    <span class="lb-pos" id="lbPos"></span>
+    <button class="icob" id="lbClose" aria-label="닫기">✕</button>
+  </div>
+  <button class="nav prev" id="lbPrev" aria-label="이전">‹</button>
+  <button class="nav next" id="lbNext" aria-label="다음">›</button>
+</div>
+
+<div class="sheet" id="sheet"><div class="sheet-box" id="sheetBox"></div></div>
+<div id="toast"></div>
+
+<script>
+/* =========================================================
+   NAI 작태 모음 — 단일 파일 갤러리
+   github 모드 : data.json + images/ + thumbs/ 를 저장소에 커밋
+   local  모드 : 브라우저(IndexedDB)에만 저장 (배포 전 연습용)
+   ========================================================= */
+const $ = s => document.querySelector(s);
+
+const CFG_KEY = 'nai_gallery_cfg_v1';
+const CHUNK   = 60;
+const THUMB   = { max: 420,  q: .72 };
+const FULL    = { max: 1600, q: .86 };
+const DEF     = { title: 'NAI 작태 모음', sub: 'V5 기준 계속 추가 됨' };
+
+const S = {
+  items: [],           // {id,name,tags[],src,thumb,w,h,ts}
+  site: { ...DEF },
+  view: [], drawn: 0,
+  tag: null,           // 선택된 태그
+  mode: 'local', dataSha: null, cfg: null, admin: false,
+  cur: -1, urls: new Map()
+};
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+let toastT;
+function toast(msg, ms = 2200){
+  const t = $('#toast');
+  t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms);
+}
+function prog(p){
+  const el = $('#prog');
+  if(p === null){ el.style.opacity = 0; setTimeout(() => { el.style.width = 0; el.style.opacity = 1; }, 320); return; }
+  el.style.width = (p * 100) + '%';
+}
+
+/* ── 태그 유틸 ────────────────────────────────────────── */
+// "배경용 인물 #조명" → ["배경용","인물","조명"]
+function parseTags(str){
+  return String(str || '')
+    .split(/[\s,]+/)
+    .map(t => t.replace(/^#+/, '').trim())
+    .filter(Boolean)
+    .filter((t, i, a) => a.indexOf(t) === i)
+    .slice(0, 20);
+}
+const tagsOf = it => Array.isArray(it.tags) ? it.tags : [];
+
+/* ── IndexedDB ────────────────────────────────────────── */
+let dbP;
+function db(){
+  return dbP ||= new Promise((res, rej) => {
+    const r = indexedDB.open('nai_gallery', 1);
+    r.onupgradeneeded = () => {
+      const d = r.result;
+      if(!d.objectStoreNames.contains('blobs')) d.createObjectStore('blobs');
+      if(!d.objectStoreNames.contains('meta'))  d.createObjectStore('meta');
+    };
+    r.onsuccess = () => res(r.result);
+    r.onerror   = () => rej(r.error);
+  });
+}
+async function idb(store, mode, fn){
+  const d = await db();
+  return new Promise((res, rej) => {
+    const tx = d.transaction(store, mode);
+    const rq = fn(tx.objectStore(store));
+    tx.oncomplete = () => res(rq && rq.result);
+    tx.onerror    = () => rej(tx.error);
+  });
+}
+const soft = (p, fb = null) => p.catch(() => fb);
+const putBlob = (k, v) => idb('blobs', 'readwrite', s => s.put(v, k));
+const getBlob = k      => soft(idb('blobs', 'readonly',  s => s.get(k)));
+const delBlob = k      => soft(idb('blobs', 'readwrite', s => s.delete(k)));
+const putMeta = ()     => idb('meta', 'readwrite', s => { s.put(S.items, 'items'); return s.put(S.site, 'site'); });
+const getMeta = k      => soft(idb('meta', 'readonly', s => s.get(k)));
+
+/* ── 리사이즈 → WebP ──────────────────────────────────── */
+async function variant(file, opt){
+  let bmp;
+  try { bmp = await createImageBitmap(file); }
+  catch { throw new Error('이미지를 읽을 수 없습니다'); }
+  const scale = Math.min(1, opt.max / Math.max(bmp.width, bmp.height));
+  const w = Math.max(1, Math.round(bmp.width * scale));
+  const h = Math.max(1, Math.round(bmp.height * scale));
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const ctx = c.getContext('2d');
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(bmp, 0, 0, w, h);
+  bmp.close?.();
+  const blob = await new Promise(r => c.toBlob(r, 'image/webp', opt.q))
+            || await new Promise(r => c.toBlob(r, 'image/jpeg', opt.q));
+  return { blob, w, h };
+}
+const b64 = blob => new Promise((res, rej) => {
+  const fr = new FileReader();
+  fr.onload  = () => res(String(fr.result).split(',')[1]);
+  fr.onerror = rej;
+  fr.readAsDataURL(blob);
+});
+
+/* ── GitHub API ───────────────────────────────────────── */
+const GH = {
+  head(){ return { Authorization: 'Bearer ' + S.cfg.token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' }; },
+  url(p){ return `https://api.github.com/repos/${S.cfg.owner}/${S.cfg.repo}/contents/${p}`; },
+  async sha(p){
+    const r = await fetch(this.url(p) + '?ref=' + S.cfg.branch, { headers: this.head(), cache: 'no-store' });
+    if(r.status === 404) return null;
+    if(!r.ok) throw new Error('GitHub 조회 실패 (' + r.status + ')');
+    return (await r.json()).sha;
+  },
+  async put(path, contentB64, message, sha){
+    const body = { message, content: contentB64, branch: S.cfg.branch };
+    if(sha) body.sha = sha;
+    const r = await fetch(this.url(path), { method: 'PUT', headers: this.head(), body: JSON.stringify(body) });
+    if(!r.ok){
+      const t = await r.text();
+      if(r.status === 401) throw new Error('토큰이 올바르지 않습니다');
+      if(r.status === 403) throw new Error('권한이 없습니다 (토큰 권한 확인)');
+      if(r.status === 409 || r.status === 422) throw new Error('충돌이 발생했습니다. 새로고침 후 다시 시도하세요');
+      throw new Error('업로드 실패 (' + r.status + ') ' + t.slice(0, 120));
+    }
+    return r.json();
+  },
+  async del(path, message){
+    const sha = await this.sha(path);
+    if(!sha) return;
+    await fetch(this.url(path), { method: 'DELETE', headers: this.head(), body: JSON.stringify({ message, sha, branch: S.cfg.branch }) });
+  },
+  async saveData(message){
+    const json  = JSON.stringify({ version: 2, title: S.site.title, sub: S.site.sub, updated: new Date().toISOString(), items: S.items }, null, 1);
+    const bytes = new TextEncoder().encode(json);
+    let bin = '';                       // 스택 오버플로 방지를 위해 나눠서 변환
+    for(let i = 0; i < bytes.length; i += 0x8000)
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    const res = await this.put('data.json', btoa(bin), message, S.dataSha);
+    S.dataSha = res.content.sha;
+  }
+};
+const persist = msg => S.mode === 'github' ? GH.saveData(msg) : putMeta();
+
+/* ── 이미지 경로 ──────────────────────────────────────── */
+async function srcOf(it, which){
+  if(S.mode === 'github') return which === 'thumb' ? it.thumb : it.src;
+  const key = it.id + (which === 'thumb' ? '_t' : '_f');
+  if(S.urls.has(key)) return S.urls.get(key);
+  const b = await getBlob(key);
+  if(!b) return '';
+  const u = URL.createObjectURL(b);
+  S.urls.set(key, u);
+  return u;
+}
+
+/* ── 추가 / 수정 / 삭제 ───────────────────────────────── */
+async function addImages(files, name, tags){
+  const list = [...files], multi = list.length > 1;
+  let done = 0, added = 0;
+  try{
+    for(const f of list){
+      const base = f.name.replace(/\.[^.]+$/, '');
+      const nm = (multi ? base : (name || base)).trim() || '이름 없음';
+      const id = uid();
+
+      const t = await variant(f, THUMB);
+      const g = await variant(f, FULL);
+      prog((done + .35) / list.length);
+
+      const item = { id, name: nm, tags: tags.slice(), w: g.w, h: g.h, ts: Date.now() };
+
+      if(S.mode === 'github'){
+        const ext = g.blob.type === 'image/webp' ? 'webp' : 'jpg';
+        item.src   = `images/${id}.${ext}`;
+        item.thumb = `thumbs/${id}.${ext}`;
+        await GH.put(item.thumb, await b64(t.blob), `thumb: ${nm}`);
+        prog((done + .6) / list.length);
+        await GH.put(item.src, await b64(g.blob), `image: ${nm}`);
+        S.items.push(item);
+      } else {
+        await putBlob(id + '_t', t.blob);
+        await putBlob(id + '_f', g.blob);
+        S.items.push(item);
+      }
+      added++; done++;
+      prog(done / list.length);
+    }
+  } finally {
+    // 여러 장이어도 목록 파일은 한 번만 커밋 (중간 실패 시 성공분까지 저장)
+    if(added) await persist(`add ${added} image(s)`);
+    prog(null);
+  }
+}
+async function updateItem(id, name, tags){
+  const it = S.items.find(x => x.id === id);
+  if(!it) return;
+  it.name = name; it.tags = tags;
+  await persist(`edit: ${name}`);
+}
+async function removeItem(id){
+  const i = S.items.findIndex(x => x.id === id);
+  if(i < 0) return;
+  const it = S.items[i];
+  S.items.splice(i, 1);
+  await persist(`delete: ${it.name}`);
+  if(S.mode === 'github'){
+    try { await GH.del(it.thumb, 'rm thumb'); await GH.del(it.src, 'rm image'); } catch {}
+  } else {
+    await delBlob(id + '_t'); await delBlob(id + '_f');
+    ['_t','_f'].forEach(s => { const u = S.urls.get(id + s); if(u) URL.revokeObjectURL(u); S.urls.delete(id + s); });
+  }
+}
+
+/* ── 헤더 ─────────────────────────────────────────────── */
+function paintHead(){
+  $('#siteTitle').textContent = S.site.title;
+  $('#siteSub').textContent   = S.site.sub;
+  $('#siteSub').style.display = S.site.sub ? '' : 'none';
+  document.title = S.site.title;
+}
+
+/* ── 렌더 ─────────────────────────────────────────────── */
+const grid = $('#grid');
+let io, ioMore;
+
+function applyFilter(){
+  const q = $('#q').value.trim().toLowerCase();
+  let v = S.items;
+  if(S.tag) v = v.filter(it => tagsOf(it).includes(S.tag));
+  if(q) v = v.filter(it =>
+    (it.name || '').toLowerCase().includes(q) ||
+    tagsOf(it).some(t => t.toLowerCase().includes(q)));
+  v = v.slice();
+
+  const s = $('#sort').value;
+  if(s === 'new')      v.sort((a, b) => b.ts - a.ts);
+  else if(s === 'old') v.sort((a, b) => a.ts - b.ts);
+  else                 v.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
+
+  S.view = v; S.drawn = 0;
+  grid.innerHTML = '';
+  drawMore();
+  paintCount(q);
+  paintTags();
+}
+
+function paintCount(q){
+  const el = $('#count'), total = S.items.length.toLocaleString('ko-KR');
+  const filtered = S.tag || q;
+  el.classList.toggle('clickable', !!S.tag);
+  if(S.tag)   el.innerHTML = `#${esc(S.tag)} <b>${S.view.length}</b>장 <span class="x">✕</span>`;
+  else if(q)  el.innerHTML = `검색 <b>${S.view.length}</b>장 · 전체 ${total}장`;
+  else        el.innerHTML = `총 <b>${total}</b>장`;
+  if(!filtered) el.title = ''; else el.title = S.tag ? '탭하면 태그 해제' : '';
+}
+
+function paintTags(){
+  const bar = $('#tagbar');
+  const cnt = new Map();
+  S.items.forEach(it => tagsOf(it).forEach(t => cnt.set(t, (cnt.get(t) || 0) + 1)));
+  if(!cnt.size){ bar.classList.remove('on'); bar.innerHTML = ''; return; }
+  const list = [...cnt.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'ko'));
+  bar.classList.add('on');
+  bar.innerHTML =
+    `<button class="tag${S.tag ? '' : ' sel'}" data-t="">전체<span class="n">${S.items.length}</span></button>` +
+    list.map(([t, n]) =>
+      `<button class="tag${S.tag === t ? ' sel' : ''}" data-t="${esc(t)}">#${esc(t)}<span class="n">${n}</span></button>`
+    ).join('');
+}
+
+function drawMore(){
+  if(S.drawn >= S.view.length){
+    if(S.view.length === 0) grid.innerHTML = emptyHTML();
+    return;
+  }
+  const frag = document.createDocumentFragment();
+  const end = Math.min(S.drawn + CHUNK, S.view.length);
+  for(let i = S.drawn; i < end; i++) frag.appendChild(card(S.view[i], i));
+  grid.appendChild(frag);
+  S.drawn = end;
+
+  ioMore?.disconnect();
+  if(S.drawn < S.view.length){
+    const last = grid.children[Math.max(0, grid.children.length - 12)];
+    ioMore = new IntersectionObserver(e => { if(e[0].isIntersecting) drawMore(); }, { rootMargin: '600px' });
+    if(last) ioMore.observe(last);
+  }
+}
+
+function emptyHTML(){
+  const q = $('#q').value.trim();
+  if(S.tag) return `<div class="empty"><div class="big">🏷️</div><p>#${esc(S.tag)} 에 해당하는 이미지가 없어요</p></div>`;
+  if(q)     return `<div class="empty"><div class="big">🔍</div><p>“${esc(q)}” 검색 결과가 없어요</p></div>`;
+  return `<div class="empty"><div class="big">🖼️</div><p>아직 이미지가 없어요</p>
+    <p class="hint">${S.admin ? '오른쪽 아래 ＋ 버튼으로 추가하세요' : '아래 🔒 관리에서 로그인하면 추가할 수 있어요'}</p></div>`;
+}
+
+function card(it, idx){
+  const b = document.createElement('button');
+  b.className = 'card';
+  b.dataset.i = idx;
+  const tg = tagsOf(it);
+  b.innerHTML =
+    `<div class="thumb skel"><img alt="" loading="lazy" decoding="async"></div>
+     <div class="cap"><div class="nm">${esc(it.name)}</div>${tg.length ? `<div class="tg">${tg.map(t => '#' + esc(t)).join(' ')}</div>` : ''}</div>`;
+  const img = b.querySelector('img');
+  io ||= new IntersectionObserver((es, ob) => {
+    es.forEach(async e => {
+      if(!e.isIntersecting) return;
+      ob.unobserve(e.target);
+      const el = e.target;
+      const src = await srcOf(S.items.find(x => x.id === el.dataset.id) || {}, 'thumb');
+      if(!src) return;
+      el.onload  = () => { el.classList.add('ready'); el.parentElement.classList.remove('skel'); };
+      el.onerror = () => el.parentElement.classList.remove('skel');
+      el.src = src;
+    });
+  }, { rootMargin: '400px' });
+  img.dataset.id = it.id;
+  io.observe(img);
+  return b;
+}
+
+grid.addEventListener('click', e => {
+  const c = e.target.closest('.card');
+  if(c) openLB(+c.dataset.i);
+});
+
+/* ── 태그 선택 ────────────────────────────────────────── */
+function selectTag(t){
+  S.tag = t || null;
+  applyFilter();
+  scrollTo({ top: 0, behavior: 'smooth' });
+}
+$('#tagbar').addEventListener('click', e => {
+  const b = e.target.closest('.tag');
+  if(b) selectTag(b.dataset.t);
+});
+$('#count').addEventListener('click', () => { if(S.tag) selectTag(''); });
+
+/* ── 라이트박스 ───────────────────────────────────────── */
+async function openLB(i){
+  if(i < 0 || i >= S.view.length) return;
+  S.cur = i;
+  const it = S.view[i];
+  $('#lbName').textContent = it.name;
+  const tg = tagsOf(it);
+  $('#lbTags').innerHTML = tg.length
+    ? tg.map(t => `<button class="t" data-t="${esc(t)}">#${esc(t)}</button>`).join('')
+    : '<span class="none">태그 없음</span>';
+  $('#lbPos').textContent = `${i + 1} / ${S.view.length}`;
+  $('#lbActions').style.display = S.admin ? 'flex' : 'none';
+
+  const img = $('#lbImg');
+  img.removeAttribute('src');
+  if(it.w && it.h) img.style.aspectRatio = `${it.w}/${it.h}`;
+  img.src = await srcOf(it, 'full') || await srcOf(it, 'thumb');
+
+  $('#lb').classList.add('on');
+  $('#lbScroll').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closeLB(){
+  $('#lb').classList.remove('on');
+  document.body.style.overflow = '';
+  S.cur = -1;
+}
+$('#lbClose').onclick = closeLB;
+$('#lb').addEventListener('click', e => { if(e.target.id === 'lb' || e.target.id === 'lbScroll') closeLB(); });
+$('#lbPrev').onclick = () => openLB(S.cur - 1);
+$('#lbNext').onclick = () => openLB(S.cur + 1);
+$('#lbTags').addEventListener('click', e => {
+  const b = e.target.closest('.t');
+  if(!b) return;
+  closeLB();
+  $('#q').value = ''; $('#clearQ').classList.remove('on');
+  selectTag(b.dataset.t);
+});
+document.addEventListener('keydown', e => {
+  if(!$('#lb').classList.contains('on')) return;
+  if(e.key === 'Escape') closeLB();
+  if(e.key === 'ArrowLeft') openLB(S.cur - 1);
+  if(e.key === 'ArrowRight') openLB(S.cur + 1);
+});
+let tx = 0, ty = 0;
+$('#lbScroll').addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+$('#lbScroll').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) openLB(S.cur + (dx < 0 ? 1 : -1));
+}, { passive: true });
+
+/* ── 시트 ─────────────────────────────────────────────── */
+function sheet(html){
+  $('#sheetBox').innerHTML = `<div class="grip"></div>` + html;
+  $('#sheet').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet(){
+  $('#sheet').classList.remove('on');
+  $('#sheetBox').innerHTML = '';
+  if(!$('#lb').classList.contains('on')) document.body.style.overflow = '';
+}
+$('#sheet').addEventListener('click', e => { if(e.target.id === 'sheet') closeSheet(); });
+
+/* 태그 입력 위젯 — 띄어쓰기/엔터/쉼표로 #태그 생성 */
+function tagField(id, initial){
+  return `<label class="f"><span>태그</span>
+    <div class="taginput" id="${id}Wrap">
+      <input id="${id}" placeholder="배경용" autocomplete="off" enterkeyhint="done"
+             inputmode="text" data-init="${esc((initial || []).join(' '))}">
+    </div>
+    <span class="tip">띄어쓰기 또는 엔터를 누르면 <b>#태그</b>로 만들어집니다</span>
+  </label>`;
+}
+function initTagField(id){
+  const wrap = $('#' + id + 'Wrap'), input = $('#' + id);
+  let tags = parseTags(input.dataset.init);
+  const paint = () => {
+    [...wrap.querySelectorAll('.chip')].forEach(c => c.remove());
+    tags.forEach((t, i) => {
+      const c = document.createElement('span');
+      c.className = 'chip';
+      c.innerHTML = `#${esc(t)}<b data-i="${i}">✕</b>`;
+      wrap.insertBefore(c, input);
+    });
+    input.placeholder = tags.length ? '추가' : '배경용';
+  };
+  const commit = () => {
+    const add = parseTags(input.value);
+    if(add.length){ tags = parseTags(tags.concat(add).join(' ')); input.value = ''; paint(); }
+  };
+  input.addEventListener('keydown', e => {
+    // 한글 조합 중의 스페이스/엔터는 IME 확정용이므로 건드리지 않는다 (뒤의 input 이벤트가 처리)
+    if(e.isComposing || e.keyCode === 229) return;
+    if(e.key === 'Enter' || e.key === ',' || e.key === ' '){ e.preventDefault(); commit(); }
+    else if(e.key === 'Backspace' && !input.value && tags.length){ tags.pop(); paint(); }
+  });
+  input.addEventListener('input', e => { if(!e.isComposing && /[\s,]/.test(input.value)) commit(); });
+  input.addEventListener('compositionend', () => { if(/[\s,]/.test(input.value)) commit(); });
+  input.addEventListener('focus', () => wrap.classList.add('focus'));
+  input.addEventListener('blur',  () => { wrap.classList.remove('focus'); commit(); });
+  wrap.addEventListener('click', e => {
+    const x = e.target.closest('b[data-i]');
+    if(x){ tags.splice(+x.dataset.i, 1); paint(); }
+    else input.focus();
+  });
+  paint();
+  return { get(){ commit(); return tags.slice(); } };
+}
+
+/* ── 이미지 추가 ──────────────────────────────────────── */
+let picked = [];
+function addSheet(){
+  picked = [];
+  sheet(`
+    <h3>이미지 추가</h3>
+    <div class="drop" id="drop"><span class="ic">🖼️</span>탭해서 사진 선택 <span style="color:#a8cadd">(여러 장 가능)</span></div>
+    <input type="file" id="file" accept="image/*" multiple hidden>
+    <div class="previews" id="prev"></div>
+    <label class="f"><span>이름</span>
+      <input id="fName" placeholder="예) 눈 감고 웃는 표정" autocomplete="off">
+      <span class="tip">비워두면 파일 이름이 들어갑니다. 여러 장이면 각 파일 이름이 쓰여요.</span>
+    </label>
+    ${tagField('fTags', S.tag ? [S.tag] : [])}
+    <div class="btns">
+      <button class="btn" id="cancel">취소</button>
+      <button class="btn pri" id="save" disabled>저장</button>
+    </div>`);
+
+  const tf = initTagField('fTags');
+  const fi = $('#file'), dp = $('#drop');
+  dp.onclick = () => fi.click();
+  dp.ondragover = e => { e.preventDefault(); dp.classList.add('over'); };
+  dp.ondragleave = () => dp.classList.remove('over');
+  dp.ondrop = e => { e.preventDefault(); dp.classList.remove('over'); take(e.dataTransfer.files); };
+  fi.onchange = () => take(fi.files);
+  $('#cancel').onclick = closeSheet;
+
+  function take(fl){
+    picked = [...fl].filter(f => f.type.startsWith('image/'));
+    const p = $('#prev'); p.innerHTML = '';
+    picked.slice(0, 6).forEach(f => {
+      const i = document.createElement('img');
+      i.src = URL.createObjectURL(f);
+      i.onload = () => URL.revokeObjectURL(i.src);
+      p.appendChild(i);
+    });
+    if(picked.length > 6){
+      const m = document.createElement('div');
+      m.className = 'more'; m.textContent = '+' + (picked.length - 6);
+      p.appendChild(m);
+    }
+    dp.innerHTML = picked.length
+      ? `<span class="ic">✅</span>${picked.length}장 선택됨 <span style="color:#a8cadd">· 다시 탭하면 변경</span>`
+      : `<span class="ic">🖼️</span>탭해서 사진 선택`;
+    $('#save').disabled = !picked.length;
+    if(picked.length === 1 && !$('#fName').value)
+      $('#fName').value = picked[0].name.replace(/\.[^.]+$/, '');
+  }
+
+  $('#save').onclick = async () => {
+    const btn = $('#save'), n = picked.length;
+    btn.disabled = true; btn.textContent = '저장 중…';
+    try{
+      await addImages(picked, $('#fName').value, tf.get());
+      closeSheet(); applyFilter(); toast(`${n}장 추가 완료`);
+    }catch(err){
+      prog(null); btn.disabled = false; btn.textContent = '저장';
+      toast('실패: ' + err.message, 4000);
+    }
+  };
+}
+
+/* ── 이미지 수정 ──────────────────────────────────────── */
+function editSheet(it){
+  sheet(`
+    <h3>수정</h3>
+    <label class="f"><span>이름</span><input id="eName" autocomplete="off"></label>
+    ${tagField('eTags', tagsOf(it))}
+    <div class="btns">
+      <button class="btn" id="cancel">취소</button>
+      <button class="btn pri" id="save">저장</button>
+    </div>`);
+  const tf = initTagField('eTags');
+  $('#eName').value = it.name;
+  $('#cancel').onclick = closeSheet;
+  $('#save').onclick = async () => {
+    const b = $('#save'); b.disabled = true; b.textContent = '저장 중…';
+    try{
+      await updateItem(it.id, $('#eName').value.trim() || '이름 없음', tf.get());
+      closeSheet(); applyFilter();
+      const i = S.view.findIndex(x => x.id === it.id);
+      if(i >= 0) openLB(i); else closeLB();
+      toast('수정했습니다');
+    }catch(err){ b.disabled = false; b.textContent = '저장'; toast('실패: ' + err.message, 4000); }
+  };
+}
+$('#lbEdit').onclick = () => { const it = S.view[S.cur]; if(it) editSheet(it); };
+$('#lbDel').onclick = async () => {
+  const it = S.view[S.cur]; if(!it) return;
+  if(!confirm(`“${it.name}” 을(를) 삭제할까요?`)) return;
+  try{ await removeItem(it.id); closeLB(); applyFilter(); toast('삭제했습니다'); }
+  catch(err){ toast('실패: ' + err.message, 4000); }
+};
+
+/* ── 제목 수정 ────────────────────────────────────────── */
+function headSheet(){
+  sheet(`
+    <h3>제목 수정</h3>
+    <label class="f"><span>제목</span><input id="hT" autocomplete="off" placeholder="${esc(DEF.title)}"></label>
+    <label class="f"><span>소제목</span>
+      <input id="hS" autocomplete="off" placeholder="${esc(DEF.sub)}">
+      <span class="tip">제목보다 작게 표시됩니다. 비워두면 소제목이 숨겨져요.</span>
+    </label>
+    <div class="btns">
+      <button class="btn" id="cancel">취소</button>
+      <button class="btn pri" id="save">저장</button>
+    </div>`);
+  $('#hT').value = S.site.title;
+  $('#hS').value = S.site.sub;
+  $('#cancel').onclick = closeSheet;
+  $('#save').onclick = async () => {
+    const b = $('#save'); b.disabled = true; b.textContent = '저장 중…';
+    const prev = { ...S.site };
+    S.site = { title: $('#hT').value.trim() || DEF.title, sub: $('#hS').value.trim() };
+    try{
+      await persist('edit: site title');
+      paintHead(); closeSheet(); toast('제목을 바꿨습니다');
+    }catch(err){
+      S.site = prev; paintHead();
+      b.disabled = false; b.textContent = '저장';
+      toast('실패: ' + err.message, 4000);
+    }
+  };
+}
+$('#editHead').onclick = headSheet;
+
+/* ── 관리자 ───────────────────────────────────────────── */
+function adminSheet(){
+  const c = S.cfg || { owner: '', repo: '', branch: 'main', token: '' };
+  sheet(`
+    <h3>관리자 로그인</h3>
+    <div class="note">
+      GitHub <b>토큰을 입력한 이 기기에서만</b> 편집 버튼이 나타납니다.
+      링크를 받은 다른 사람에게는 보기 전용이에요.<br>
+      토큰은 이 브라우저에만 저장되고 어디에도 전송되지 않습니다.
+    </div>
+    <label class="f"><span>GitHub 사용자명</span><input id="cOwner" autocomplete="off" placeholder="username"></label>
+    <label class="f"><span>저장소 이름</span><input id="cRepo" autocomplete="off" placeholder="nai-gallery"></label>
+    <label class="f"><span>브랜치</span><input id="cBranch" autocomplete="off" placeholder="main"></label>
+    <label class="f"><span>액세스 토큰</span>
+      <input id="cToken" type="password" autocomplete="off" placeholder="github_pat_...">
+      <span class="tip">Settings → Developer settings → Fine-grained tokens → 해당 저장소만 선택 →
+      Repository permissions의 <code>Contents: Read and write</code></span>
+    </label>
+    <div class="btns">
+      ${S.cfg ? '<button class="btn" id="out">로그아웃</button>' : '<button class="btn" id="cancel">취소</button>'}
+      <button class="btn pri" id="save">확인</button>
+    </div>`);
+  $('#cOwner').value = c.owner; $('#cRepo').value = c.repo;
+  $('#cBranch').value = c.branch || 'main'; $('#cToken').value = c.token;
+
+  $('#cancel') && ($('#cancel').onclick = closeSheet);
+  $('#out') && ($('#out').onclick = () => {
+    try{ localStorage.removeItem(CFG_KEY); }catch{}
+    closeSheet(); location.reload();
+  });
+
+  $('#save').onclick = async () => {
+    const b = $('#save'); b.disabled = true; b.textContent = '확인 중…';
+    const cfg = {
+      owner:  $('#cOwner').value.trim(),
+      repo:   $('#cRepo').value.trim(),
+      branch: $('#cBranch').value.trim() || 'main',
+      token:  $('#cToken').value.trim()
+    };
+    if(!cfg.owner || !cfg.repo || !cfg.token){
+      b.disabled = false; b.textContent = '확인'; return toast('빈 칸을 채워주세요');
+    }
+    const prev = S.cfg; S.cfg = cfg;
+    try{
+      const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`, { headers: GH.head() });
+      if(!r.ok) throw new Error(r.status === 404 ? '저장소를 찾을 수 없습니다' : '토큰이 올바르지 않습니다');
+      const info = await r.json();
+      if(!info.permissions || !info.permissions.push) throw new Error('쓰기 권한이 없는 토큰입니다');
+
+      localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
+      S.admin = true; S.mode = 'github';
+      S.dataSha = await GH.sha('data.json');
+      if(S.dataSha === null) await GH.saveData('init data.json');
+      setAdminUI(); closeSheet(); applyFilter(); toast('관리자 모드 켜짐');
+    }catch(err){
+      S.cfg = prev; b.disabled = false; b.textContent = '확인';
+      toast(err.message, 3500);
+    }
+  };
+}
+function setAdminUI(){
+  $('#fab').classList.toggle('on', S.admin);
+  $('#editHead').classList.toggle('on', S.admin);
+  $('#lockBtn').textContent = S.admin ? '🔓 관리자 모드' : '🔒 관리';
+}
+$('#lockBtn').onclick = adminSheet;
+$('#fab').onclick = addSheet;
+
+/* ── 검색 / 정렬 ──────────────────────────────────────── */
+let qT;
+$('#q').addEventListener('input', () => {
+  $('#clearQ').classList.toggle('on', !!$('#q').value);
+  clearTimeout(qT); qT = setTimeout(applyFilter, 130);
+});
+$('#clearQ').onclick = () => { $('#q').value = ''; $('#clearQ').classList.remove('on'); applyFilter(); $('#q').focus(); };
+$('#sort').addEventListener('change', applyFilter);
+$('#q').addEventListener('keydown', e => { if(e.key === 'Enter') e.target.blur(); });
+
+const sent = document.createElement('div');
+$('#bar').before(sent);
+new IntersectionObserver(e => $('#bar').classList.toggle('stuck', !e[0].isIntersecting)).observe(sent);
+
+/* ── 시작 ─────────────────────────────────────────────── */
+// 예전 형식(desc) → tags 로 자동 변환
+function normalize(items){
+  return (items || []).map(it => {
+    if(!Array.isArray(it.tags)) it.tags = it.desc ? parseTags(it.desc) : [];
+    delete it.desc;
+    return it;
+  });
+}
+(async function init(){
+  try{ await boot(); }
+  catch(err){
+    console.error(err);
+    paintHead(); setAdminUI(); applyFilter();
+    toast('불러오는 중 문제가 발생했습니다', 4000);
+  }
+})();
+
+async function boot(){
+  try{ S.cfg = JSON.parse(localStorage.getItem(CFG_KEY) || 'null'); }catch{}
+
+  let remote = null;
+  try{
+    const r = await fetch('data.json?_=' + Date.now(), { cache: 'no-store' });
+    if(r.ok) remote = await r.json();
+  }catch{}
+
+  if(remote && Array.isArray(remote.items)){
+    S.mode  = 'github';
+    S.items = normalize(remote.items);
+    S.site  = { title: remote.title || DEF.title, sub: remote.sub ?? DEF.sub };
+    S.admin = !!(S.cfg && S.cfg.token);
+    if(S.admin){ try{ S.dataSha = await GH.sha('data.json'); }catch{ S.admin = false; } }
+  }else{
+    S.mode  = 'local';
+    S.items = normalize(await getMeta('items'));
+    S.site  = (await getMeta('site')) || { ...DEF };
+    S.admin = true;                         // 내 PC에서는 항상 편집 가능
+    if(S.cfg && S.cfg.token){               // 설정은 있는데 data.json 을 못 읽은 경우
+      try{
+        S.dataSha = await GH.sha('data.json');
+        if(S.dataSha){
+          const r = await fetch(`https://api.github.com/repos/${S.cfg.owner}/${S.cfg.repo}/contents/data.json?ref=${S.cfg.branch}`,
+            { headers: { ...GH.head(), Accept: 'application/vnd.github.raw' }, cache: 'no-store' });
+          if(r.ok){
+            const j = await r.json();
+            S.items = normalize(j.items);
+            S.site  = { title: j.title || DEF.title, sub: j.sub ?? DEF.sub };
+            S.mode  = 'github';
+          }
+        }
+      }catch{}
+    }
+  }
+
+  paintHead();
+  setAdminUI();
+  applyFilter();
+}
+</script>
+</body>
+</html>
