@@ -1,4 +1,20 @@
 {
- "version": 1,
- "items": []
+ "version": 2,
+ "title": "NAI 작태 모음",
+ "sub": "V5 기준 계속 추가 됨",
+ "updated": "2026-09-02T04:56:36.986Z",
+ "items": [
+  {
+   "id": "mtjmizs2yz8ir",
+   "name": "예시",
+   "tags": [
+    "랄라"
+   ],
+   "w": 736,
+   "h": 1472,
+   "ts": 1788324993028,
+   "src": "images/mtjmizs2yz8ir.webp",
+   "thumb": "thumbs/mtjmizs2yz8ir.webp"
+  }
+ ]
 }
