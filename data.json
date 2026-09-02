@@ -2,7 +2,7 @@
  "version": 2,
  "title": "NAI 작태 모음",
  "sub": "V5 기준 계속 추가 됨",
- "updated": "2026-09-02T04:56:36.986Z",
+ "updated": "2026-09-02T07:32:59.402Z",
  "items": [
   {
    "id": "mtjmizs2yz8ir",
@@ -15,6 +15,16 @@
    "ts": 1788324993028,
    "src": "images/mtjmizs2yz8ir.webp",
    "thumb": "thumbs/mtjmizs2yz8ir.webp"
+  },
+  {
+   "id": "mtjs4348i2ljk",
+   "name": "KakaoTalk_20260902_163144545",
+   "tags": [],
+   "w": 832,
+   "h": 1216,
+   "ts": 1788334375236,
+   "src": "images/mtjs4348i2ljk.webp",
+   "thumb": "thumbs/mtjs4348i2ljk.webp"
   }
  ]
 }
