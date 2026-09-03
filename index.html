@@ -4,6 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffeef3">
+
+<!-- 링크 공유 미리보기 (카톡·디스코드·트위터 등)
+     __SITE__ 는 관리자로 처음 접속할 때 실제 주소로 자동으로 채워집니다. 손대지 마세요. -->
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="NAI 작태 모음">
+<meta property="og:title"       content="NAI 작태 모음">
+<meta property="og:description" content="V5 기준 계속 추가 됨">
+<meta property="og:url"         content="__SITE__">
+<meta property="og:image"       content="__SITE__cover.jpg">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="NAI 작태 모음">
+<meta name="twitter:description" content="V5 기준 계속 추가 됨">
+<meta name="twitter:image"       content="__SITE__cover.jpg">
+
 <title>NAI 작태 모음</title>
 <style>
 /* ═══ 🌸 벚꽃 (기본) ═══════════════════ */
@@ -307,6 +323,7 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
 .one img{width:82px;height:110px;object-fit:cover;border-radius:14px;flex:none;background:var(--c-imgbg)}
 .one .fill{flex:1;min-width:0}
 .one .fill label.f{margin-bottom:0}
+.cover-prev{width:124px;height:65px;object-fit:cover;border-radius:12px;flex:none;background:var(--c-imgbg)}
 .rows{max-height:42vh;overflow-y:auto;margin-bottom:15px;padding-right:2px}
 .nrow{display:flex;gap:11px;align-items:center;margin-bottom:9px}
 .nrow img{width:46px;height:62px;object-fit:cover;border-radius:11px;flex:none;background:var(--c-imgbg)}
@@ -411,7 +428,7 @@ const CFG_KEY = 'nai_gallery_cfg_v1';
 const CHUNK = 60;
 const THUMB = { max: 420,  q: .72 };
 const FULL  = { max: 1600, q: .86 };
-const DEF   = { title: 'NAI 작태 모음', sub: 'V5 기준 계속 추가 됨', theme: 'sakura' };
+const DEF   = { title: 'NAI 작태 모음', sub: 'V5 기준 계속 추가 됨', theme: 'sakura', cover: '' };
 const THEME_KEY = 'nai_theme_v1';
 const THEMES = { sakura: { icon: '🌸', bg: '#ffeef3', label: '벚꽃' },
                  sky:    { icon: '☁️', bg: '#e9f6ff', label: '하늘' } };
@@ -514,6 +531,23 @@ async function variant(file, opt){
             || await new Promise(r => c.toBlob(r, 'image/jpeg', opt.q));
   return { blob, w, h };
 }
+// 링크 미리보기용 1200×630 (가운데를 잘라 채운다. 세로 사진은 윗부분이 더 보이게)
+async function coverImage(file){
+  const W = 1200, H = 630;
+  let bmp;
+  try { bmp = await createImageBitmap(file); }
+  catch { throw new Error('이미지를 읽을 수 없습니다'); }
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const ctx = c.getContext('2d');
+  ctx.imageSmoothingQuality = 'high';
+  ctx.fillStyle = '#ffeef3'; ctx.fillRect(0, 0, W, H);
+  const s = Math.max(W / bmp.width, H / bmp.height);
+  const dw = bmp.width * s, dh = bmp.height * s;
+  ctx.drawImage(bmp, (W - dw) / 2, (H - dh) * .25, dw, dh);
+  bmp.close?.();
+  return new Promise(r => c.toBlob(r, 'image/jpeg', .85));   // 카톡 호환 위해 jpeg
+}
 const b64 = blob => new Promise((res, rej) => {
   const fr = new FileReader();
   fr.onload  = () => res(String(fr.result).split(',')[1]);
@@ -575,13 +609,61 @@ async function ghCommit(changes, message){
   throw lastErr;
 }
 
-function dataB64(){
-  const json = JSON.stringify({ version: 2, title: S.site.title, sub: S.site.sub, theme: S.site.theme, updated: new Date().toISOString(), items: S.items }, null, 1);
-  const bytes = new TextEncoder().encode(json);
-  let bin = '';
+function utf8b64(str){
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';                                   // 스택 오버플로 방지를 위해 나눠서 변환
   for(let i = 0; i < bytes.length; i += 0x8000)
     bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
   return btoa(bin);
+}
+function dataB64(){
+  return utf8b64(JSON.stringify({ version: 2, title: S.site.title, sub: S.site.sub,
+    theme: S.site.theme, cover: S.site.cover || '', updated: new Date().toISOString(), items: S.items }, null, 1));
+}
+
+/* ── 링크 미리보기(og) 태그 자동 갱신 ─────────────────────
+   카톡·디스코드는 자바스크립트를 실행하지 않고 HTML 만 읽어간다.
+   그래서 제목·주소·썸네일을 index.html 안에 직접 써 넣어야 한다.       */
+function siteBase(){
+  return location.href.replace(/[?#].*$/, '').replace(/[^/]*$/, '');
+}
+const escAttr = s => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+function setMeta(html, key, val){
+  const attr = key.startsWith('og:') ? 'property' : 'name';
+  const re = new RegExp(`(<meta\\s+${attr}="${key}"\\s+content=")[^"]*(")`, 'i');
+  return html.replace(re, (m, a, b) => a + escAttr(val) + b);
+}
+// 성공하면 커밋할 변경사항, 아니면 null (실패해도 사이트는 그대로)
+async function ogChange(){
+  if(S.mode !== 'github' || !S.cfg) return null;
+  if(!/^https?:$/.test(location.protocol)) return null;   // 내 PC 파일로 열었을 땐 건드리지 않는다
+  let html;
+  try{
+    const r = await fetch(api('contents/index.html?ref=' + S.cfg.branch),
+      { headers: { ...ghHead(), Accept: 'application/vnd.github.raw' }, cache: 'no-store' });
+    if(!r.ok) return null;
+    html = await r.text();
+  }catch{ return null; }
+
+  const base = siteBase();
+  const img  = base + 'cover.jpg' + (S.site.cover ? '?v=' + S.site.cover : '');
+  let out = html;
+  out = setMeta(out, 'og:site_name',        S.site.title);
+  out = setMeta(out, 'og:title',            S.site.title);
+  out = setMeta(out, 'og:description',      S.site.sub);
+  out = setMeta(out, 'twitter:title',       S.site.title);
+  out = setMeta(out, 'twitter:description', S.site.sub);
+  out = setMeta(out, 'og:url',              base);
+  out = setMeta(out, 'og:image',            img);
+  out = setMeta(out, 'twitter:image',       img);
+
+  // 망가뜨리지 않았는지 확인한 뒤에만 커밋한다
+  const ok = out !== html
+    && /<\/html>/i.test(out) && /id="grid"/.test(out) && /<title>/i.test(out)
+    && !new RegExp('content="__' + 'SITE__').test(out)   // 문자열을 쪼개 둔다. 안 그러면 이 검사 코드 자체에 걸린다
+    && Math.abs(out.length - html.length) < html.length * .1;
+  return ok ? { path: 'index.html', b64: utf8b64(out) } : null;
 }
 async function commitAll(changes, message){
   if(S.mode !== 'github') return putMeta();
@@ -1059,6 +1141,16 @@ function headSheet(){
       </div>
       <span class="tip">링크로 처음 들어온 사람에게 보이는 색입니다. 오른쪽 위 버튼으로는 나만 바꿔 볼 수 있어요.</span>
     </label>
+    <label class="f"><span>링크 썸네일</span>
+      <div class="one">
+        <img class="cover-prev" id="hCover" alt="">
+        <div class="fill">
+          <button class="btn mini" type="button" id="hCoverPick">🖼️ 이미지 선택</button>
+          <div class="tip" id="hCoverNote" style="margin-top:7px">카톡·디스코드에 링크를 붙였을 때 뜨는 그림</div>
+        </div>
+      </div>
+      <input type="file" id="hCoverFile" accept="image/*" hidden>
+    </label>
     <div class="btns">
       <button class="btn" id="cancel">취소</button>
       <button class="btn pri" id="save">저장</button>
@@ -1074,12 +1166,35 @@ function headSheet(){
     applyTheme(pickTheme);                      // 고르는 즉시 미리보기
   });
   paintSeg();
+
+  let coverFile = null;
+  const cov = $('#hCover');
+  cov.onerror = () => { cov.style.visibility = 'hidden'; };      // 아직 cover.jpg 가 없을 때
+  cov.src = 'cover.jpg?_=' + Date.now();
+  $('#hCoverPick').onclick = () => $('#hCoverFile').click();
+  $('#hCoverFile').onchange = e => {
+    const f = e.target.files[0];
+    if(!f || !f.type.startsWith('image/')) return;
+    coverFile = f;
+    cov.style.visibility = ''; cov.src = previewURL(f);
+    $('#hCoverNote').textContent = '저장하면 이 그림으로 바뀝니다';
+  };
+
   $('#cancel').onclick = closeSheet;
   $('#save').onclick = async () => {
     const b = $('#save'); b.disabled = true; b.textContent = '저장 중…';
     const prev = { ...S.site };
-    S.site = { title: $('#hT').value.trim() || DEF.title, sub: $('#hS').value.trim(), theme: pickTheme };
-    try{ await commitAll([], 'edit: site title'); paintHead(); closeSheet(); toast('저장했습니다'); }
+    S.site = { title: $('#hT').value.trim() || DEF.title, sub: $('#hS').value.trim(),
+               theme: pickTheme, cover: coverFile ? Date.now().toString(36) : (prev.cover || '') };
+    try{
+      const changes = [];
+      if(coverFile && S.mode === 'github')
+        changes.push({ path: 'cover.jpg', b64: await b64(await coverImage(coverFile)) });
+      const og = await ogChange();                  // 미리보기 제목·주소·썸네일 갱신
+      if(og) changes.push(og);
+      await commitAll(changes, 'edit: site settings'); paintHead(); closeSheet();
+      toast(coverFile ? '저장했습니다 · 링크 미리보기 반영에 1~2분' : '저장했습니다', 3000);
+    }
     catch(err){ S.site = prev; paintHead(); applyTheme(resolveTheme()); b.disabled = false; b.textContent = '저장'; toast('실패: ' + err.message, 4500); }
   };
 }
@@ -1176,7 +1291,7 @@ async function boot(){
   if(remote && Array.isArray(remote.items)){
     S.mode  = 'github';
     S.items = normalize(remote.items);
-    S.site  = { title: remote.title || DEF.title, sub: remote.sub ?? DEF.sub, theme: remote.theme || DEF.theme };
+    S.site  = { title: remote.title || DEF.title, sub: remote.sub ?? DEF.sub, theme: remote.theme || DEF.theme, cover: remote.cover || '' };
     S.admin = !!(S.cfg && S.cfg.token);
   }else{
     S.mode  = 'local';
@@ -1185,6 +1300,15 @@ async function boot(){
     S.admin = true;                                  // 내 PC 파일로 열었을 때
   }
   paintHead(); applyTheme(resolveTheme()); setAdminUI(); applyFilter();
+
+  // index.html 을 새로 올린 직후라면 링크 미리보기 주소를 한 번만 자동으로 채워 넣는다
+  const og = document.querySelector('meta[property="og:url"]');
+  if(S.admin && S.mode === 'github' && og && og.content.includes('__SITE__')){
+    try{
+      const ch = await ogChange();
+      if(ch){ await commitAll([ch], 'set link preview'); toast('링크 미리보기를 설정했습니다', 3000); }
+    }catch(e){ console.warn('og 자동설정 실패', e); }
+  }
 }
 </script>
 </body>
