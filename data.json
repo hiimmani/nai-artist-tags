@@ -4,7 +4,7 @@
  "sub": "수정중",
  "theme": "sakura",
  "cover": "mtl91ceb",
- "updated": "2026-09-03T09:15:10.739Z",
+ "updated": "2026-09-03T09:15:22.218Z",
  "items": [
   {
    "id": "mtjmizs2yz8ir",
@@ -29,18 +29,6 @@
    "ts": 1788423019191,
    "thumb": "thumbs/mtl8w1brmodvo.webp",
    "src": "images/mtl8w1brmodvo.webp"
-  },
-  {
-   "id": "mtl8w1sl6npyl",
-   "name": "1",
-   "tags": [
-    "모에"
-   ],
-   "w": 832,
-   "h": 1216,
-   "ts": 1788423019798,
-   "thumb": "thumbs/mtl8w1sl6npyl.webp",
-   "src": "images/mtl8w1sl6npyl.webp"
   }
  ]
 }
