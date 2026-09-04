@@ -10,15 +10,15 @@
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="NAI 작태 모음">
 <meta property="og:title"       content="NAI 작태 모음">
-<meta property="og:description" content="V5 기준 계속 추가중 ㅎ ㅎ">
-<meta property="og:url"         content="https://hiimmani.github.io/nai-artist-tags/">
-<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmmomu7">
+<meta property="og:description" content="V5 기준 계속 추가 됨">
+<meta property="og:url"         content="__SITE__">
+<meta property="og:image"       content="__SITE__cover.jpg">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="NAI 작태 모음">
-<meta name="twitter:description" content="V5 기준 계속 추가중 ㅎ ㅎ">
-<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmmomu7">
+<meta name="twitter:description" content="V5 기준 계속 추가 됨">
+<meta name="twitter:image"       content="__SITE__cover.jpg">
 
 <title>NAI 작태 모음</title>
 <style>
@@ -424,7 +424,7 @@ const THEME_KEY = 'nai_theme_v1';
 const CHUNK = 60;
 const THUMB = { max: 420,  q: .72 };
 const FULL  = { max: 1600, q: .86 };
-const PARALLEL = 4;                       // GitHub 업로드 동시 개수
+const PARALLEL = 6;                       // GitHub 업로드 동시 개수
 const DEF = { title: 'NAI 작태 모음', sub: 'V5 기준 계속 추가 됨', theme: 'sakura', cover: '' };
 const THEMES = { sakura: { icon: '🌸', bg: '#ffeef3', label: '벚꽃' },
                  sky:    { icon: '☁️', bg: '#e9f6ff', label: '하늘' } };
@@ -518,24 +518,29 @@ const delBlob = k      => soft(idb('blobs', 'readwrite', s => s.delete(k)));
 const putMeta = ()     => idb('meta', 'readwrite', s => { s.put(S.items, 'items'); return s.put(S.site, 'site'); });
 const getMeta = k      => soft(idb('meta', 'readonly', s => s.get(k)));
 
-/* ── 크기 줄이기 (용량을 위해 WebP 로 다시 저장) ───────── */
-async function variant(file, opt){
+/* ── 크기 줄이기 (용량을 위해 WebP 로 다시 저장) ─────────
+   그림 해독은 한 번만 하고 썸네일·본그림을 같이 뽑는다 (두 번 하면 그만큼 느려진다) */
+async function makeVariants(file){
   let bmp;
   try { bmp = await createImageBitmap(file); }
   catch { throw new Error('이미지를 읽을 수 없습니다'); }
   const ow = bmp.width, oh = bmp.height;
-  const scale = Math.min(1, opt.max / Math.max(ow, oh));
-  const w = Math.max(1, Math.round(ow * scale));
-  const h = Math.max(1, Math.round(oh * scale));
-  const c = document.createElement('canvas');
-  c.width = w; c.height = h;
-  const ctx = c.getContext('2d');
-  ctx.imageSmoothingQuality = 'high';
-  ctx.drawImage(bmp, 0, 0, w, h);
+  const render = async opt => {
+    const scale = Math.min(1, opt.max / Math.max(ow, oh));
+    const w = Math.max(1, Math.round(ow * scale));
+    const h = Math.max(1, Math.round(oh * scale));
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(bmp, 0, 0, w, h);
+    const blob = await new Promise(r => c.toBlob(r, 'image/webp', opt.q))
+              || await new Promise(r => c.toBlob(r, 'image/jpeg', opt.q));
+    return { blob, w, h };
+  };
+  const t = await render(THUMB), g = await render(FULL);
   bmp.close?.();
-  const blob = await new Promise(r => c.toBlob(r, 'image/webp', opt.q))
-            || await new Promise(r => c.toBlob(r, 'image/jpeg', opt.q));
-  return { blob, w, h, ow, oh };
+  return { t, g, ow, oh };
 }
 // 링크 미리보기용 1200×630 (세로 사진은 윗부분이 더 보이게)
 async function coverImage(file){
@@ -588,21 +593,30 @@ async function ghReq(method, path, body){
 }
 
 // changes: [{path, blob|b64}] 추가·교체 / [{path, del:true}] 삭제 — 전부 한 커밋으로
+async function headInfo(){
+  const ref = await ghReq('GET', `git/ref/heads/${S.cfg.branch}`);
+  const head = ref.object.sha;
+  return { head, base: (await ghReq('GET', `git/commits/${head}`)).tree.sha };
+}
 async function ghCommit(changes, message, onProg){
   let done = 0;
-  const tree = await mapLimit(changes, PARALLEL, async c => {   // 파일 업로드는 병렬로
+  // 파일 올리기와 "지금 최신 커밋이 뭔지" 알아보기를 동시에 시작한다 (순서대로 하면 그만큼 늦어진다)
+  const treeP = mapLimit(changes, PARALLEL, async c => {
     if(c.del) return { path: c.path, mode: '100644', type: 'blob', sha: null };
     const content = c.b64 ?? await b64(c.blob);
     const b = await ghReq('POST', 'git/blobs', { content, encoding: 'base64' });
     onProg && onProg(++done / changes.length);
     return { path: c.path, mode: '100644', type: 'blob', sha: b.sha };
   });
+  const preP = headInfo().catch(() => null);
+  const tree = await treeP;
+  let pre = await preP;
+
   let lastErr;
   for(let i = 0; i < 4; i++){
     try{
-      const ref  = await ghReq('GET', `git/ref/heads/${S.cfg.branch}`);
-      const head = ref.object.sha;
-      const base = (await ghReq('GET', `git/commits/${head}`)).tree.sha;
+      const { head, base } = pre || await headInfo();
+      pre = null;                                   // 재시도 때는 항상 새로 읽는다
       const nt = await ghReq('POST', 'git/trees', { base_tree: base, tree });
       const nc = await ghReq('POST', 'git/commits', { message, tree: nt.sha, parents: [head] });
       await ghReq('PATCH', `git/refs/heads/${S.cfg.branch}`, { sha: nc.sha });
@@ -629,6 +643,11 @@ function dataB64(){
 }
 async function commitAll(changes, message, onProg){
   if(S.mode !== 'github') return putMeta();
+  S.busy = true;
+  try{ return await doCommit(changes, message, onProg); }
+  finally { S.busy = false; lastLoad = Date.now(); }
+}
+async function doCommit(changes, message, onProg){
   try{
     await ghCommit([...changes, { path: 'data.json', b64: dataB64() }], message, onProg);
   }catch(e){
@@ -639,6 +658,48 @@ async function commitAll(changes, message, onProg){
     throw e;
   }
 }
+
+/* ── 최신 목록 읽어오기 ───────────────────────────────────
+   관리자는 GitHub 에서 바로 읽는다. github.io 배포는 1~2분 걸리는데
+   그걸 기다리면 "PC 에서 지웠는데 폰에는 그대로"인 상황이 생긴다.        */
+let lastLoad = 0;
+async function fetchData(){
+  if(S.cfg && S.cfg.token){
+    try{
+      const r = await fetch(api('contents/data.json?ref=' + S.cfg.branch),
+        { headers: { ...ghHead(), Accept: 'application/vnd.github.raw' }, cache: 'no-store' });
+      if(r.ok) return await r.json();
+    }catch{}
+  }
+  try{
+    const r = await fetch('data.json?_=' + Date.now(), { cache: 'no-store' });
+    if(r.ok) return await r.json();
+  }catch{}
+  return null;
+}
+function applyRemote(d){
+  S.items = normalize(d.items);
+  S.site  = { title: d.title || DEF.title, sub: d.sub ?? DEF.sub,
+              theme: d.theme || DEF.theme, cover: d.cover || '' };
+  lastLoad = Date.now();
+}
+// 다른 기기에서 바꾼 내용을 가져온다 (편집 중이거나 저장 중이면 건드리지 않는다)
+async function refresh(){
+  if(S.mode !== 'github' || S.busy) return;
+  if($('#sheet').classList.contains('on') || $('#lb').classList.contains('on')) return;
+  const before = JSON.stringify(S.items.map(i => i.id + ':' + i.name));
+  const d = await fetchData();
+  if(!d || !Array.isArray(d.items)) return;
+  applyRemote(d);
+  paintHead(); applyTheme(resolveTheme()); applyFilter();
+  if(before !== JSON.stringify(S.items.map(i => i.id + ':' + i.name)))
+    toast('다른 기기에서 바뀐 내용을 불러왔어요', 2500);
+}
+// 앱을 다시 켜거나 탭으로 돌아왔을 때 자동으로 맞춘다
+document.addEventListener('visibilitychange', () => {
+  if(document.visibilityState === 'visible' && Date.now() - lastLoad > 15000) refresh();
+});
+window.addEventListener('pageshow', e => { if(e.persisted) refresh(); });
 
 /* ── 링크 미리보기(og) 태그 자동 갱신 ────────────────── */
 function siteBase(){ return location.href.replace(/[?#].*$/, '').replace(/[^/]*$/, ''); }
@@ -697,9 +758,7 @@ function dropUrls(k){
 
 /* ── 사진 준비 (썸네일 생성 + 저장 대상 만들기) ───────── */
 async function prepImages(files, changes){
-  // 썸네일과 본 그림을 병렬로 만든다
-  const pairs = await Promise.all([...files].map(async f =>
-    ({ t: await variant(f, THUMB), g: await variant(f, FULL) })));
+  const pairs = await Promise.all([...files].map(makeVariants));   // 파일별로 병렬
   const out = [];
   for(const { t, g } of pairs){
     const k = uid();
@@ -1312,17 +1371,11 @@ function normalize(items){
 
 async function boot(){
   try{ S.cfg = JSON.parse(localStorage.getItem(CFG_KEY) || 'null'); }catch{}
-  let remote = null;
-  try{
-    const r = await fetch('data.json?_=' + Date.now(), { cache: 'no-store' });
-    if(r.ok) remote = await r.json();
-  }catch{}
+  const remote = await fetchData();
 
   if(remote && Array.isArray(remote.items)){
     S.mode  = 'github';
-    S.items = normalize(remote.items);
-    S.site  = { title: remote.title || DEF.title, sub: remote.sub ?? DEF.sub,
-                theme: remote.theme || DEF.theme, cover: remote.cover || '' };
+    applyRemote(remote);
     S.admin = !!(S.cfg && S.cfg.token);
   }else{
     S.mode  = 'local';
