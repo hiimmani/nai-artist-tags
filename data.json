@@ -1,10 +1,10 @@
 {
  "version": 3,
  "title": "NAI 작태 모음",
- "sub": "V5 기준 계속 추가중\nㅎ\nㅎ",
+ "sub": "V5 기준 계속 추가중",
  "theme": "sakura",
- "cover": "mtmmomu7",
- "updated": "2026-09-04T07:24:47.808Z",
+ "cover": "mtmla9qw",
+ "updated": "2026-09-04T07:25:36.797Z",
  "items": [
   {
    "id": "mtjmizs2yz8ir",
@@ -24,28 +24,28 @@
    ]
   },
   {
-   "id": "mtma5f9ns4trm",
-   "name": "ai",
+   "id": "mtmjvshnu2lxd",
+   "name": "ㅗ",
    "tags": [
-    "d"
+    "ㄹ"
    ],
    "imgs": [
     {
-     "k": "mtma5f9nmm9i3",
-     "w": 675,
-     "h": 1200,
-     "thumb": "thumbs/mtma5f9nmm9i3.webp",
-     "src": "images/mtma5f9nmm9i3.webp"
+     "k": "mtmjvshmen21q",
+     "w": 1254,
+     "h": 1254,
+     "thumb": "thumbs/mtmjvshmen21q.webp",
+     "src": "images/mtmjvshmen21q.webp"
     },
     {
-     "k": "mtma5f9nc66jk",
-     "w": 736,
-     "h": 1308,
-     "thumb": "thumbs/mtma5f9nc66jk.webp",
-     "src": "images/mtma5f9nc66jk.webp"
+     "k": "mtmjvshmnglwb",
+     "w": 1254,
+     "h": 1254,
+     "thumb": "thumbs/mtmjvshmnglwb.webp",
+     "src": "images/mtmjvshmnglwb.webp"
     }
    ],
-   "ts": 1788485602955
+   "ts": 1788501949691
   }
  ]
 }
