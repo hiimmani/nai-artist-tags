@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffeef3">
 
-<!-- 링크 공유 미리보기 (카톡·디스코드·트위터 등)
+<!-- 링크 공유 미리보기.
      __SITE__ 는 관리자로 처음 접속할 때 실제 주소로 자동으로 채워집니다. 손대지 마세요. -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="NAI 작태 모음">
 <meta property="og:title"       content="NAI 작태 모음">
-<meta property="og:description" content="수정중">
-<meta property="og:url"         content="https://hiimmani.github.io/nai-artist-tags/">
-<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtl91ceb">
+<meta property="og:description" content="V5 기준 계속 추가 됨">
+<meta property="og:url"         content="__SITE__">
+<meta property="og:image"       content="__SITE__cover.jpg">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="NAI 작태 모음">
-<meta name="twitter:description" content="수정중">
-<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtl91ceb">
+<meta name="twitter:description" content="V5 기준 계속 추가 됨">
+<meta name="twitter:image"       content="__SITE__cover.jpg">
 
 <title>NAI 작태 모음</title>
 <style>
@@ -96,28 +96,23 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{
-  background:var(--bg);
-  color:var(--text);
+  background:var(--bg);color:var(--text);
   font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
   -webkit-font-smoothing:antialiased;
   font-size:15px;line-height:1.55;overflow-wrap:anywhere;
 }
-button,input,textarea,select{font:inherit;color:inherit}
+button,input,select{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
 
 /* ── 헤더 ───────────────────────────── */
 header{padding:44px 0 10px;text-align:center}
 @media (min-width:700px){header{padding:64px 0 14px}}
-h1{
-  margin:0;font-size:clamp(29px,7vw,46px);font-weight:750;
-  letter-spacing:-.02em;color:var(--c-title);
-}
+h1{margin:0;font-size:clamp(29px,7vw,46px);font-weight:750;letter-spacing:-.02em;color:var(--c-title)}
 .sub{margin:10px 0 0;font-size:clamp(14px,3.6vw,18px);font-weight:600;color:var(--c-sub)}
 #editHead{
   display:none;margin:16px auto 0;padding:8px 18px;border-radius:999px;
-  background:#fff;color:var(--rose-deep);font-size:13.5px;font-weight:700;
-  box-shadow:var(--shadow);
+  background:var(--card);color:var(--rose-deep);font-size:13.5px;font-weight:700;box-shadow:var(--shadow);
 }
 #editHead.on{display:inline-block}
 #themeBtn{
@@ -127,55 +122,35 @@ h1{
   transition:transform .16s;
 }
 #themeBtn:active{transform:scale(.9)}
-.seg{display:flex;gap:8px}
-.seg button{
-  flex:1;padding:13px;border-radius:14px;background:var(--rose-soft);
-  color:var(--c-soft);font-size:14.5px;font-weight:750;border:2px solid transparent;
-}
-.seg button.on{background:var(--card);border-color:var(--rose);color:var(--c-count)}
 
 /* ── 검색 ───────────────────────────── */
-.bar{
-  position:sticky;top:0;z-index:30;
-  padding:16px 0 10px;margin-top:10px;
-  background:var(--bg);                 /* 배경과 같은 단색 → 네모 박스 안 보임 */
-}
+.bar{position:sticky;top:0;z-index:30;padding:16px 0 10px;margin-top:10px;background:var(--bg)}
 .search{position:relative;display:flex;align-items:center}
 .search svg{position:absolute;left:20px;width:20px;height:20px;stroke:var(--c-faint);fill:none;stroke-width:2.2;pointer-events:none}
 #q{
-  width:100%;padding:15px 46px 15px 50px;
-  border:2px solid transparent;border-radius:999px;
-  background:var(--card);box-shadow:var(--shadow);
-  font-size:16px;font-weight:500;outline:none;
+  width:100%;padding:15px 46px 15px 50px;border:2px solid transparent;border-radius:999px;
+  background:var(--card);box-shadow:var(--shadow);font-size:16px;font-weight:500;outline:none;
   transition:border-color .16s,box-shadow .16s;
 }
 #q::placeholder{color:var(--c-faint);font-weight:500}
 #q:focus{border-color:var(--rose);box-shadow:var(--shadow-lift)}
 #clearQ{position:absolute;right:10px;width:32px;height:32px;border-radius:50%;display:none;place-items:center;color:var(--muted);font-size:17px;line-height:1}
 #clearQ.on{display:grid}
-#clearQ:hover{background:var(--rose-soft)}
 
-/* ── 장수 · 추가 · 정렬 ─────────────── */
+/* ── 장수 · 정렬 ────────────────────── */
 .meta{display:flex;align-items:center;gap:9px;margin-top:14px;padding:0 2px;flex-wrap:wrap}
 .count{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:9px 17px;border-radius:999px;background:#fff;color:var(--c-count);
-  font-weight:800;font-size:14.5px;white-space:nowrap;box-shadow:var(--shadow);
+  display:inline-flex;align-items:center;gap:7px;padding:9px 17px;border-radius:999px;
+  background:var(--card);color:var(--c-count);font-weight:800;font-size:14.5px;
+  white-space:nowrap;box-shadow:var(--shadow);
 }
 .count b{font-variant-numeric:tabular-nums}
 .count.clickable{cursor:pointer}
 .count .x{font-size:13px;opacity:.6}
 .meta .grow{flex:1}
-#addTop{
-  display:none;align-items:center;gap:6px;
-  padding:9px 17px;border-radius:999px;background:var(--grad);color:#fff;
-  font-size:14.5px;font-weight:800;box-shadow:0 4px 14px rgba(var(--glow),.38);
-}
-#addTop.on{display:inline-flex}
 #sort{
-  border:0;background:#fff;border-radius:999px;
-  padding:9px 14px;font-size:14px;font-weight:600;color:var(--c-soft);
-  box-shadow:var(--shadow);outline:none;
+  border:0;background:var(--card);border-radius:999px;padding:9px 14px;
+  font-size:14px;font-weight:600;color:var(--c-soft);box-shadow:var(--shadow);outline:none;
 }
 
 /* ── 태그 ───────────────────────────── */
@@ -183,7 +158,7 @@ h1{
 .tags::-webkit-scrollbar{display:none}
 .tags.on{display:flex}
 .tag{
-  flex:none;padding:8px 15px;border-radius:999px;background:#fff;
+  flex:none;padding:8px 15px;border-radius:999px;background:var(--card);
   color:var(--c-tagtext);font-size:13.5px;font-weight:700;white-space:nowrap;
   box-shadow:var(--shadow);transition:transform .14s,background .14s,color .14s;
 }
@@ -191,23 +166,18 @@ h1{
 .tag.sel{background:var(--grad);color:#fff;box-shadow:0 4px 14px rgba(var(--glow),.38)}
 .tag.sel .n{opacity:.8}
 .tag:active{transform:scale(.95)}
-@media (hover:hover){.tag:not(.sel):hover{background:var(--rose-chip)}}
 
 /* ── 그리드 ─────────────────────────── */
 #grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;padding:16px 0 44px}
 @media (min-width:700px){#grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:20px;padding-bottom:60px}}
 .card{
   content-visibility:auto;contain-intrinsic-size:auto 240px;
-  background:var(--card);border-radius:var(--r);overflow:hidden;
-  box-shadow:var(--shadow);
+  background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);
   transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s;
   display:flex;flex-direction:column;
 }
 @media (hover:hover){.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift)}}
-.card .thumb{
-  position:relative;aspect-ratio:3/4;background:var(--c-imgbg);
-  overflow:hidden;display:block;width:100%;padding:0;border-radius:0;
-}
+.card .thumb{position:relative;aspect-ratio:3/4;background:var(--c-imgbg);overflow:hidden;display:block;width:100%;padding:0;border-radius:0}
 .card .thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .3s ease}
 .card .thumb img.ready{opacity:1}
 .card .thumb:active{opacity:.85}
@@ -219,13 +189,14 @@ h1{
   padding:2px 4px;margin:-2px -4px;border-radius:9px;transition:background .14s;
 }
 @media (min-width:700px){.nm{font-size:14.5px}}
-.nm .t{flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* 이름이 한 줄이든 두 줄이든 카드 높이가 같도록 자리를 고정한다 */
+.nm .t{flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.7em}
 .nm .ci{flex:none;font-size:11px;opacity:.32;margin-top:1px}
 @media (hover:hover){.nm:hover{background:var(--rose-chip)}.nm:hover .ci{opacity:.8}}
 .nm:active{background:var(--rose-soft)}
 .nm.copied{background:#e7f5ec;color:#3f8a5f}
 .tg{
-  margin-top:5px;font-size:11px;color:var(--c-cardtag);font-weight:650;
+  margin-top:4px;font-size:11px;color:var(--c-cardtag);font-weight:650;min-height:1.5em;
   display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;
 }
 @media (min-width:700px){.tg{font-size:12.5px}}
@@ -236,12 +207,18 @@ h1{
 .empty .hint{font-size:13.5px;color:var(--c-hint);font-weight:500}
 
 /* ── 라이트박스 ─────────────────────── */
-.lb{position:fixed;inset:0;z-index:100;display:none;background:rgba(var(--c-ovl),.66);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.lb{position:fixed;inset:0;z-index:100;display:none;background:rgba(var(--c-ovl),.7);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
 .lb.on{display:block}
-.lb-scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(60px + env(safe-area-inset-top,0px)) 14px calc(30px + var(--safe-b))}
-.lb-inner{max-width:720px;margin:0 auto}
-.lb-img{width:100%;border-radius:18px;display:block;background:var(--c-imgbg);box-shadow:0 20px 54px rgba(var(--c-ovl2),.42)}
-.lb-info{margin-top:16px;background:var(--card);border-radius:var(--r);padding:18px 18px 20px;box-shadow:0 12px 32px rgba(var(--c-ovl2),.22)}
+.lb-scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(60px + env(safe-area-inset-top,0px)) 62px calc(30px + var(--safe-b))}
+@media (max-width:640px){.lb-scroll{padding-left:52px;padding-right:52px}}
+.lb-inner{max-width:640px;margin:0 auto}
+/* 어떤 비율의 그림이든 같은 크기 칸에 통째로 담는다 (잘리지 않음) */
+.lb-img{
+  width:100%;aspect-ratio:3/4;object-fit:contain;display:block;
+  background:var(--c-imgbg);border-radius:18px;
+  box-shadow:0 20px 54px rgba(var(--c-ovl2),.42);margin-bottom:12px;
+}
+.lb-info{margin-top:6px;background:var(--card);border-radius:var(--r);padding:18px 18px 20px;box-shadow:0 12px 32px rgba(var(--c-ovl2),.22)}
 #lbName{
   display:flex;align-items:flex-start;gap:9px;width:100%;text-align:left;
   font-size:20px;font-weight:800;color:var(--c-title);line-height:1.35;
@@ -258,19 +235,25 @@ h1{
 .lb-actions{display:flex;gap:9px;margin-top:17px}
 .lb-actions button{flex:1;padding:12px;border-radius:14px;font-size:14px;font-weight:750;background:var(--rose-chip);color:var(--c-count)}
 .lb-actions .del{background:#fdecec;color:#c9636c}
-.lb-top{position:absolute;top:env(safe-area-inset-top,0px);left:0;right:0;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;z-index:2;pointer-events:none}
+.lb-top{position:absolute;top:env(safe-area-inset-top,0px);left:0;right:0;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;z-index:4;pointer-events:none}
 .lb-top>*{pointer-events:auto}
-.icob{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--c-count);font-size:20px;line-height:1;box-shadow:0 4px 14px rgba(var(--c-ovl2),.26)}
-.lb-pos{padding:8px 15px;border-radius:999px;background:#fff;color:var(--c-count);font-size:13px;font-weight:750;font-variant-numeric:tabular-nums;box-shadow:0 4px 14px rgba(var(--c-ovl2),.26)}
-.nav{position:fixed;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;background:#fff;color:var(--c-count);display:grid;place-items:center;font-size:22px;box-shadow:0 4px 14px rgba(var(--c-ovl2),.26);z-index:3}
-.nav.prev{left:12px}.nav.next{right:12px}
-@media (max-width:700px){.nav{display:none}}
+.icob{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--card);color:var(--c-count);font-size:20px;line-height:1;box-shadow:0 4px 14px rgba(var(--c-ovl2),.26)}
+.lb-pos{padding:8px 15px;border-radius:999px;background:var(--card);color:var(--c-count);font-size:13px;font-weight:750;font-variant-numeric:tabular-nums;box-shadow:0 4px 14px rgba(var(--c-ovl2),.26)}
+/* 좌우 넘김 화살표 — 폰에서도 보이게 */
+.nav{
+  position:fixed;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;border-radius:50%;background:var(--card);color:var(--c-count);
+  display:grid;place-items:center;font-size:22px;line-height:1;
+  box-shadow:0 4px 14px rgba(var(--c-ovl2),.3);z-index:3;
+}
+.nav.prev{left:8px}.nav.next{right:8px}
+.nav:active{transform:translateY(-50%) scale(.9)}
+.nav[disabled]{opacity:.3;pointer-events:none}
 
-/* ── 하단 버튼 ──────────────────────── */
+/* ── 추가 버튼 ──────────────────────── */
 .fab{
   position:fixed;right:18px;bottom:calc(18px + var(--safe-b));z-index:40;
-  width:60px;height:60px;border-radius:50%;
-  background:var(--grad);color:#fff;
+  width:60px;height:60px;border-radius:50%;background:var(--grad);color:#fff;
   font-size:30px;font-weight:300;line-height:1;display:none;place-items:center;
   box-shadow:0 8px 24px rgba(var(--glow),.5);
 }
@@ -278,10 +261,9 @@ h1{
 .fab:active{transform:scale(.93)}
 .lockrow{padding:6px 0 44px;text-align:center}
 #lockBtn{font-size:12.5px;color:var(--c-hint);padding:9px 16px;border-radius:999px;font-weight:600}
-#lockBtn:hover{background:#fff;color:var(--c-count)}
 
 /* ── 시트 ───────────────────────────── */
-.sheet{position:fixed;inset:0;z-index:120;display:none;background:rgba(var(--c-ovl),.48);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.sheet{position:fixed;inset:0;z-index:120;display:none;background:rgba(var(--c-ovl),.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .sheet.on{display:block}
 .sheet-box{
   position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow-y:auto;
@@ -311,25 +293,31 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
 .taginput.focus{border-color:var(--rose)}
 .taginput .chip{display:inline-flex;align-items:center;gap:5px;padding:6px 8px 6px 13px;border-radius:999px;background:var(--rose-chip);color:var(--c-count);font-size:13.5px;font-weight:750}
 .taginput .chip b{cursor:pointer;font-size:14px;opacity:.5;font-weight:800;padding:0 2px}
-.taginput .chip b:hover{opacity:1}
 .taginput input{flex:1;min-width:90px;width:90px;border:0;outline:none;background:none;padding:6px 3px;font-size:16px}
 
-.drop{border:2.5px dashed var(--c-dropline);border-radius:20px;background:var(--c-dropbg);padding:26px 14px;text-align:center;color:var(--muted);font-size:14px;font-weight:600;margin-bottom:16px;cursor:pointer;transition:background .16s,border-color .16s}
+.drop{
+  border:2.5px dashed var(--c-dropline);border-radius:20px;background:var(--c-dropbg);
+  padding:22px 14px;text-align:center;color:var(--muted);font-size:14px;font-weight:600;
+  margin-bottom:14px;cursor:pointer;transition:background .16s,border-color .16s;
+}
 .drop:hover,.drop.over{background:var(--rose-soft);border-color:var(--rose)}
 .drop .ic{font-size:30px;display:block;margin-bottom:8px;opacity:.75}
 .drop .dim{color:var(--c-faint)}
 
-.one{display:flex;gap:14px;align-items:flex-start;margin-bottom:15px}
-.one img{width:82px;height:110px;object-fit:cover;border-radius:14px;flex:none;background:var(--c-imgbg)}
-.one .fill{flex:1;min-width:0}
-.one .fill label.f{margin-bottom:0}
+/* 고른 사진 목록 (지우기 가능) */
+.picks{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:15px}
+.pick{position:relative;width:72px;height:96px;border-radius:13px;overflow:hidden;background:var(--c-imgbg);box-shadow:var(--shadow)}
+.pick img{width:100%;height:100%;object-fit:cover;display:block}
+.pick .rm{
+  position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;
+  background:rgba(255,255,255,.94);color:#c9636c;font-size:13px;font-weight:800;
+  display:grid;place-items:center;line-height:1;box-shadow:0 2px 6px rgba(var(--c-ovl2),.28);
+}
+.pick .no{position:absolute;left:4px;bottom:4px;padding:1px 7px;border-radius:999px;background:rgba(255,255,255,.9);color:var(--c-count);font-size:10.5px;font-weight:800}
+
 .cover-prev{width:124px;height:65px;object-fit:cover;border-radius:12px;flex:none;background:var(--c-imgbg)}
-.rows{max-height:42vh;overflow-y:auto;margin-bottom:15px;padding-right:2px}
-.nrow{display:flex;gap:11px;align-items:center;margin-bottom:9px}
-.nrow img{width:46px;height:62px;object-fit:cover;border-radius:11px;flex:none;background:var(--c-imgbg)}
-.nrow input{flex:1;min-width:0;padding:11px 13px;border:2px solid var(--line-soft);border-radius:12px;background:var(--c-inputbg);font-size:16px;outline:none}
-.nrow input:focus{border-color:var(--rose)}
-.rowhead{font-size:13.5px;font-weight:750;color:var(--c-tagtext);margin-bottom:8px}
+.one{display:flex;gap:14px;align-items:flex-start;margin-bottom:15px}
+.one .fill{flex:1;min-width:0}
 
 .btns{display:flex;gap:10px;margin-top:8px}
 .btn{flex:1;padding:15px;border-radius:16px;font-size:15px;font-weight:800;background:var(--rose-soft);color:var(--c-soft)}
@@ -339,6 +327,9 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
 .note{background:var(--rose-chip);border-radius:14px;padding:13px 15px;font-size:12.5px;color:var(--c-soft);line-height:1.7;margin-bottom:16px;font-weight:500}
 .note b{color:var(--c-count)}
 .note code{background:var(--c-code);padding:2px 6px;border-radius:6px;font-size:12px}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;padding:13px;border-radius:14px;background:var(--rose-soft);color:var(--c-soft);font-size:14.5px;font-weight:750;border:2px solid transparent}
+.seg button.on{background:var(--card);border-color:var(--rose);color:var(--c-count)}
 
 #prog{position:fixed;left:0;top:0;height:4px;width:0;z-index:200;background:var(--grad);transition:width .25s ease,opacity .3s}
 #toast{
@@ -373,8 +364,7 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
   </div>
 
   <div class="meta">
-    <span class="count" id="count">총 <b>0</b>장</span>
-    <button id="addTop">＋ 이미지 추가</button>
+    <span class="count" id="count">총 <b>0</b>개</span>
     <span class="grow"></span>
     <select id="sort" aria-label="정렬">
       <option value="new">최신순</option>
@@ -394,7 +384,7 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
 <div class="lb" id="lb">
   <div class="lb-scroll" id="lbScroll">
     <div class="lb-inner">
-      <img class="lb-img" id="lbImg" alt="">
+      <div id="lbImgs"></div>
       <div class="lb-info">
         <button id="lbName"><span class="t"></span><span class="ci">⧉</span></button>
         <p class="cphint">이름을 누르면 복사됩니다</p>
@@ -420,16 +410,18 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
 <script>
 /* =========================================================
    NAI 작태 모음 — 단일 파일 갤러리
-   github 모드 : Git Data API 로 한 번에 커밋 (여러 장 업로드 안전)
-   local  모드 : 브라우저(IndexedDB)에만 저장
+   · 한 항목에 사진 여러 장 (imgs 배열)
+   · 원본 파일을 그대로 올려 메타데이터(NAI 프롬프트)를 보존
+   · 목록용 썸네일만 따로 작게 만들어 씀
    ========================================================= */
 const $ = s => document.querySelector(s);
 const CFG_KEY = 'nai_gallery_cfg_v1';
+const THEME_KEY = 'nai_theme_v1';
 const CHUNK = 60;
 const THUMB = { max: 420,  q: .72 };
 const FULL  = { max: 1600, q: .86 };
-const DEF   = { title: 'NAI 작태 모음', sub: 'V5 기준 계속 추가 됨', theme: 'sakura', cover: '' };
-const THEME_KEY = 'nai_theme_v1';
+const PARALLEL = 4;                       // GitHub 업로드 동시 개수
+const DEF = { title: 'NAI 작태 모음', sub: 'V5 기준 계속 추가 됨', theme: 'sakura', cover: '' };
 const THEMES = { sakura: { icon: '🌸', bg: '#ffeef3', label: '벚꽃' },
                  sky:    { icon: '☁️', bg: '#e9f6ff', label: '하늘' } };
 
@@ -453,7 +445,16 @@ function toast(msg, ms = 2200){
 function prog(p){
   const el = $('#prog');
   if(p === null){ el.style.opacity = 0; setTimeout(() => { el.style.width = 0; el.style.opacity = 1; }, 320); return; }
-  el.style.width = (p * 100) + '%';
+  el.style.width = Math.max(3, p * 100) + '%';
+}
+// 동시에 n개씩만 처리 (전부 한 번에 던지면 GitHub이 막는다)
+async function mapLimit(arr, n, fn){
+  const out = new Array(arr.length);
+  let i = 0;
+  await Promise.all(Array.from({ length: Math.min(n, arr.length) }, async () => {
+    while(i < arr.length){ const k = i++; out[k] = await fn(arr[k], k); }
+  }));
+  return out;
 }
 
 /* ── 복사 ─────────────────────────────────────────────── */
@@ -468,8 +469,7 @@ async function copyText(t){
   }catch{ return false; }
 }
 async function copyFrom(el, text){
-  const ok = await copyText(text);
-  if(!ok) return toast('복사에 실패했습니다');
+  if(!await copyText(text)) return toast('복사에 실패했습니다');
   toast('복사됨 · ' + text);
   el.classList.add('copied');
   setTimeout(() => el.classList.remove('copied'), 900);
@@ -482,6 +482,7 @@ function parseTags(str){
     .filter((t, i, a) => a.indexOf(t) === i).slice(0, 20);
 }
 const tagsOf = it => Array.isArray(it.tags) ? it.tags : [];
+const imgsOf = it => Array.isArray(it.imgs) ? it.imgs : [];
 
 /* ── IndexedDB ────────────────────────────────────────── */
 let dbP;
@@ -513,14 +514,15 @@ const delBlob = k      => soft(idb('blobs', 'readwrite', s => s.delete(k)));
 const putMeta = ()     => idb('meta', 'readwrite', s => { s.put(S.items, 'items'); return s.put(S.site, 'site'); });
 const getMeta = k      => soft(idb('meta', 'readonly', s => s.get(k)));
 
-/* ── 리사이즈 → WebP ──────────────────────────────────── */
+/* ── 크기 줄이기 (용량을 위해 WebP 로 다시 저장) ───────── */
 async function variant(file, opt){
   let bmp;
   try { bmp = await createImageBitmap(file); }
   catch { throw new Error('이미지를 읽을 수 없습니다'); }
-  const scale = Math.min(1, opt.max / Math.max(bmp.width, bmp.height));
-  const w = Math.max(1, Math.round(bmp.width * scale));
-  const h = Math.max(1, Math.round(bmp.height * scale));
+  const ow = bmp.width, oh = bmp.height;
+  const scale = Math.min(1, opt.max / Math.max(ow, oh));
+  const w = Math.max(1, Math.round(ow * scale));
+  const h = Math.max(1, Math.round(oh * scale));
   const c = document.createElement('canvas');
   c.width = w; c.height = h;
   const ctx = c.getContext('2d');
@@ -529,9 +531,9 @@ async function variant(file, opt){
   bmp.close?.();
   const blob = await new Promise(r => c.toBlob(r, 'image/webp', opt.q))
             || await new Promise(r => c.toBlob(r, 'image/jpeg', opt.q));
-  return { blob, w, h };
+  return { blob, w, h, ow, oh };
 }
-// 링크 미리보기용 1200×630 (가운데를 잘라 채운다. 세로 사진은 윗부분이 더 보이게)
+// 링크 미리보기용 1200×630 (세로 사진은 윗부분이 더 보이게)
 async function coverImage(file){
   const W = 1200, H = 630;
   let bmp;
@@ -546,7 +548,7 @@ async function coverImage(file){
   const dw = bmp.width * s, dh = bmp.height * s;
   ctx.drawImage(bmp, (W - dw) / 2, (H - dh) * .25, dw, dh);
   bmp.close?.();
-  return new Promise(r => c.toBlob(r, 'image/jpeg', .85));   // 카톡 호환 위해 jpeg
+  return new Promise(r => c.toBlob(r, 'image/jpeg', .85));
 }
 const b64 = blob => new Promise((res, rej) => {
   const fr = new FileReader();
@@ -580,16 +582,16 @@ async function ghReq(method, path, body){
   return r.status === 204 ? null : r.json();
 }
 
-// changes: [{path, b64}] 추가·교체 / [{path, del:true}] 삭제 — 전부 한 커밋으로
-async function ghCommit(changes, message){
-  // 1) blob 먼저 만들어 둔다 (충돌로 재시도해도 다시 안 올리도록)
-  const tree = [];
-  for(const c of changes){
-    if(c.del){ tree.push({ path: c.path, mode: '100644', type: 'blob', sha: null }); continue; }
-    const b = await ghReq('POST', 'git/blobs', { content: c.b64, encoding: 'base64' });
-    tree.push({ path: c.path, mode: '100644', type: 'blob', sha: b.sha });
-  }
-  // 2) 커밋 — 다른 기기와 겹치면 최신 것을 다시 읽어 재시도
+// changes: [{path, blob|b64}] 추가·교체 / [{path, del:true}] 삭제 — 전부 한 커밋으로
+async function ghCommit(changes, message, onProg){
+  let done = 0;
+  const tree = await mapLimit(changes, PARALLEL, async c => {   // 파일 업로드는 병렬로
+    if(c.del) return { path: c.path, mode: '100644', type: 'blob', sha: null };
+    const content = c.b64 ?? await b64(c.blob);
+    const b = await ghReq('POST', 'git/blobs', { content, encoding: 'base64' });
+    onProg && onProg(++done / changes.length);
+    return { path: c.path, mode: '100644', type: 'blob', sha: b.sha };
+  });
   let lastErr;
   for(let i = 0; i < 4; i++){
     try{
@@ -611,30 +613,36 @@ async function ghCommit(changes, message){
 
 function utf8b64(str){
   const bytes = new TextEncoder().encode(str);
-  let bin = '';                                   // 스택 오버플로 방지를 위해 나눠서 변환
+  let bin = '';
   for(let i = 0; i < bytes.length; i += 0x8000)
     bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
   return btoa(bin);
 }
 function dataB64(){
-  return utf8b64(JSON.stringify({ version: 2, title: S.site.title, sub: S.site.sub,
+  return utf8b64(JSON.stringify({ version: 3, title: S.site.title, sub: S.site.sub,
     theme: S.site.theme, cover: S.site.cover || '', updated: new Date().toISOString(), items: S.items }, null, 1));
 }
-
-/* ── 링크 미리보기(og) 태그 자동 갱신 ─────────────────────
-   카톡·디스코드는 자바스크립트를 실행하지 않고 HTML 만 읽어간다.
-   그래서 제목·주소·썸네일을 index.html 안에 직접 써 넣어야 한다.       */
-function siteBase(){
-  return location.href.replace(/[?#].*$/, '').replace(/[^/]*$/, '');
+async function commitAll(changes, message, onProg){
+  if(S.mode !== 'github') return putMeta();
+  try{
+    await ghCommit([...changes, { path: 'data.json', b64: dataB64() }], message, onProg);
+  }catch(e){
+    if(e.status === 422 && changes.some(c => c.del)){   // 지울 파일이 이미 없을 때
+      await ghCommit([...changes.filter(c => !c.del), { path: 'data.json', b64: dataB64() }], message, onProg);
+      return;
+    }
+    throw e;
+  }
 }
-const escAttr = s => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
+/* ── 링크 미리보기(og) 태그 자동 갱신 ────────────────── */
+function siteBase(){ return location.href.replace(/[?#].*$/, '').replace(/[^/]*$/, ''); }
+const escAttr = s => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 function setMeta(html, key, val){
   const attr = key.startsWith('og:') ? 'property' : 'name';
   const re = new RegExp(`(<meta\\s+${attr}="${key}"\\s+content=")[^"]*(")`, 'i');
   return html.replace(re, (m, a, b) => a + escAttr(val) + b);
 }
-// 성공하면 커밋할 변경사항, 아니면 null (실패해도 사이트는 그대로)
 async function ogChange(){
   if(S.mode !== 'github' || !S.cfg) return null;
   if(!/^https?:$/.test(location.protocol)) return null;   // 내 PC 파일로 열었을 땐 건드리지 않는다
@@ -658,101 +666,91 @@ async function ogChange(){
   out = setMeta(out, 'og:image',            img);
   out = setMeta(out, 'twitter:image',       img);
 
-  // 망가뜨리지 않았는지 확인한 뒤에만 커밋한다
   const ok = out !== html
     && /<\/html>/i.test(out) && /id="grid"/.test(out) && /<title>/i.test(out)
-    && !new RegExp('content="__' + 'SITE__').test(out)   // 문자열을 쪼개 둔다. 안 그러면 이 검사 코드 자체에 걸린다
+    && !new RegExp('content="__' + 'SITE__').test(out)   // 쪼개 둔다. 안 그러면 이 검사 코드 자체에 걸린다
     && Math.abs(out.length - html.length) < html.length * .1;
   return ok ? { path: 'index.html', b64: utf8b64(out) } : null;
 }
-async function commitAll(changes, message){
-  if(S.mode !== 'github') return putMeta();
-  try{
-    await ghCommit([...changes, { path: 'data.json', b64: dataB64() }], message);
-  }catch(e){
-    // 지울 파일이 이미 없으면 트리 생성이 실패한다 → 삭제만 빼고 다시
-    if(e.status === 422 && changes.some(c => c.del)){
-      await ghCommit([...changes.filter(c => !c.del), { path: 'data.json', b64: dataB64() }], message);
-      return;
-    }
-    throw e;
-  }
-}
 
-/* ── 이미지 경로 ──────────────────────────────────────── */
-async function srcOf(it, which){
-  const key = it.id + (which === 'thumb' ? '_t' : '_f');
+/* ── 이미지 주소 ──────────────────────────────────────── */
+async function srcOf(img, which){
+  if(!img) return '';
+  const key = img.k + (which === 'thumb' ? '_t' : '_f');
   if(S.urls.has(key)) return S.urls.get(key);      // 방금 올린 건 배포 전에도 바로 표시
-  if(S.mode === 'github') return which === 'thumb' ? it.thumb : it.src;
+  if(S.mode === 'github') return which === 'thumb' ? img.thumb : img.src;
   const b = await getBlob(key);
   if(!b) return '';
   const u = URL.createObjectURL(b);
   S.urls.set(key, u);
   return u;
 }
-function cacheLocal(id, tBlob, gBlob){
-  ['_t','_f'].forEach(s => { const u = S.urls.get(id + s); if(u) URL.revokeObjectURL(u); });
-  S.urls.set(id + '_t', URL.createObjectURL(tBlob));
-  S.urls.set(id + '_f', URL.createObjectURL(gBlob));
+function dropUrls(k){
+  ['_t','_f'].forEach(s => { const u = S.urls.get(k + s); if(u) URL.revokeObjectURL(u); S.urls.delete(k + s); });
+}
+
+/* ── 사진 준비 (썸네일 생성 + 저장 대상 만들기) ───────── */
+async function prepImages(files, changes){
+  // 썸네일과 본 그림을 병렬로 만든다
+  const pairs = await Promise.all([...files].map(async f =>
+    ({ t: await variant(f, THUMB), g: await variant(f, FULL) })));
+  const out = [];
+  for(const { t, g } of pairs){
+    const k = uid();
+    const ext = b => b.type === 'image/webp' ? 'webp' : 'jpg';
+    const rec = { k, w: g.w, h: g.h };
+    if(S.mode === 'github'){
+      rec.thumb = `thumbs/${k}.${ext(t.blob)}`;
+      rec.src   = `images/${k}.${ext(g.blob)}`;
+      changes.push({ path: rec.thumb, blob: t.blob }, { path: rec.src, blob: g.blob });
+    }else{
+      await putBlob(k + '_t', t.blob);
+      await putBlob(k + '_f', g.blob);
+    }
+    S.urls.set(k + '_t', URL.createObjectURL(t.blob));
+    S.urls.set(k + '_f', URL.createObjectURL(g.blob));
+    out.push(rec);
+  }
+  return out;
 }
 
 /* ── 추가 / 수정 / 삭제 ───────────────────────────────── */
-async function addImages(files, names, tags){
-  const changes = [], made = [];
+async function addItem(files, name, tags){
+  const changes = [];
   try{
-    for(let i = 0; i < files.length; i++){
-      const t = await variant(files[i], THUMB);
-      const g = await variant(files[i], FULL);
-      const id = uid();
-      const ext = g.blob.type === 'image/webp' ? 'webp' : 'jpg';
-      const item = { id, name: (names[i] || '').trim() || '이름 없음', tags: tags.slice(), w: g.w, h: g.h, ts: Date.now() + i };
-      if(S.mode === 'github'){
-        item.thumb = `thumbs/${id}.${ext}`;
-        item.src   = `images/${id}.${ext}`;
-        changes.push({ path: item.thumb, b64: await b64(t.blob) },
-                     { path: item.src,   b64: await b64(g.blob) });
-      }else{
-        await putBlob(id + '_t', t.blob);
-        await putBlob(id + '_f', g.blob);
-      }
-      cacheLocal(id, t.blob, g.blob);
-      made.push(item);
-      prog(((i + 1) / files.length) * .55);
-    }
-    S.items.push(...made);
-    try{ await commitAll(changes, `add ${made.length} image(s)`); }
-    catch(e){ made.forEach(m => { const i = S.items.indexOf(m); if(i >= 0) S.items.splice(i, 1); }); throw e; }
+    prog(.05);
+    const imgs = await prepImages(files, changes);
+    prog(.2);
+    const item = { id: uid(), name: (name || '').trim() || '이름 없음', tags: tags.slice(), imgs, ts: Date.now() };
+    S.items.push(item);
+    try{ await commitAll(changes, 'add item', p => prog(.2 + p * .75)); }
+    catch(e){ S.items.pop(); throw e; }
     prog(1);
   } finally { prog(null); }
 }
 
-async function updateItem(id, name, tags, file){
+async function updateItem(id, name, tags, addFiles, removeKeys){
   const it = S.items.find(x => x.id === id);
   if(!it) return;
-  const before = { name: it.name, tags: it.tags, src: it.src, thumb: it.thumb, w: it.w, h: it.h };
+  const before = { name: it.name, tags: it.tags, imgs: it.imgs };
   const changes = [];
   try{
-    if(file){
-      const t = await variant(file, THUMB);
-      const g = await variant(file, FULL);
-      prog(.5);
-      if(S.mode === 'github'){
-        if(it.thumb) changes.push({ path: it.thumb, del: true });
-        if(it.src)   changes.push({ path: it.src,   del: true });
-        const nid = uid(), ext = g.blob.type === 'image/webp' ? 'webp' : 'jpg';
-        it.thumb = `thumbs/${nid}.${ext}`;
-        it.src   = `images/${nid}.${ext}`;
-        changes.push({ path: it.thumb, b64: await b64(t.blob) },
-                     { path: it.src,   b64: await b64(g.blob) });
-      }else{
-        await putBlob(id + '_t', t.blob);
-        await putBlob(id + '_f', g.blob);
-      }
-      it.w = g.w; it.h = g.h;
-      cacheLocal(id, t.blob, g.blob);
+    prog(.05);
+    let imgs = imgsOf(it).slice();
+    if(removeKeys && removeKeys.length){
+      imgs.filter(g => removeKeys.includes(g.k)).forEach(g => {
+        if(S.mode === 'github'){
+          if(g.thumb) changes.push({ path: g.thumb, del: true });
+          if(g.src)   changes.push({ path: g.src,   del: true });
+        }else{ delBlob(g.k + '_t'); delBlob(g.k + '_f'); }
+        dropUrls(g.k);
+      });
+      imgs = imgs.filter(g => !removeKeys.includes(g.k));
     }
-    it.name = name; it.tags = tags;
-    try{ await commitAll(changes, `edit: ${name}`); }
+    if(addFiles && addFiles.length) imgs = imgs.concat(await prepImages(addFiles, changes));
+    it.name = name; it.tags = tags; it.imgs = imgs;
+    prog(.2);
+    try{ await commitAll(changes, 'edit item', p => prog(.2 + p * .75)); }
     catch(e){ Object.assign(it, before); throw e; }
   } finally { prog(null); }
 }
@@ -763,34 +761,34 @@ async function removeItem(id){
   const it = S.items[i];
   S.items.splice(i, 1);
   const changes = [];
-  if(S.mode === 'github'){
-    if(it.thumb) changes.push({ path: it.thumb, del: true });
-    if(it.src)   changes.push({ path: it.src,   del: true });
-  }
-  try{ await commitAll(changes, `delete: ${it.name}`); }
+  if(S.mode === 'github')
+    imgsOf(it).forEach(g => {
+      if(g.thumb) changes.push({ path: g.thumb, del: true });
+      if(g.src)   changes.push({ path: g.src,   del: true });
+    });
+  try{ await commitAll(changes, 'delete item'); }
   catch(e){ S.items.splice(i, 0, it); throw e; }
-  if(S.mode !== 'github'){ await delBlob(id + '_t'); await delBlob(id + '_f'); }
-  ['_t','_f'].forEach(s => { const u = S.urls.get(id + s); if(u) URL.revokeObjectURL(u); S.urls.delete(id + s); });
+  imgsOf(it).forEach(g => { if(S.mode !== 'github'){ delBlob(g.k + '_t'); delBlob(g.k + '_f'); } dropUrls(g.k); });
 }
 
 /* ── 테마 ─────────────────────────────────────────────── */
-// 방문자가 버튼으로 고른 색이 우선, 없으면 관리자가 정한 사이트 기본색
 function resolveTheme(){
   let v = null;
   try{ v = localStorage.getItem(THEME_KEY); }catch{}
   if(THEMES[v]) return v;
   return THEMES[S.site.theme] ? S.site.theme : 'sakura';
 }
+function curTheme(){ return document.documentElement.getAttribute('data-theme') === 'sky' ? 'sky' : 'sakura'; }
 function applyTheme(t){
   if(!THEMES[t]) t = 'sakura';
   document.documentElement.setAttribute('data-theme', t);
   document.querySelector('meta[name="theme-color"]').setAttribute('content', THEMES[t].bg);
   $('#themeBtn').textContent = THEMES[t].icon;
+  const dp = $('#drop');                       // 열려 있는 시트의 아이콘도 같이
+  if(dp) dp.querySelector('.ic') && (dp.querySelector('.ic').textContent = picked.length ? '✅' : THEMES[t].icon);
 }
 $('#themeBtn').onclick = () => {
-  // 저장이 막힌 브라우저에서도 왔다 갔다 되도록 지금 화면에 적용된 값을 기준으로 뒤집는다
-  const now = document.documentElement.getAttribute('data-theme') === 'sky' ? 'sky' : 'sakura';
-  const t = now === 'sky' ? 'sakura' : 'sky';
+  const t = curTheme() === 'sky' ? 'sakura' : 'sky';   // 저장이 막힌 브라우저에서도 왔다 갔다 되게
   try{ localStorage.setItem(THEME_KEY, t); }catch{}
   applyTheme(t);
   toast(THEMES[t].label + '색으로 바꿨어요', 1500);
@@ -825,9 +823,9 @@ function applyFilter(){
 function paintCount(q){
   const el = $('#count'), total = S.items.length.toLocaleString('ko-KR');
   el.classList.toggle('clickable', !!S.tag);
-  if(S.tag)  el.innerHTML = `#${esc(S.tag)} <b>${S.view.length}</b>장 <span class="x">✕</span>`;
-  else if(q) el.innerHTML = `검색 <b>${S.view.length}</b>장 · 전체 ${total}장`;
-  else       el.innerHTML = `총 <b>${total}</b>장`;
+  if(S.tag)  el.innerHTML = `#${esc(S.tag)} <b>${S.view.length}</b>개 <span class="x">✕</span>`;
+  else if(q) el.innerHTML = `검색 <b>${S.view.length}</b>개 · 전체 ${total}개`;
+  else       el.innerHTML = `총 <b>${total}</b>개`;
 }
 function paintTags(){
   const bar = $('#tagbar'), cnt = new Map();
@@ -854,10 +852,10 @@ function drawMore(){
 }
 function emptyHTML(){
   const q = $('#q').value.trim();
-  if(S.tag) return `<div class="empty"><div class="big">🏷️</div><p>#${esc(S.tag)} 에 해당하는 이미지가 없어요</p></div>`;
+  if(S.tag) return `<div class="empty"><div class="big">🏷️</div><p>#${esc(S.tag)} 에 해당하는 게 없어요</p></div>`;
   if(q)     return `<div class="empty"><div class="big">🔍</div><p>“${esc(q)}” 검색 결과가 없어요</p></div>`;
-  return `<div class="empty"><div class="big">🌸</div><p>아직 이미지가 없어요</p>
-    <p class="hint">${S.admin ? '＋ 이미지 추가 로 채워보세요' : '아래 🔒 관리에서 로그인하면 추가할 수 있어요'}</p></div>`;
+  return `<div class="empty"><div class="big">${THEMES[curTheme()].icon}</div><p>아직 이미지가 없어요</p>
+    <p class="hint">${S.admin ? '오른쪽 아래 ＋ 로 추가하세요' : '아래 🔒 관리에서 로그인하면 추가할 수 있어요'}</p></div>`;
 }
 function card(it, idx){
   const d = document.createElement('div');
@@ -868,7 +866,7 @@ function card(it, idx){
     `<button class="thumb skel" aria-label="크게 보기"><img alt="" loading="lazy" decoding="async"></button>
      <div class="cap">
        <button class="nm"><span class="t">${esc(it.name)}</span><span class="ci">⧉</span></button>
-       ${tg.length ? `<div class="tg">${tg.map(t => '#' + esc(t)).join(' ')}</div>` : ''}
+       <div class="tg">${tg.map(t => '#' + esc(t)).join(' ')}</div>
      </div>`;
   const img = d.querySelector('img');
   io ||= new IntersectionObserver((es, ob) => {
@@ -876,8 +874,9 @@ function card(it, idx){
       if(!e.isIntersecting) return;
       ob.unobserve(e.target);
       const el = e.target;
-      const src = await srcOf(S.items.find(x => x.id === el.dataset.id) || {}, 'thumb');
-      if(!src) return;
+      const item = S.items.find(x => x.id === el.dataset.id);
+      const src = await srcOf(imgsOf(item || {})[0], 'thumb');
+      if(!src) { el.parentElement.classList.remove('skel'); return; }
       el.onload  = () => { el.classList.add('ready'); el.parentElement.classList.remove('skel'); };
       el.onerror = () => el.parentElement.classList.remove('skel');
       el.src = src;
@@ -907,7 +906,7 @@ $('#count').addEventListener('click', () => { if(S.tag) selectTag(''); });
 async function openLB(i){
   if(i < 0 || i >= S.view.length) return;
   S.cur = i;
-  const it = S.view[i];
+  const it = S.view[i], im = imgsOf(it);
   $('#lbName').querySelector('.t').textContent = it.name;
   $('#lbName').classList.remove('copied');
   const tg = tagsOf(it);
@@ -916,10 +915,18 @@ async function openLB(i){
     : '<span class="none">태그 없음</span>';
   $('#lbPos').textContent = `${i + 1} / ${S.view.length}`;
   $('#lbActions').style.display = S.admin ? 'flex' : 'none';
-  const img = $('#lbImg');
-  img.removeAttribute('src');
-  if(it.w && it.h) img.style.aspectRatio = `${it.w}/${it.h}`;
-  img.src = await srcOf(it, 'full') || await srcOf(it, 'thumb');
+  $('#lbPrev').disabled = i === 0;
+  $('#lbNext').disabled = i === S.view.length - 1;
+
+  // 사진이 여러 장이면 아래로 이어서 보여준다
+  const box = $('#lbImgs');
+  box.innerHTML = im.map(() => `<img class="lb-img" alt="">`).join('');
+  const els = [...box.querySelectorAll('img')];
+  im.forEach(async (g, n) => {
+    const src = await srcOf(g, 'full') || await srcOf(g, 'thumb');
+    if(els[n]) els[n].src = src;
+  });
+
   $('#lb').classList.add('on');
   $('#lbScroll').scrollTop = 0;
   document.body.style.overflow = 'hidden';
@@ -964,7 +971,7 @@ function closeSheet(){
 const previewURL = f => { const u = URL.createObjectURL(f); sheetUrls.push(u); return u; };
 $('#sheet').addEventListener('click', e => { if(e.target.id === 'sheet') closeSheet(); });
 
-/* 태그 입력 — 띄어쓰기/엔터/쉼표로 #태그 */
+/* 태그 입력 */
 function tagField(id, initial){
   return `<label class="f"><span>태그</span>
     <div class="taginput" id="${id}Wrap">
@@ -990,7 +997,7 @@ function initTagField(id){
     if(add.length){ tags = parseTags(tags.concat(add).join(' ')); input.value = ''; paint(); }
   };
   input.addEventListener('keydown', e => {
-    if(e.isComposing || e.keyCode === 229) return;   // 한글 조합 중이면 IME 에 맡긴다
+    if(e.isComposing || e.keyCode === 229) return;      // 한글 조합 중이면 IME 에 맡긴다
     if(e.key === 'Enter' || e.key === ',' || e.key === ' '){ e.preventDefault(); commit(); }
     else if(e.key === 'Backspace' && !input.value && tags.length){ tags.pop(); paint(); }
   });
@@ -1006,15 +1013,16 @@ function initTagField(id){
   return { get(){ commit(); return tags.slice(); } };
 }
 
-/* ── 이미지 추가 ──────────────────────────────────────── */
+/* ── 이미지 추가 (여러 장 = 한 항목) ──────────────────── */
 let picked = [];
 function addSheet(){
   picked = [];
   sheet(`
     <h3>이미지 추가</h3>
-    <div class="drop" id="drop"><span class="ic">🌸</span>탭해서 사진 선택 <span class="dim">(여러 장 가능)</span></div>
+    <div class="drop" id="drop"><span class="ic">${THEMES[curTheme()].icon}</span>탭해서 사진 선택 <span class="dim">(여러 장 가능)</span></div>
     <input type="file" id="file" accept="image/*" multiple hidden>
-    <div id="picks"></div>
+    <div class="picks" id="picks"></div>
+    <label class="f"><span>이름</span><input id="fName" autocomplete="off"></label>
     ${tagField('fTags', S.tag ? [S.tag] : [])}
     <div class="btns">
       <button class="btn" id="cancel">취소</button>
@@ -1027,49 +1035,34 @@ function addSheet(){
   dp.ondragover = e => { e.preventDefault(); dp.classList.add('over'); };
   dp.ondragleave = () => dp.classList.remove('over');
   dp.ondrop = e => { e.preventDefault(); dp.classList.remove('over'); take(e.dataTransfer.files); };
-  fi.onchange = () => take(fi.files);
+  fi.onchange = () => { take(fi.files); fi.value = ''; };   // 같은 파일을 또 고를 수 있게 비운다
   $('#cancel').onclick = closeSheet;
 
-  // 이름 칸은 사진을 고르기 전에도 늘 보이게 하고, 다시 그릴 때 입력값을 지키지 않도록 보관해 둔다
-  let nameVals = [];
-  function snapshot(){
-    document.querySelectorAll('#picks .nmi').forEach(el => nameVals[+el.dataset.i] = el.value);
-  }
-  function renderPicks(){
-    const box = $('#picks');
-    if(!picked.length){
-      box.innerHTML = `<label class="f"><span>이름</span><input class="nmi" data-i="0" autocomplete="off"></label>`;
-    }else if(picked.length === 1){
-      box.innerHTML = `<div class="one">
-        <img src="${previewURL(picked[0])}" alt="">
-        <div class="fill"><label class="f"><span>이름</span><input class="nmi" data-i="0" autocomplete="off"></label></div>
-      </div>`;
-    }else{
-      box.innerHTML = `<div class="rowhead">이름 (${picked.length}개)</div><div class="rows">` +
-        picked.map((f, i) => `<div class="nrow"><img src="${previewURL(f)}" alt=""><input class="nmi" data-i="${i}" autocomplete="off"></div>`).join('') +
-        `</div>`;
-    }
-    document.querySelectorAll('#picks .nmi').forEach(el => el.value = nameVals[+el.dataset.i] || '');
-  }
   function take(fl){
-    snapshot();
-    picked = [...fl].filter(f => f.type.startsWith('image/'));
+    // 바꾸는 게 아니라 뒤에 이어 붙인다
+    picked = picked.concat([...fl].filter(f => f.type.startsWith('image/')));
+    paintPicks();
+  }
+  function paintPicks(){
+    $('#picks').innerHTML = picked.map((f, i) =>
+      `<div class="pick"><img src="${previewURL(f)}" alt=""><span class="no">${i + 1}</span><button class="rm" data-i="${i}" aria-label="빼기">✕</button></div>`
+    ).join('');
     dp.innerHTML = picked.length
-      ? `<span class="ic">✅</span>${picked.length}장 선택됨 <span class="dim">· 다시 탭하면 변경</span>`
-      : `<span class="ic">🌸</span>탭해서 사진 선택 <span class="dim">(여러 장 가능)</span>`;
-    renderPicks();
+      ? `<span class="ic">✅</span>${picked.length}장 선택됨 <span class="dim">· 탭하면 더 추가</span>`
+      : `<span class="ic">${THEMES[curTheme()].icon}</span>탭해서 사진 선택 <span class="dim">(여러 장 가능)</span>`;
     $('#save').disabled = !picked.length;
   }
-  renderPicks();
+  $('#picks').addEventListener('click', e => {
+    const b = e.target.closest('.rm'); if(!b) return;
+    picked.splice(+b.dataset.i, 1); paintPicks();
+  });
 
   $('#save').onclick = async () => {
     const btn = $('#save'), n = picked.length;
-    const names = [];
-    document.querySelectorAll('#picks .nmi').forEach(el => names[+el.dataset.i] = el.value);
     btn.disabled = true; btn.textContent = '저장 중…';
     try{
-      await addImages(picked, names, tf.get());
-      closeSheet(); applyFilter(); toast(`${n}장 추가 완료`);
+      await addItem(picked, $('#fName').value, tf.get());
+      closeSheet(); applyFilter(); toast(`사진 ${n}장으로 추가했습니다`);
     }catch(err){
       btn.disabled = false; btn.textContent = '저장';
       toast('실패: ' + err.message, 4500);
@@ -1077,19 +1070,14 @@ function addSheet(){
   };
 }
 
-/* ── 이미지 수정 (이미지 교체 포함) ───────────────────── */
+/* ── 수정 ─────────────────────────────────────────────── */
 function editSheet(it){
-  let newFile = null;
+  let addFiles = [], removeKeys = [];
   sheet(`
     <h3>수정</h3>
-    <div class="one">
-      <img id="eImg" alt="">
-      <div class="fill">
-        <button class="btn mini" id="eSwap">🖼️ 이미지 변경</button>
-        <div class="tip" id="eNote" style="margin-top:7px">사진을 바꾸려면 누르세요</div>
-      </div>
-    </div>
-    <input type="file" id="eFile" accept="image/*" hidden>
+    <div class="picks" id="ePicks"></div>
+    <button class="btn mini" type="button" id="eAdd" style="margin-bottom:15px">🖼️ 사진 추가</button>
+    <input type="file" id="eFile" accept="image/*" multiple hidden>
     <label class="f"><span>이름</span><input id="eName" autocomplete="off"></label>
     ${tagField('eTags', tagsOf(it))}
     <div class="btns">
@@ -1098,20 +1086,35 @@ function editSheet(it){
     </div>`);
   const tf = initTagField('eTags');
   $('#eName').value = it.name;
-  srcOf(it, 'thumb').then(s => { const el = $('#eImg'); if(s && el) el.src = s; });   // 그 사이 창을 닫았을 수 있다
-  $('#eSwap').onclick = () => $('#eFile').click();
+
+  async function paintE(){
+    const keep = imgsOf(it).filter(g => !removeKeys.includes(g.k));
+    const srcs = await Promise.all(keep.map(g => srcOf(g, 'thumb')));
+    const box = $('#ePicks'); if(!box) return;                 // 그 사이 창을 닫았을 수 있다
+    box.innerHTML =
+      keep.map((g, i) => `<div class="pick"><img src="${srcs[i]}" alt=""><span class="no">${i + 1}</span><button class="rm" data-k="${esc(g.k)}" aria-label="빼기">✕</button></div>`).join('') +
+      addFiles.map((f, i) => `<div class="pick"><img src="${previewURL(f)}" alt=""><span class="no">새</span><button class="rm" data-n="${i}" aria-label="빼기">✕</button></div>`).join('');
+  }
+  paintE();
+  $('#eAdd').onclick = () => $('#eFile').click();
   $('#eFile').onchange = e => {
-    const f = e.target.files[0];
-    if(!f || !f.type.startsWith('image/')) return;
-    newFile = f;
-    $('#eImg').src = previewURL(f);
-    $('#eNote').textContent = '새 사진으로 바뀝니다';
+    addFiles = addFiles.concat([...e.target.files].filter(f => f.type.startsWith('image/')));
+    e.target.value = ''; paintE();
   };
+  $('#ePicks').addEventListener('click', e => {
+    const b = e.target.closest('.rm'); if(!b) return;
+    if(b.dataset.k !== undefined) removeKeys.push(b.dataset.k);
+    else addFiles.splice(+b.dataset.n, 1);
+    paintE();
+  });
   $('#cancel').onclick = closeSheet;
   $('#save').onclick = async () => {
-    const b = $('#save'); b.disabled = true; b.textContent = '저장 중…';
+    const b = $('#save');
+    if(imgsOf(it).filter(g => !removeKeys.includes(g.k)).length + addFiles.length === 0)
+      return toast('사진이 최소 한 장은 있어야 합니다');
+    b.disabled = true; b.textContent = '저장 중…';
     try{
-      await updateItem(it.id, $('#eName').value.trim() || '이름 없음', tf.get(), newFile);
+      await updateItem(it.id, $('#eName').value.trim() || '이름 없음', tf.get(), addFiles, removeKeys);
       closeSheet(); applyFilter();
       const i = S.view.findIndex(x => x.id === it.id);
       if(i >= 0) openLB(i); else closeLB();
@@ -1127,10 +1130,10 @@ $('#lbDel').onclick = async () => {
   catch(err){ toast('실패: ' + err.message, 4500); }
 };
 
-/* ── 제목 수정 ────────────────────────────────────────── */
+/* ── 제목·색·썸네일 ───────────────────────────────────── */
 function headSheet(){
   sheet(`
-    <h3>제목 수정</h3>
+    <h3>사이트 설정</h3>
     <label class="f"><span>제목</span><input id="hT" autocomplete="off"></label>
     <label class="f"><span>소제목</span><input id="hS" autocomplete="off">
       <span class="tip">제목보다 작게 표시됩니다. 비워두면 숨겨져요.</span></label>
@@ -1139,14 +1142,14 @@ function headSheet(){
         <button type="button" data-v="sakura">🌸 벚꽃</button>
         <button type="button" data-v="sky">☁️ 하늘</button>
       </div>
-      <span class="tip">링크로 처음 들어온 사람에게 보이는 색입니다. 오른쪽 위 버튼으로는 나만 바꿔 볼 수 있어요.</span>
+      <span class="tip">사이트를 처음 열었을 때 보이는 색입니다. 방문자는 누구나 오른쪽 위 버튼으로 자기 화면 색을 바꿀 수 있어요.</span>
     </label>
     <label class="f"><span>링크 썸네일</span>
       <div class="one">
         <img class="cover-prev" id="hCover" alt="">
         <div class="fill">
           <button class="btn mini" type="button" id="hCoverPick">🖼️ 이미지 선택</button>
-          <div class="tip" id="hCoverNote" style="margin-top:7px">카톡·디스코드에 링크를 붙였을 때 뜨는 그림</div>
+          <div class="tip" id="hCoverNote" style="margin-top:7px">SNS에 링크를 붙였을 때 뜨는 그림</div>
         </div>
       </div>
       <input type="file" id="hCoverFile" accept="image/*" hidden>
@@ -1156,6 +1159,7 @@ function headSheet(){
       <button class="btn pri" id="save">저장</button>
     </div>`);
   $('#hT').value = S.site.title; $('#hS').value = S.site.sub;
+
   let pickTheme = THEMES[S.site.theme] ? S.site.theme : 'sakura';
   const paintSeg = () => document.querySelectorAll('#hTheme button')
     .forEach(b => b.classList.toggle('on', b.dataset.v === pickTheme));
@@ -1163,13 +1167,13 @@ function headSheet(){
     const b = e.target.closest('button[data-v]'); if(!b) return;
     pickTheme = b.dataset.v; paintSeg();
     try{ localStorage.setItem(THEME_KEY, pickTheme); }catch{}
-    applyTheme(pickTheme);                      // 고르는 즉시 미리보기
+    applyTheme(pickTheme);
   });
   paintSeg();
 
   let coverFile = null;
   const cov = $('#hCover');
-  cov.onerror = () => { cov.style.visibility = 'hidden'; };      // 아직 cover.jpg 가 없을 때
+  cov.onerror = () => { cov.style.visibility = 'hidden'; };
   cov.src = 'cover.jpg?_=' + Date.now();
   $('#hCoverPick').onclick = () => $('#hCoverFile').click();
   $('#hCoverFile').onchange = e => {
@@ -1189,10 +1193,13 @@ function headSheet(){
     try{
       const changes = [];
       if(coverFile && S.mode === 'github')
-        changes.push({ path: 'cover.jpg', b64: await b64(await coverImage(coverFile)) });
-      const og = await ogChange();                  // 미리보기 제목·주소·썸네일 갱신
-      if(og) changes.push(og);
-      await commitAll(changes, 'edit: site settings'); paintHead(); closeSheet();
+        changes.push({ path: 'cover.jpg', blob: await coverImage(coverFile) });
+      if(prev.title !== S.site.title || prev.sub !== S.site.sub || coverFile){
+        const og = await ogChange();
+        if(og) changes.push(og);
+      }
+      await commitAll(changes, 'edit: site settings');
+      paintHead(); closeSheet();
       toast(coverFile ? '저장했습니다 · 링크 미리보기 반영에 1~2분' : '저장했습니다', 3000);
     }
     catch(err){ S.site = prev; paintHead(); applyTheme(resolveTheme()); b.disabled = false; b.textContent = '저장'; toast('실패: ' + err.message, 4500); }
@@ -1235,7 +1242,7 @@ function adminSheet(){
     const prev = S.cfg, prevMode = S.mode;
     S.cfg = cfg;
     try{
-      await ghReq('GET', `git/ref/heads/${cfg.branch}`);        // 토큰·저장소·브랜치 한 번에 확인
+      await ghReq('GET', `git/ref/heads/${cfg.branch}`);
       localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
       S.admin = true;
       if(S.mode !== 'github'){ S.mode = 'github'; await commitAll([], 'init data.json'); }
@@ -1249,13 +1256,11 @@ function adminSheet(){
 }
 function setAdminUI(){
   $('#fab').classList.toggle('on', S.admin);
-  $('#addTop').classList.toggle('on', S.admin);
   $('#editHead').classList.toggle('on', S.admin);
   $('#lockBtn').textContent = S.admin ? '🔓 관리자 모드' : '🔒 관리';
 }
 $('#lockBtn').onclick = adminSheet;
 $('#fab').onclick = addSheet;
-$('#addTop').onclick = addSheet;
 
 /* ── 검색 / 정렬 ──────────────────────────────────────── */
 let qT;
@@ -1268,10 +1273,16 @@ $('#sort').addEventListener('change', applyFilter);
 $('#q').addEventListener('keydown', e => { if(e.key === 'Enter') e.target.blur(); });
 
 /* ── 시작 ─────────────────────────────────────────────── */
+// 예전 형식(항목 하나에 사진 한 장) → imgs 배열로 자동 변환
 function normalize(items){
   return (items || []).map(it => {
     if(!Array.isArray(it.tags)) it.tags = it.desc ? parseTags(it.desc) : [];
     delete it.desc;
+    if(!Array.isArray(it.imgs)){
+      it.imgs = (it.src || it.thumb)
+        ? [{ k: it.id, src: it.src, thumb: it.thumb, w: it.w, h: it.h }] : [];
+      delete it.src; delete it.thumb; delete it.w; delete it.h;
+    }
     return it;
   });
 }
@@ -1291,7 +1302,8 @@ async function boot(){
   if(remote && Array.isArray(remote.items)){
     S.mode  = 'github';
     S.items = normalize(remote.items);
-    S.site  = { title: remote.title || DEF.title, sub: remote.sub ?? DEF.sub, theme: remote.theme || DEF.theme, cover: remote.cover || '' };
+    S.site  = { title: remote.title || DEF.title, sub: remote.sub ?? DEF.sub,
+                theme: remote.theme || DEF.theme, cover: remote.cover || '' };
     S.admin = !!(S.cfg && S.cfg.token);
   }else{
     S.mode  = 'local';
@@ -1301,7 +1313,7 @@ async function boot(){
   }
   paintHead(); applyTheme(resolveTheme()); setAdminUI(); applyFilter();
 
-  // index.html 을 새로 올린 직후라면 링크 미리보기 주소를 한 번만 자동으로 채워 넣는다
+  // index.html 을 새로 올린 직후라면 링크 미리보기 주소를 한 번만 자동으로 채운다
   const og = document.querySelector('meta[property="og:url"]');
   if(S.admin && S.mode === 'github' && og && og.content.includes('__SITE__')){
     try{
