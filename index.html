@@ -10,15 +10,15 @@
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="NAI 작태 모음">
 <meta property="og:title"       content="NAI 작태 모음">
-<meta property="og:description" content="V5 기준 계속 추가중">
-<meta property="og:url"         content="https://hiimmani.github.io/nai-artist-tags/">
-<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmla9qw">
+<meta property="og:description" content="V5 기준 계속 추가 됨">
+<meta property="og:url"         content="__SITE__">
+<meta property="og:image"       content="__SITE__cover.jpg">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="NAI 작태 모음">
-<meta name="twitter:description" content="V5 기준 계속 추가중">
-<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmla9qw">
+<meta name="twitter:description" content="V5 기준 계속 추가 됨">
+<meta name="twitter:image"       content="__SITE__cover.jpg">
 
 <title>NAI 작태 모음</title>
 <style>
@@ -101,7 +101,7 @@ body{
   -webkit-font-smoothing:antialiased;
   font-size:15px;line-height:1.55;overflow-wrap:anywhere;
 }
-button,input,select{font:inherit;color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
 
@@ -109,7 +109,7 @@ button{cursor:pointer;border:0;background:none}
 header{padding:44px 0 10px;text-align:center}
 @media (min-width:700px){header{padding:64px 0 14px}}
 h1{margin:0;font-size:clamp(29px,7vw,46px);font-weight:750;letter-spacing:-.02em;color:var(--c-title)}
-.sub{margin:10px 0 0;font-size:clamp(14px,3.6vw,18px);font-weight:600;color:var(--c-sub)}
+.sub{margin:10px 0 0;font-size:clamp(14px,3.6vw,18px);font-weight:600;color:var(--c-sub);white-space:pre-line}
 #editHead{
   display:none;margin:16px auto 0;padding:8px 18px;border-radius:999px;
   background:var(--card);color:var(--rose-deep);font-size:13.5px;font-weight:700;box-shadow:var(--shadow);
@@ -283,11 +283,12 @@ h1{margin:0;font-size:clamp(29px,7vw,46px);font-weight:750;letter-spacing:-.02em
 
 label.f{display:block;margin-bottom:15px}
 label.f>span:first-child{display:block;font-size:13.5px;font-weight:750;color:var(--c-tagtext);margin-bottom:7px}
-label.f input{
+label.f input,label.f textarea{
   width:100%;padding:13px 15px;border:2px solid var(--line-soft);border-radius:14px;
   background:var(--c-inputbg);font-size:16px;outline:none;transition:border-color .16s;
 }
-label.f input:focus{border-color:var(--rose)}
+label.f input:focus,label.f textarea:focus{border-color:var(--rose)}
+label.f textarea{resize:vertical;min-height:82px;line-height:1.6;font-size:15.5px}
 label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500;display:block}
 
 .taginput{display:flex;flex-wrap:wrap;align-items:center;gap:7px;border:2px solid var(--line-soft);border-radius:14px;background:var(--c-inputbg);padding:8px 10px;transition:border-color .16s}
@@ -318,6 +319,8 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
 
 .cover-prev{width:124px;height:65px;object-fit:cover;border-radius:12px;flex:none;background:var(--c-imgbg)}
 .one{display:flex;gap:14px;align-items:flex-start;margin-bottom:15px}
+#hCoverZone{border:2px dashed transparent;border-radius:16px;padding:7px;margin:-7px -7px 9px}
+#hCoverZone.over{border-color:var(--rose);background:var(--rose-soft)}
 .one .fill{flex:1;min-width:0}
 
 .btns{display:flex;gap:10px;margin-top:8px}
@@ -544,7 +547,8 @@ async function coverImage(file){
   c.width = W; c.height = H;
   const ctx = c.getContext('2d');
   ctx.imageSmoothingQuality = 'high';
-  ctx.fillStyle = '#ffeef3'; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = THEMES[curTheme()].bg;   // 남는 여백은 지금 테마 배경색으로
+  ctx.fillRect(0, 0, W, H);
   const s = Math.max(W / bmp.width, H / bmp.height);
   const dw = bmp.width * s, dh = bmp.height * s;
   ctx.drawImage(bmp, (W - dw) / 2, (H - dh) * .25, dw, dh);
@@ -657,12 +661,13 @@ async function ogChange(){
 
   const base = siteBase();
   const img  = base + 'cover.jpg' + (S.site.cover ? '?v=' + S.site.cover : '');
+  const desc = S.site.sub.replace(/\s*\n+\s*/g, ' ').trim();   // 미리보기 설명은 한 줄로
   let out = html;
   out = setMeta(out, 'og:site_name',        S.site.title);
   out = setMeta(out, 'og:title',            S.site.title);
-  out = setMeta(out, 'og:description',      S.site.sub);
+  out = setMeta(out, 'og:description',      desc);
   out = setMeta(out, 'twitter:title',       S.site.title);
-  out = setMeta(out, 'twitter:description', S.site.sub);
+  out = setMeta(out, 'twitter:description', desc);
   out = setMeta(out, 'og:url',              base);
   out = setMeta(out, 'og:image',            img);
   out = setMeta(out, 'twitter:image',       img);
@@ -785,8 +790,10 @@ function applyTheme(t){
   document.documentElement.setAttribute('data-theme', t);
   document.querySelector('meta[name="theme-color"]').setAttribute('content', THEMES[t].bg);
   $('#themeBtn').textContent = THEMES[t].icon;
-  const dp = $('#drop');                       // 열려 있는 시트의 아이콘도 같이
-  if(dp) dp.querySelector('.ic') && (dp.querySelector('.ic').textContent = picked.length ? '✅' : THEMES[t].icon);
+  // 이미 그려 둔 곳의 아이콘도 같이 바꾼다 (안 그러면 하늘색인데 벚꽃이 남는다)
+  document.querySelectorAll('.big.themed').forEach(e => e.textContent = THEMES[t].icon);
+  const ic = $('#drop') && $('#drop').querySelector('.ic');
+  if(ic) ic.textContent = picked.length ? '✅' : THEMES[t].icon;
 }
 $('#themeBtn').onclick = () => {
   const t = curTheme() === 'sky' ? 'sakura' : 'sky';   // 저장이 막힌 브라우저에서도 왔다 갔다 되게
@@ -855,7 +862,7 @@ function emptyHTML(){
   const q = $('#q').value.trim();
   if(S.tag) return `<div class="empty"><div class="big">🏷️</div><p>#${esc(S.tag)} 에 해당하는 게 없어요</p></div>`;
   if(q)     return `<div class="empty"><div class="big">🔍</div><p>“${esc(q)}” 검색 결과가 없어요</p></div>`;
-  return `<div class="empty"><div class="big">${THEMES[curTheme()].icon}</div><p>아직 이미지가 없어요</p>
+  return `<div class="empty"><div class="big themed">${THEMES[curTheme()].icon}</div><p>아직 이미지가 없어요</p>
     <p class="hint">${S.admin ? '오른쪽 아래 ＋ 로 추가하세요' : '아래 🔒 관리에서 로그인하면 추가할 수 있어요'}</p></div>`;
 }
 function card(it, idx){
@@ -971,7 +978,14 @@ function closeSheet(){
   if(!$('#lb').classList.contains('on')) document.body.style.overflow = '';
 }
 const previewURL = f => { const u = URL.createObjectURL(f); sheetUrls.push(u); return u; };
-$('#sheet').addEventListener('click', e => { if(e.target.id === 'sheet') closeSheet(); });
+// 바깥을 눌러도 닫지 않는다 — 적던 내용이 통째로 날아가는 걸 막기 위해서다.
+// 닫으려면 취소 버튼, 또는 PC 에서는 Esc.
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && $('#sheet').classList.contains('on')) closeSheet();
+});
+// 그림을 창 아무 데나 떨어뜨렸을 때 브라우저가 그 파일을 열어버리는 것도 막는다
+window.addEventListener('dragover', e => e.preventDefault());
+window.addEventListener('drop', e => e.preventDefault());
 
 /* 태그 입력 */
 function tagField(id, initial){
@@ -1137,8 +1151,8 @@ function headSheet(){
   sheet(`
     <h3>사이트 설정</h3>
     <label class="f"><span>제목</span><input id="hT" autocomplete="off"></label>
-    <label class="f"><span>소제목</span><input id="hS" autocomplete="off">
-      <span class="tip">제목보다 작게 표시됩니다. 비워두면 숨겨져요.</span></label>
+    <label class="f"><span>소제목</span><textarea id="hS" rows="2"></textarea>
+      <span class="tip">제목보다 작게 표시됩니다. 엔터로 줄을 바꿀 수 있어요. 비워두면 숨겨집니다.</span></label>
     <label class="f"><span>기본 색</span>
       <div class="seg" id="hTheme">
         <button type="button" data-v="sakura">🌸 벚꽃</button>
@@ -1147,11 +1161,11 @@ function headSheet(){
       <span class="tip">사이트를 처음 열었을 때 보이는 색입니다. 방문자는 누구나 오른쪽 위 버튼으로 자기 화면 색을 바꿀 수 있어요.</span>
     </label>
     <label class="f"><span>링크 썸네일</span>
-      <div class="one">
+      <div class="one" id="hCoverZone">
         <img class="cover-prev" id="hCover" alt="">
         <div class="fill">
           <button class="btn mini" type="button" id="hCoverPick">🖼️ 이미지 선택</button>
-          <div class="tip" id="hCoverNote" style="margin-top:7px">SNS에 링크를 붙였을 때 뜨는 그림</div>
+          <div class="tip" id="hCoverNote" style="margin-top:7px">SNS에 링크를 붙였을 때 뜨는 그림<br>PC에서는 그림을 끌어다 놓아도 됩니다</div>
         </div>
       </div>
       <input type="file" id="hCoverFile" accept="image/*" hidden>
@@ -1174,17 +1188,20 @@ function headSheet(){
   paintSeg();
 
   let coverFile = null;
-  const cov = $('#hCover');
+  const cov = $('#hCover'), zone = $('#hCoverZone');
   cov.onerror = () => { cov.style.visibility = 'hidden'; };
   cov.src = 'cover.jpg?_=' + Date.now();
-  $('#hCoverPick').onclick = () => $('#hCoverFile').click();
-  $('#hCoverFile').onchange = e => {
-    const f = e.target.files[0];
+  const setCover = f => {
     if(!f || !f.type.startsWith('image/')) return;
     coverFile = f;
     cov.style.visibility = ''; cov.src = previewURL(f);
     $('#hCoverNote').textContent = '저장하면 이 그림으로 바뀝니다';
   };
+  $('#hCoverPick').onclick = () => $('#hCoverFile').click();
+  $('#hCoverFile').onchange = e => { setCover(e.target.files[0]); e.target.value = ''; };
+  zone.ondragover  = e => { e.preventDefault(); zone.classList.add('over'); };
+  zone.ondragleave = () => zone.classList.remove('over');
+  zone.ondrop = e => { e.preventDefault(); zone.classList.remove('over'); setCover(e.dataTransfer.files[0]); };
 
   $('#cancel').onclick = closeSheet;
   $('#save').onclick = async () => {
