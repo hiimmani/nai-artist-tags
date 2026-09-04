@@ -8,17 +8,17 @@
 <!-- 링크 공유 미리보기.
      __SITE__ 는 관리자로 처음 접속할 때 실제 주소로 자동으로 채워집니다. 손대지 마세요. -->
 <meta property="og:type"        content="website">
-<meta property="og:site_name"   content="모음">
-<meta property="og:title"       content="모음">
-<meta property="og:description" content="수정중">
-<meta property="og:url"         content="https://hiimmani.github.io/nai-artist-tags/">
-<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtl91ceb">
+<meta property="og:site_name"   content="NAI 작태 모음">
+<meta property="og:title"       content="NAI 작태 모음">
+<meta property="og:description" content="V5 기준 계속 추가 됨">
+<meta property="og:url"         content="__SITE__">
+<meta property="og:image"       content="__SITE__cover.jpg">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card"        content="summary_large_image">
-<meta name="twitter:title"       content="모음">
-<meta name="twitter:description" content="수정중">
-<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtl91ceb">
+<meta name="twitter:title"       content="NAI 작태 모음">
+<meta name="twitter:description" content="V5 기준 계속 추가 됨">
+<meta name="twitter:image"       content="__SITE__cover.jpg">
 
 <title>NAI 작태 모음</title>
 <style>
@@ -212,9 +212,10 @@ h1{margin:0;font-size:clamp(29px,7vw,46px);font-weight:750;letter-spacing:-.02em
 .lb-scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(60px + env(safe-area-inset-top,0px)) 62px calc(30px + var(--safe-b))}
 @media (max-width:640px){.lb-scroll{padding-left:52px;padding-right:52px}}
 .lb-inner{max-width:640px;margin:0 auto}
-/* 어떤 비율의 그림이든 같은 크기 칸에 통째로 담는다 (잘리지 않음) */
+/* 그림 비율을 그대로 살린다. 위아래에 빈 칸이 생기지 않는다.
+   불러오기 전에도 자리가 흔들리지 않도록 비율은 인라인으로 넣어 준다. */
 .lb-img{
-  width:100%;aspect-ratio:3/4;object-fit:contain;display:block;
+  width:100%;height:auto;display:block;
   background:var(--c-imgbg);border-radius:18px;
   box-shadow:0 20px 54px rgba(var(--c-ovl2),.42);margin-bottom:12px;
 }
@@ -920,7 +921,8 @@ async function openLB(i){
 
   // 사진이 여러 장이면 아래로 이어서 보여준다
   const box = $('#lbImgs');
-  box.innerHTML = im.map(() => `<img class="lb-img" alt="">`).join('');
+  box.innerHTML = im.map(g =>
+    `<img class="lb-img" alt=""${g.w && g.h ? ` style="aspect-ratio:${g.w}/${g.h}"` : ''}>`).join('');
   const els = [...box.querySelectorAll('img')];
   im.forEach(async (g, n) => {
     const src = await srcOf(g, 'full') || await srcOf(g, 'thumb');
