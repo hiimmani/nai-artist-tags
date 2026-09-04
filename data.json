@@ -4,7 +4,7 @@
  "sub": "V5 기준 계속 추가중",
  "theme": "sakura",
  "cover": "mtmla9qw",
- "updated": "2026-09-04T07:40:35.401Z",
+ "updated": "2026-09-04T12:15:54.471Z",
  "items": [
   {
    "id": "mtjmizs2yz8ir",
@@ -22,28 +22,6 @@
      "h": 1472
     }
    ]
-  },
-  {
-   "id": "mtmn9nm0wyf1x",
-   "name": "이름 없음",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mtmn9nlvyx3vj",
-     "w": 1045,
-     "h": 949,
-     "thumb": "thumbs/mtmn9nlvyx3vj.webp",
-     "src": "images/mtmn9nlvyx3vj.webp"
-    },
-    {
-     "k": "mtmn9nlxb3s2n",
-     "w": 546,
-     "h": 1600,
-     "thumb": "thumbs/mtmn9nlxb3s2n.webp",
-     "src": "images/mtmn9nlxb3s2n.webp"
-    }
-   ],
-   "ts": 1788507635400
   }
  ]
 }
