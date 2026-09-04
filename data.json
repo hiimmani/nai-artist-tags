@@ -1,10 +1,10 @@
 {
- "version": 2,
+ "version": 3,
  "title": "NAI 작태 모음",
  "sub": "수정중",
  "theme": "sakura",
  "cover": "mtl91ceb",
- "updated": "2026-09-03T09:15:43.723Z",
+ "updated": "2026-09-04T01:31:59.414Z",
  "items": [
   {
    "id": "mtjmizs2yz8ir",
@@ -12,11 +12,16 @@
    "tags": [
     "예시"
    ],
-   "w": 736,
-   "h": 1472,
    "ts": 1788324993028,
-   "src": "images/mtjmizs2yz8ir.webp",
-   "thumb": "thumbs/mtjmizs2yz8ir.webp"
+   "imgs": [
+    {
+     "k": "mtjmizs2yz8ir",
+     "src": "images/mtjmizs2yz8ir.webp",
+     "thumb": "thumbs/mtjmizs2yz8ir.webp",
+     "w": 736,
+     "h": 1472
+    }
+   ]
   },
   {
    "id": "mtl8w1brmodvo",
@@ -24,11 +29,16 @@
    "tags": [
     "모에"
    ],
-   "w": 832,
-   "h": 1216,
    "ts": 1788423019191,
-   "thumb": "thumbs/mtl8w1brmodvo.webp",
-   "src": "images/mtl8w1brmodvo.webp"
+   "imgs": [
+    {
+     "k": "mtl8w1brmodvo",
+     "src": "images/mtl8w1brmodvo.webp",
+     "thumb": "thumbs/mtl8w1brmodvo.webp",
+     "w": 832,
+     "h": 1216
+    }
+   ]
   }
  ]
 }
