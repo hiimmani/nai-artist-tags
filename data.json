@@ -1,10 +1,10 @@
 {
  "version": 3,
- "title": "모음",
- "sub": "수정중",
+ "title": "NAI 작태 모음",
+ "sub": "V5 기준 계속 추가중",
  "theme": "sakura",
  "cover": "mtl91ceb",
- "updated": "2026-09-04T06:41:33.942Z",
+ "updated": "2026-09-04T06:44:06.033Z",
  "items": [
   {
    "id": "mtjmizs2yz8ir",
@@ -70,52 +70,6 @@
     }
    ],
    "ts": 1788501949691
-  },
-  {
-   "id": "mtml4dj0rk6lo",
-   "name": "h",
-   "tags": [
-    "j"
-   ],
-   "imgs": [
-    {
-     "k": "mtml4diy9g8ey",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mtml4diy9g8ey.webp",
-     "src": "images/mtml4diy9g8ey.webp"
-    },
-    {
-     "k": "mtml4dizv8zkb",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mtml4dizv8zkb.webp",
-     "src": "images/mtml4dizv8zkb.webp"
-    }
-   ],
-   "ts": 1788504029820
-  },
-  {
-   "id": "mtml5r06xm8sb",
-   "name": "이름 없음",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mtml5r03jyog8",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mtml5r03jyog8.webp",
-     "src": "images/mtml5r03jyog8.webp"
-    },
-    {
-     "k": "mtml5r05xfkch",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mtml5r05xfkch.webp",
-     "src": "images/mtml5r05xfkch.webp"
-    }
-   ],
-   "ts": 1788504093942
   }
  ]
 }
