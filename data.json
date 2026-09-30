@@ -4,7 +4,7 @@
  "sub": "계속 추가 예정",
  "theme": "sky",
  "cover": "mtmywfbd",
- "updated": "2026-09-30T09:17:15.978Z",
+ "updated": "2026-09-30T09:18:47.274Z",
  "items": [
   {
    "id": "munw3curoa73g",
@@ -125,21 +125,6 @@
     }
    ],
    "ts": 1790759706569
-  },
-  {
-   "id": "munw3cyl84mpg",
-   "name": "",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "munw3cyl84mpg",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/munw3cyl84mpg.webp",
-     "src": "images/munw3cyl84mpg.webp"
-    }
-   ],
-   "ts": 1790759706570
   },
   {
    "id": "munw584e4qrof",
