@@ -4,7 +4,7 @@
  "sub": "V5 기준\n계속 추가 예정",
  "theme": "sky",
  "cover": "mtmywfbd",
- "updated": "2026-09-30T00:07:55.335Z",
+ "updated": "2026-09-30T05:41:34.376Z",
  "items": [
   {
    "id": "mtv1mbi2axlak",
@@ -39,23 +39,6 @@
     }
    ],
    "ts": 1789572382012
-  },
-  {
-   "id": "muncjelk57uz6",
-   "name": "ㅗ",
-   "tags": [
-    "ㅠ"
-   ],
-   "imgs": [
-    {
-     "k": "muncjelj45dbf",
-     "w": 986,
-     "h": 894,
-     "thumb": "thumbs/muncjelj45dbf.webp",
-     "src": "images/muncjelj45dbf.webp"
-    }
-   ],
-   "ts": 1790726863016
   }
  ]
 }
