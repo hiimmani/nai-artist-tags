@@ -4,7 +4,7 @@
  "sub": "계속 추가 예정",
  "theme": "sky",
  "cover": "mtmywfbd",
- "updated": "2026-09-30T09:21:41.583Z",
+ "updated": "2026-10-01T00:39:22.744Z",
  "items": [
   {
    "id": "munw584e4qrof",
@@ -129,7 +129,9 @@
   {
    "id": "munwamo3kjjcl",
    "name": "rora (auroradiation)",
-   "tags": [],
+   "tags": [
+    "ㅇ"
+   ],
    "imgs": [
     {
      "k": "munwamo3kjjcl",
@@ -137,6 +139,13 @@
      "h": 1216,
      "thumb": "thumbs/munwamo3kjjcl.webp",
      "src": "images/munwamo3kjjcl.webp"
+    },
+    {
+     "k": "muot3z3r8w449",
+     "w": 950,
+     "h": 542,
+     "thumb": "thumbs/muot3z3r8w449.webp",
+     "src": "images/muot3z3r8w449.webp"
     }
    ],
    "ts": 1790760045819
