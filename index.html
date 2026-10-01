@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#ffeef3">
+<meta name="theme-color" content="#ffffff">
 
 <!-- 링크 공유 미리보기.
      __SITE__ 는 관리자로 처음 접속할 때 실제 주소로 자동으로 채워집니다. 손대지 마세요. -->
@@ -346,6 +346,86 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .skel{background:linear-gradient(100deg,var(--rose-soft) 30%,var(--c-skel2) 50%,var(--rose-soft) 70%);background-size:220% 100%;animation:sk 1.2s linear infinite}
 @keyframes sk{to{background-position:-220% 0}}
+/* Compact paper theme. Kept after legacy styles for compatibility with saved settings. */
+:root,:root[data-theme="sky"]{
+ --bg:#fff;--card:#fff;--line:#d9d9d6;--line-soft:#e9e9e6;--text:#292b2c;--muted:#777b7c;
+ --rose:#858b8c;--rose-deep:#303536;--rose-soft:#f4f4f1;--rose-chip:#f5f5f3;
+ --grad:linear-gradient(#343a3b,#343a3b);--glow:50,55,56;--c-ovl:40,45,46;--c-ovl2:30,35,36;
+ --c-title:#202526;--c-sub:#777b7c;--c-name:#303536;--c-cardtag:#85898a;--c-count:#4d5354;
+ --c-tagtext:#666d6e;--c-soft:#697071;--c-hint:#85898a;--c-faint:#959b9b;--c-toast:#343a3b;
+ --c-imgbg:#f1f1ee;--c-dropline:#c9cdcb;--c-dropbg:#fafaf8;--c-inputbg:#fff;--c-grip:#d9dcda;
+ --c-skel2:#e7e9e7;--c-code:#eeefeb;--shadow:none;--shadow-lift:none;--r:5px;
+}
+body{font-size:13px;line-height:1.5;letter-spacing:0;-webkit-text-size-adjust:100%}
+.wrap{max-width:1080px;padding:0 18px}
+header{padding:30px 0 16px;text-align:left;border-bottom:1px solid var(--line);position:relative}
+h1{font-size:26px;font-weight:650;letter-spacing:-.035em;line-height:1.3}
+.sub{margin:6px 0 0;font-size:12px;font-weight:400}
+#editHead{margin:12px 0 0;padding:5px 9px;border:1px solid var(--line);border-radius:4px;font-size:11px;font-weight:500}
+#themeBtn{display:none!important}
+.bar{padding:12px 0 8px;margin:0;background:rgba(255,255,255,.97)}
+#q{height:40px;padding:8px 36px;border:1px solid var(--line);border-radius:5px;font-size:16px;font-weight:400}
+.search svg{left:12px;width:15px;height:15px;stroke:#929796}
+#clearQ{right:3px;font-size:14px}
+.meta{margin-top:3px;gap:6px;padding:0;min-height:30px}
+.count{padding:3px 0;border-radius:0;font-size:11px;font-weight:500;gap:4px}
+#sort{padding:4px 7px;border:1px solid var(--line-soft);border-radius:4px;font-size:11px;font-weight:400;min-height:30px}
+.tags{gap:5px;margin-top:8px;padding:0 0 5px}
+.tag{padding:5px 9px;border:1px solid var(--line-soft);border-radius:4px;font-size:10px;font-weight:500}
+.tag.sel{background:#343a3b;border-color:#343a3b;box-shadow:none}
+#grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px 12px;padding:14px 0 26px}
+.card{border:0;border-radius:3px;box-shadow:none;contain-intrinsic-size:auto 210px;transition:none}
+.card:hover{transform:none;box-shadow:none}
+.card .thumb{border-radius:3px;aspect-ratio:3/4}
+.cap{padding:6px 1px 0}
+.item-no{display:block;color:#939998;font-size:9px;line-height:1.5;font-variant-numeric:tabular-nums;letter-spacing:.08em;margin-bottom:2px}
+.nm{font-size:12px;font-weight:500;gap:2px;padding:0;margin:0;border-radius:2px;line-height:1.35}
+.nm .ci{display:none}.nm .t{min-height:2.7em}
+.tg{font-size:10px;font-weight:400;margin-top:3px;min-height:0}.tg:empty{display:none}
+.lockrow{padding:12px 0 70px;border-top:1px solid var(--line-soft);text-align:left}
+#lockBtn{font-size:11px;padding:6px 0}
+.fab{width:42px;height:42px;right:16px;bottom:calc(16px + var(--safe-b));border-radius:6px;font-size:25px;box-shadow:0 2px 8px #00000015}
+.sheet,.lb{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(25,30,30,.35)}
+.sheet-box{border-radius:12px 12px 0 0;padding:6px 16px calc(16px + var(--safe-b));box-shadow:0 -3px 24px #00000012;max-height:90dvh}
+.grip{width:28px;height:3px;margin:6px auto 13px}
+.sheet h3{font-size:16px;font-weight:600;margin:2px 0 12px}
+.note{background:#f7f7f4;border:1px solid var(--line-soft);border-radius:4px;padding:9px 10px;font-size:11px;font-weight:400;line-height:1.6;margin-bottom:12px}
+.drop{padding:16px 10px;font-size:12px;font-weight:500;border-width:1px;border-radius:5px;margin-bottom:10px}
+.drop .ic{font-size:20px;margin-bottom:5px}
+#importStatus{font-size:11px;margin:8px 0}
+#importProgress{height:5px;display:block}
+#importList{font-size:11px!important;max-height:180px!important}
+#importHint{font-size:10px!important;line-height:1.6}
+.btns{gap:8px;margin-top:12px}
+.btn{padding:10px;border-radius:4px;border:1px solid var(--line);font-size:12px;font-weight:500;min-height:40px;background:#fff;color:#464c4d}
+.btn.pri{box-shadow:none;border-color:#343a3b;color:#fff;background:#343a3b}
+.btn.mini{font-size:11px;padding:7px 10px;border-radius:4px;min-height:34px}
+label.f{margin-bottom:12px}label.f>span:first-child{font-size:11px;font-weight:500;margin-bottom:5px}
+label.f input,label.f textarea{padding:8px 10px;border-width:1px;border-radius:4px;font-size:16px}
+label.f .tip{font-size:10px;line-height:1.5;margin-top:5px}
+.taginput{border-width:1px;border-radius:4px;padding:4px 6px;gap:5px}
+label.f .taginput input{border:0!important;background:transparent;padding:5px 3px;min-width:60px;width:60px;flex:1}
+.taginput .chip{font-size:11px;font-weight:500;padding:4px 6px 4px 9px;border-radius:3px}
+.picks{gap:7px;margin-bottom:12px}.pick{width:54px;height:72px;border-radius:4px;box-shadow:none}
+.pick .rm{width:23px;height:23px;top:2px;right:2px;font-size:12px;box-shadow:none}
+.pick .no{font-size:9px;padding:0 5px;border-radius:3px;left:3px;bottom:3px}
+.lb-scroll{padding:calc(50px + env(safe-area-inset-top,0px)) 42px calc(18px + var(--safe-b))}
+.lb-inner{max-width:520px}.lb-img{border-radius:4px;box-shadow:none;margin-bottom:8px}
+.lb-info{padding:13px;border-radius:4px;box-shadow:none}#lbName{font-size:16px;font-weight:600}
+.lb-tags .t{font-size:11px;padding:4px 8px;border-radius:3px}.cphint{font-size:10px}
+.lb-actions{margin-top:12px}.lb-actions button{padding:8px;font-size:12px;border-radius:4px}
+.icob,.nav{width:32px;height:32px;border-radius:4px;font-size:19px;box-shadow:none}
+.lb-top{height:46px}.lb-pos{padding:5px 9px;border-radius:4px;font-size:11px;box-shadow:none}
+.nav.prev{left:5px}.nav.next{right:5px}
+#toast{font-size:12px;padding:9px 14px;border-radius:5px;box-shadow:0 3px 12px #00000015}
+@media(max-width:699px){
+ .wrap{padding:0 12px}header{padding:20px 0 12px}h1{font-size:21px}.sub{font-size:11px}
+ #grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 7px;padding-top:11px}
+ .card{contain-intrinsic-size:auto 160px}.nm{font-size:10px}.tg{font-size:9px}.item-no{font-size:8px}
+ #editHead{font-size:10px;margin-top:9px;padding:4px 7px}
+}
+@media(min-width:720px){.sheet-box{border-radius:8px;width:480px;padding:20px;max-height:88vh}}
+
 </style>
 </head>
 <body>
@@ -356,7 +436,7 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
   <header>
     <h1 id="siteTitle">NAI 작태 모음</h1>
     <p class="sub" id="siteSub">V5 기준 계속 추가 됨</p>
-    <button id="editHead">✎ 제목 수정</button>
+    <button id="editHead">사이트 설정</button>
   </header>
 
   <div class="bar" id="bar">
@@ -379,7 +459,7 @@ label.f .tip{font-size:12.5px;color:var(--c-hint);margin-top:6px;font-weight:500
 
   <div class="tags" id="tagbar"></div>
   <div id="grid"></div>
-  <div class="lockrow"><button id="lockBtn">🔒 관리</button></div>
+  <div class="lockrow"><button id="lockBtn">관리</button></div>
 </div>
 
 <button id="themeBtn" aria-label="색 바꾸기" title="색 바꾸기">🌸</button>
@@ -835,7 +915,7 @@ function curTheme(){ return document.documentElement.getAttribute('data-theme') 
 function applyTheme(t){
   if(!THEMES[t]) t = 'sakura';
   document.documentElement.setAttribute('data-theme', t);
-  document.querySelector('meta[name="theme-color"]').setAttribute('content', THEMES[t].bg);
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff');
   $('#themeBtn').textContent = THEMES[t].icon;
   // 이미 그려 둔 곳의 아이콘도 같이 바꾼다 (안 그러면 하늘색인데 벚꽃이 남는다)
   document.querySelectorAll('.big.themed').forEach(e => e.textContent = THEMES[t].icon);
@@ -910,7 +990,7 @@ function emptyHTML(){
   if(S.tag) return `<div class="empty"><div class="big">🏷️</div><p>#${esc(S.tag)} 에 해당하는 게 없어요</p></div>`;
   if(q)     return `<div class="empty"><div class="big">🔍</div><p>“${esc(q)}” 검색 결과가 없어요</p></div>`;
   return `<div class="empty"><div class="big themed">${THEMES[curTheme()].icon}</div><p>아직 이미지가 없어요</p>
-    <p class="hint">${S.admin ? '오른쪽 아래 ＋ 로 추가하세요' : '아래 🔒 관리에서 로그인하면 추가할 수 있어요'}</p></div>`;
+    <p class="hint">${S.admin ? '오른쪽 아래 ＋ 로 추가하세요' : '아래 관리에서 로그인하면 추가할 수 있어요'}</p></div>`;
 }
 function card(it, idx){
   const d = document.createElement('div');
@@ -919,7 +999,7 @@ function card(it, idx){
   const tg = tagsOf(it);
   d.innerHTML =
     `<button class="thumb skel" aria-label="크게 보기"><img alt="" loading="lazy" decoding="async"></button>
-     <div class="cap">
+     <div class="cap"><span class="item-no">NO. ${String(it.no || S.items.indexOf(it) + 1).padStart(4, '0')}</span>
        <button class="nm"><span class="t">${esc(it.name || '제목 없음')}</span><span class="ci">⧉</span></button>
        <div class="tg">${tg.map(t => '#' + esc(t)).join(' ')}</div>
      </div>`;
@@ -968,7 +1048,7 @@ async function openLB(i){
   $('#lbTags').innerHTML = tg.length
     ? tg.map(t => `<button class="t" data-t="${esc(t)}">#${esc(t)}</button>`).join('')
     : '<span class="none">태그 없음</span>';
-  $('#lbPos').textContent = `${i + 1} / ${S.view.length}`;
+  $('#lbPos').textContent = `NO. ${String(it.no || S.items.indexOf(it) + 1).padStart(4, '0')} · ${i + 1} / ${S.view.length}`;
   $('#lbActions').style.display = S.admin ? 'flex' : 'none';
   $('#lbPrev').disabled = i === 0;
   $('#lbNext').disabled = i === S.view.length - 1;
@@ -1307,7 +1387,8 @@ async function runImport(jobs, report){
       if(ready.length){
         const previous = S.items.slice();
         ready.forEach(j => { j.state = '항목 저장 중'; }); report();
-        S.items.push(...ready.map(j => j.item));
+        const firstNo = Math.max(0, ...S.items.map(it => it.no || 0)) + 1;
+        S.items.push(...ready.map((j, n) => { j.item.no = firstNo + n; return j.item; }));
         try{
           await commitAll(ready.flatMap(j => j.changes), 'add ' + ready.length + ' image items');
         }catch(e){
@@ -1333,8 +1414,8 @@ function addSheet(){
   picked = []; importJobs = []; importStop = false;
   sheet(`
     <h3>이미지 일괄 추가</h3>
-    <div class="note">사진 한 장마다 <b>별도 항목</b>이 생깁니다. 메타데이터의 <b>작가 이름을 제목으로 자동 입력</b>합니다. 없으면 파일명을 사용하며 태그는 비워 둡니다.</div>
-    <div class="drop" id="drop" role="button" tabindex="0"><span class="ic">🖼️</span>탭해서 사진 여러 장 선택</div>
+    <div class="note">사진마다 항목이 생성됩니다. 작가 이름은 자동 입력하고 태그는 비워 둡니다.</div>
+    <div class="drop" id="drop" role="button" tabindex="0"><span class="ic">＋</span>사진 여러 장 선택</div>
     <input type="file" id="file" accept="image/*" multiple hidden>
     <p id="importStatus" role="status" aria-live="polite">사진을 선택하세요</p>
     <progress id="importProgress" value="0" max="1" style="width:100%;accent-color:var(--rose-deep)" aria-label="저장 진행률"></progress>
@@ -1379,7 +1460,7 @@ function addSheet(){
     // 처리 중인 파일과 아직 남은 파일 위주로 최대 40개만 표시한다.
     const visible = importJobs.filter(j => !j.saved).slice(0, 40);
     $('#importList').innerHTML = visible.map(j => `<div style="padding:7px 0;border-bottom:1px solid var(--line-soft)">
-      <span>${esc(j.label)}</span> · <b>${esc(j.state)}</b>
+      <span>${importJobs.indexOf(j) + 1}. ${esc(j.label)}</span> · <b>${esc(j.state)}</b>
       ${j.title ? `<div>제목: ${esc(j.title)}</div>` : ''}
       ${j.error ? `<div style="color:#b44">${esc(j.error)}</div>` : ''}
       ${!S.importing ? `<button data-remove="${j.id}" aria-label="${esc(j.label)} 제외" style="float:right">✕</button>` : ''}
@@ -1408,7 +1489,13 @@ function addSheet(){
   };
   $('#save').onclick = async () => {
     if(S.importing) return;
-    try{ await runImport(importJobs, paint); }
+    try{
+      await runImport(importJobs, paint);
+      if(importJobs.length && importJobs.every(j => j.saved)){
+        const count = importJobs.length;
+        closeSheet(); toast(count + '장 저장했습니다');
+      }
+    }
     catch(e){ toast('저장 실패: ' + e.message, 4500); }
   };
   paint();
@@ -1421,7 +1508,7 @@ function editSheet(it){
   sheet(`
     <h3>수정</h3>
     <div class="picks" id="ePicks"></div>
-    <button class="btn mini" type="button" id="eAdd" style="margin-bottom:15px">🖼️ 사진 추가</button>
+    <button class="btn mini" type="button" id="eAdd" style="margin-bottom:15px">사진 추가</button>
     <input type="file" id="eFile" accept="image/*" multiple hidden>
     <label class="f"><span>이름</span><input id="eName" autocomplete="off"></label>
     ${tagField('eTags', tagsOf(it))}
@@ -1438,7 +1525,7 @@ function editSheet(it){
     const box = $('#ePicks'); if(!box) return;                 // 그 사이 창을 닫았을 수 있다
     box.innerHTML =
       keep.map((g, i) => `<div class="pick"><img src="${srcs[i]}" alt=""><span class="no">${i + 1}</span><button class="rm" data-k="${esc(g.k)}" aria-label="빼기">✕</button></div>`).join('') +
-      addFiles.map((f, i) => `<div class="pick"><img src="${previewURL(f)}" alt=""><span class="no">새</span><button class="rm" data-n="${i}" aria-label="빼기">✕</button></div>`).join('');
+      addFiles.map((f, i) => `<div class="pick"><img src="${previewURL(f)}" alt=""><span class="no">${keep.length + i + 1}</span><button class="rm" data-n="${i}" aria-label="빼기">✕</button></div>`).join('');
   }
   paintE();
   $('#eAdd').onclick = () => $('#eFile').click();
@@ -1482,7 +1569,7 @@ function headSheet(){
     <label class="f"><span>제목</span><input id="hT" autocomplete="off"></label>
     <label class="f"><span>소제목</span><textarea id="hS" rows="2"></textarea>
       <span class="tip">제목보다 작게 표시됩니다. 엔터로 줄을 바꿀 수 있어요. 비워두면 숨겨집니다.</span></label>
-    <label class="f"><span>기본 색</span>
+    <label class="f" style="display:none"><span>기본 색</span>
       <div class="seg" id="hTheme">
         <button type="button" data-v="sakura">🌸 벚꽃</button>
         <button type="button" data-v="sky">☁️ 하늘</button>
@@ -1605,7 +1692,7 @@ function adminSheet(){
 function setAdminUI(){
   $('#fab').classList.toggle('on', S.admin);
   $('#editHead').classList.toggle('on', S.admin);
-  $('#lockBtn').textContent = S.admin ? '🔓 관리자 모드' : '🔒 관리';
+  $('#lockBtn').textContent = S.admin ? '관리자 설정' : '관리';
 }
 $('#lockBtn').onclick = adminSheet;
 $('#fab').onclick = addSheet;
@@ -1623,6 +1710,9 @@ $('#q').addEventListener('keydown', e => { if(e.key === 'Enter') e.target.blur()
 /* ── 시작 ─────────────────────────────────────────────── */
 // 예전 형식(항목 하나에 사진 한 장) → imgs 배열로 자동 변환
 function normalize(items){
+  let next = Math.max(0, ...(items || []).map(it => Number.isSafeInteger(it.no) && it.no > 0 ? it.no : 0));
+  const missing = (items || []).filter(it => !Number.isSafeInteger(it.no) || it.no < 1).slice().sort((a,b) => (a.ts || 0) - (b.ts || 0));
+  missing.forEach(it => { it.no = ++next; });
   return (items || []).map(it => {
     if(!Array.isArray(it.tags)) it.tags = it.desc ? parseTags(it.desc) : [];
     delete it.desc;
