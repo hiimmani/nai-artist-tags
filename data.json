@@ -4,7 +4,7 @@
  "sub": "계속 추가 예정\n메타데이터 x\nㅇ\nㅇ\nㅇ\nㅇ\nㅇ",
  "theme": "sky",
  "cover": "mtmywfbd",
- "updated": "2026-10-01T09:31:59.326Z",
+ "updated": "2026-10-01T09:34:18.492Z",
  "items": [
   {
    "id": "munw584e4qrof",
@@ -149,11 +149,25 @@
      "src": "images/munwamo3kjjcl.webp"
     },
     {
-     "k": "muot3z3r8w449",
-     "w": 950,
-     "h": 542,
-     "thumb": "thumbs/muot3z3r8w449.webp",
-     "src": "images/muot3z3r8w449.webp"
+     "k": "mupc7wc80qjqa",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mupc7wc80qjqa.webp",
+     "src": "images/mupc7wc80qjqa.webp"
+    },
+    {
+     "k": "mupc7wc9bio4v",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mupc7wc9bio4v.webp",
+     "src": "images/mupc7wc9bio4v.webp"
+    },
+    {
+     "k": "mupc7wcarzj4s",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mupc7wcarzj4s.webp",
+     "src": "images/mupc7wcarzj4s.webp"
     }
    ],
    "ts": 1790760045819,
