@@ -10,14 +10,14 @@
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="NAI 작태 모음">
 <meta property="og:title"       content="NAI 작태 모음">
-<meta property="og:description" content="계속 추가 예정 메타데이터 x ㅇ ㅇ ㅇ ㅇ ㅇ">
+<meta property="og:description" content="V5 기준 계속 추가 예정">
 <meta property="og:url"         content="https://hiimmani.github.io/nai-artist-tags/">
 <meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="NAI 작태 모음">
-<meta name="twitter:description" content="계속 추가 예정 메타데이터 x ㅇ ㅇ ㅇ ㅇ ㅇ">
+<meta name="twitter:description" content="V5 기준 계속 추가 예정">
 <meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 
 <title>NAI 작태 모음</title>
@@ -425,6 +425,26 @@ label.f .taginput input{border:0!important;background:transparent;padding:5px 3p
  #editHead{font-size:10px;margin-top:9px;padding:4px 7px}
 }
 @media(min-width:720px){.sheet-box{border-radius:8px;width:480px;padding:20px;max-height:88vh}}
+/* 선택 관리와 모바일 상세 보기 */
+[hidden]{display:none!important}
+.fab{bottom:calc(68px + var(--safe-b))}
+.lb-scroll{padding-top:calc(82px + env(safe-area-inset-top,0px))}
+#lbName{align-items:center;gap:8px;margin:0;padding:0;width:100%;text-align:left}
+#lbName .t{min-width:0;overflow-wrap:anywhere}
+#lbName .ci{display:flex;align-items:center;justify-content:center;width:16px;height:16px;margin:0;opacity:.5;flex:none}
+#lbName .ci svg{display:block;width:16px;height:16px}
+.nm.copied,#lbName.copied{background:transparent;color:var(--c-name)}
+.pick .rm{width:16px;height:16px;font-size:10px;top:3px;right:3px;border-radius:3px;line-height:1;color:#656b6b;background:rgba(255,255,255,.94)}
+.pick .rm:before{content:'';position:absolute;inset:-4px}
+#selectionTools{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 0}
+#selectionTools button{border:1px solid var(--line);border-radius:4px;padding:6px 9px;font-size:11px;background:#fff;min-height:32px}
+#selectionTools #deleteSelected{color:#a14242;border-color:#ead9d9}
+#selectionTools button:disabled{opacity:.4;cursor:default}
+.card{position:relative}
+.select-pick{display:none;position:absolute;top:5px;left:5px;z-index:2;width:18px;height:18px;margin:0;accent-color:#343a3b;cursor:pointer}
+.selecting .select-pick{display:block}
+.selecting .card{cursor:pointer}
+.selecting .chosen .thumb{outline:2px solid #343a3b;outline-offset:-2px;opacity:.75}
 
 </style>
 </head>
@@ -457,6 +477,7 @@ label.f .taginput input{border:0!important;background:transparent;padding:5px 3p
     </select>
   </div>
 
+  <div id="selectionTools" hidden><button id="selectMode" type="button">선택 삭제</button><button id="selectAll" type="button" hidden>현재 목록 전체 선택</button><button id="deleteSelected" type="button" hidden disabled>선택 0개 삭제</button></div>
   <div class="tags" id="tagbar"></div>
   <div id="grid"></div>
   <div class="lockrow"><button id="lockBtn">관리</button></div>
@@ -470,7 +491,7 @@ label.f .taginput input{border:0!important;background:transparent;padding:5px 3p
     <div class="lb-inner">
       <div id="lbImgs"></div>
       <div class="lb-info">
-        <button id="lbName"><span class="t"></span><span class="ci">⧉</span></button>
+        <button id="lbName"><span class="t"></span><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></svg></span></button>
         <p class="cphint">이름을 누르면 복사됩니다</p>
         <div class="lb-tags" id="lbTags"></div>
         <div class="lb-actions" id="lbActions" style="display:none">
@@ -663,7 +684,7 @@ async function ghReq(method, path, body){
   if(!r.ok){
     const txt = await r.text();
     if(r.status === 401) throw new Error('토큰이 올바르지 않습니다');
-    if(r.status === 429 || (r.status === 403 && (r.headers.get('x-ratelimit-remaining') === '0' || /rate limit|abuse/i.test(txt)))) throw new Error('GitHub 요청 한도입니다. 잠시 후 남은 사진을 재시도하세요');
+    if(r.status === 429 || (r.status === 403 && (r.headers.get('x-ratelimit-remaining') === '0' || /rate limit|abuse/i.test(txt)))) { const e = new Error('GitHub 요청 한도입니다. 자동으로 기다린 뒤 재시도합니다'); e.retryAfterMs = Math.max((Number(r.headers.get('retry-after')) || 0) * 1000, r.headers.get('x-ratelimit-remaining') === '0' ? (Number(r.headers.get('x-ratelimit-reset')) || 0) * 1000 - Date.now() : 0); throw e; }
     if(r.status === 403) throw new Error('권한이 없습니다 (토큰의 Contents 권한 확인)');
     if(r.status === 404) throw new Error('저장소나 브랜치를 찾을 수 없습니다');
     const e = new Error(`GitHub 오류 ${r.status}: ` + txt.slice(0, 140));
@@ -953,7 +974,7 @@ function applyFilter(){
   else                 v.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
   S.view = v; S.drawn = 0;
   grid.innerHTML = '';
-  drawMore(); paintCount(q); paintTags();
+  drawMore(); paintCount(q); paintTags(); paintSelection();
 }
 function paintCount(q){
   const el = $('#count'), total = S.items.length.toLocaleString('ko-KR');
@@ -977,6 +998,7 @@ function drawMore(){
   const end = Math.min(S.drawn + CHUNK, S.view.length);
   for(let i = S.drawn; i < end; i++) frag.appendChild(card(S.view[i], i));
   grid.appendChild(frag);
+  paintSelection();
   S.drawn = end;
   ioMore?.disconnect();
   if(S.drawn < S.view.length){
@@ -998,7 +1020,8 @@ function card(it, idx){
   d.dataset.i = idx;
   const tg = tagsOf(it);
   d.innerHTML =
-    `<button class="thumb skel" aria-label="크게 보기"><img alt="" loading="lazy" decoding="async"></button>
+    `<input class="select-pick" type="checkbox" data-id="${esc(it.id)}" aria-label="${esc(it.name || '제목 없음')} 항목 선택">
+     <button class="thumb skel" aria-label="크게 보기"><img alt="" loading="lazy" decoding="async"></button>
      <div class="cap"><span class="item-no">NO. ${String(it.no || S.items.indexOf(it) + 1).padStart(4, '0')}</span>
        <button class="nm"><span class="t">${esc(it.name || '제목 없음')}</span><span class="ci">⧉</span></button>
        <div class="tg">${tg.map(t => '#' + esc(t)).join(' ')}</div>
@@ -1024,9 +1047,80 @@ function card(it, idx){
 grid.addEventListener('click', e => {
   const c = e.target.closest('.card'); if(!c) return;
   const i = +c.dataset.i;
+  if(selectingItems && S.admin){
+    if(S.deleting || e.target.closest('.select-pick')) return;
+    const id = S.view[i].id;
+    if(selectedItems.has(id)) selectedItems.delete(id); else selectedItems.add(id);
+    paintSelection(); return;
+  }
   if(e.target.closest('.nm')) copyFrom(c.querySelector('.nm'), S.view[i].name);
   else if(e.target.closest('.thumb')) openLB(i);
 });
+
+/* 관리자용 선택 삭제 */
+let selectingItems = false;
+const selectedItems = new Set();
+function paintSelection(){
+  $('#selectionTools').hidden = !S.admin;
+  $('#selectMode').textContent = selectingItems ? '선택 취소' : '선택 삭제';
+  $('#selectAll').hidden = !selectingItems;
+  $('#deleteSelected').hidden = !selectingItems;
+  $('#deleteSelected').textContent = `선택 ${selectedItems.size}개 삭제`;
+  $('#deleteSelected').disabled = !selectedItems.size || !!S.deleting;
+  $('#selectMode').disabled = !!S.deleting;
+  $('#selectAll').disabled = !!S.deleting;
+  grid.classList.toggle('selecting', selectingItems && S.admin);
+  grid.querySelectorAll('.select-pick').forEach(input => {
+    input.checked = selectedItems.has(input.dataset.id);
+    input.disabled = !!S.deleting;
+    input.closest('.card').classList.toggle('chosen', input.checked);
+  });
+}
+$('#selectMode').onclick = () => {
+  if(!S.admin || S.deleting) return;
+  selectingItems = !selectingItems; selectedItems.clear(); paintSelection();
+};
+$('#selectAll').onclick = () => {
+  if(!S.admin || S.deleting) return;
+  S.view.forEach(it => selectedItems.add(it.id)); paintSelection();
+};
+grid.addEventListener('change', e => {
+  const input = e.target.closest('.select-pick');
+  if(!input || !S.admin || S.deleting) return;
+  if(input.checked) selectedItems.add(input.dataset.id); else selectedItems.delete(input.dataset.id);
+  paintSelection();
+});
+async function removeSelectedItems(ids){
+  if(!S.admin || S.deleting || S.importing) return;
+  const removed = S.items.filter(it => ids.has(it.id));
+  if(!removed.length) return;
+  const before = S.items.slice();
+  const remaining = S.items.filter(it => !ids.has(it.id));
+  // 남은 항목과 파일을 공유한다면 그 파일은 유지한다.
+  const keptPaths = new Set(remaining.flatMap(it => imgsOf(it).flatMap(g => [g.src,g.thumb])));
+  const deletedPaths = new Set(removed.flatMap(it => imgsOf(it).flatMap(g => [g.src,g.thumb])).filter(p=>p && !keptPaths.has(p)));
+  S.deleting = true; paintSelection();
+  S.items = remaining;
+  try{
+    await commitAll(S.mode === 'github' ? [...deletedPaths].map(path=>({path,del:true})) : [], 'delete ' + removed.length + ' selected items');
+  }catch(e){ S.items = before; throw e; }
+  finally{ S.deleting = false; paintSelection(); }
+  const keptKeys = new Set(remaining.flatMap(it=>imgsOf(it).map(g=>g.k)));
+  for(const it of removed) for(const g of imgsOf(it)){
+    if(keptKeys.has(g.k)) continue;
+    dropUrls(g.k);
+    if(S.mode !== 'github'){ await delBlob(g.k+'_t'); await delBlob(g.k+'_f'); }
+  }
+  selectedItems.clear(); selectingItems = false; applyFilter();
+  toast(removed.length + '개 항목을 삭제했습니다');
+}
+$('#deleteSelected').onclick = async () => {
+  if(!S.admin || S.deleting || !selectedItems.size) return;
+  const ids = new Set(selectedItems);
+  if(!confirm(`선택한 ${ids.size}개 항목과 항목 안의 이미지를 삭제할까요?`)) return;
+  try{await removeSelectedItems(ids);}catch(e){toast('삭제 실패: '+e.message,5000);}
+};
+
 
 /* ── 태그 선택 ────────────────────────────────────────── */
 function selectTag(t){
@@ -1287,6 +1381,55 @@ const IMPORT_BATCH = 8;
 let picked = []; // 테마 표시와의 호환
 let importJobs = [];
 let importStop = false;
+const queueTarget = () => S.mode === 'github' ? ['github', S.cfg?.owner, S.cfg?.repo, S.cfg?.branch].join('/') : 'local';
+const queueKey = () => 'importQueue:' + queueTarget();
+const sourceKey = job => 'importSource:' + job.id;
+async function checkpointImport(jobs){
+  const records = jobs.map(({file, ...j}) => j);
+  await idb('meta', 'readwrite', store => store.put(records, queueKey()));
+}
+async function restoreImport(){
+  const jobs = await getMeta(queueKey()) || [];
+  const existing = new Set(S.items.map(it => it.id));
+  for(const j of jobs){
+    if(existing.has(j.id)) j.saved = true;
+    if(j.saved){ await delBlob(sourceKey(j)); continue; }
+    j.file = null; j.state = j.ready ? '저장 대기' : '이어 올리기 대기'; j.error = '';
+    if(!j.ready && !await getBlob(sourceKey(j))){
+      j.staged = false; j.state = '사진 다시 선택 필요';
+      j.error = '기기에 원본이 없습니다. 같은 사진을 다시 선택하세요';
+    }
+  }
+  return jobs.some(j => !j.saved) ? jobs : [];
+}
+async function waitImport(ms, report){
+  // 제한 대기는 화면이 잠겨도 경과한 실제 시간을 기준으로 계산한다.
+  const end = Date.now() + ms;
+  while(Date.now() < end){
+    if(importStop) throw new Error('일시 중단했습니다. 다시 이어 올릴 수 있습니다');
+    report('자동 재시도 대기 · ' + Math.ceil((end - Date.now()) / 1000) + '초');
+    await sleep(Math.min(1000, end - Date.now()));
+  }
+}
+async function stageImport(jobs, report){
+  await checkpointImport(jobs);
+  for(let i=0; i<jobs.length; i++){
+    const job = jobs[i]; if(job.saved || job.staged || job.ready) continue;
+    if(importStop) break;
+    job.state = '이어 올리기 준비 ' + (i+1) + '/' + jobs.length; report();
+    if(!job.file){
+      job.staged = !!await getBlob(sourceKey(job));
+      if(!job.staged) throw new Error('준비가 끝나기 전에 종료된 사진이 있습니다. 같은 사진을 다시 선택하세요');
+    }else{
+      try{ await putBlob(sourceKey(job), job.file); }
+      catch{ throw new Error('기기 임시 저장 공간이 부족하거나 저장이 차단됐습니다. 준비된 사진은 남아 있습니다'); }
+      job.staged = true; job.file = null;
+    }
+    job.state = '대기';
+    if(i % 8 === 7) await checkpointImport(jobs);
+  }
+  await checkpointImport(jobs);
+}
 
 window.addEventListener('beforeunload', e => {
   if(!S.importing) return;
@@ -1301,26 +1444,24 @@ async function uploadImportBlob(blob, onWait){
     try{
       r = await fetch(api('git/blobs'), {
         method: 'POST', headers: ghHead(),
-        body: JSON.stringify({ content, encoding: 'base64' }), cache: 'no-store'
+        body: JSON.stringify({ content, encoding: 'base64' }), cache: 'no-store',
+        signal: typeof AbortSignal !== 'undefined' && AbortSignal.timeout ? AbortSignal.timeout(90000) : undefined
       });
     }catch(e){
-      if(attempt >= 2) throw new Error('연결이 끊겼습니다. 연결 후 재시도하세요');
-      onWait('연결 재시도 중…'); await sleep(1500 * (attempt + 1)); continue;
+      if(attempt >= 8) throw new Error('연결이 끊겼습니다. 연결 후 이어 올리기를 누르세요');
+      await waitImport(Math.min(60000, 2000 * 2 ** attempt), onWait); continue;
     }
     if(r.ok) return (await r.json()).sha;
     const body = await r.text();
     const limited = r.status === 429 || (r.status === 403 &&
       (r.headers.get('x-ratelimit-remaining') === '0' || /rate limit|abuse/i.test(body)));
-    if(attempt < 2 && (limited || r.status >= 500)){
+    if(limited || (attempt < 8 && r.status >= 500)){
       const retry = Number(r.headers.get('retry-after')) || 0;
       const reset = Number(r.headers.get('x-ratelimit-reset')) || 0;
-      const ms = limited ? Math.max(60000 * (attempt + 1), retry * 1000,
+      const ms = limited ? Math.max(Math.min(900000, 60000 * 2 ** Math.min(attempt,4)), retry * 1000,
         r.headers.get('x-ratelimit-remaining') === '0' ? reset * 1000 - Date.now() : 0)
         : 1500 * (attempt + 1);
-      // 오래 제한된 경우 화면을 붙잡지 않고, 다음에 재시도할 수 있게 한다.
-      if(ms > 120000) throw new Error('GitHub 요청 한도입니다. 잠시 후 재시도하세요');
-      onWait('GitHub 응답 대기 · 약 ' + Math.ceil(ms / 1000) + '초');
-      await sleep(ms); continue;
+      await waitImport(ms, onWait); continue;
     }
     if(limited) throw new Error('GitHub 요청 한도입니다. 잠시 후 재시도하세요');
     if(r.status === 401) throw new Error('관리자 토큰을 확인하세요');
@@ -1332,12 +1473,15 @@ async function uploadImportBlob(blob, onWait){
 async function prepareImportJob(job, report){
   // 저장 실패 뒤 재시도할 때 이미 전송한 파일은 다시 보내지 않는다.
   if(job.ready) return;
+  const stored = job.file || await getBlob(sourceKey(job));
+  if(!stored){job.staged=false;throw new Error('원본을 다시 선택해야 합니다: ' + job.label);}
+  const file = stored.name ? stored : new File([stored], job.label, {type: stored.type});
   if(job.title === undefined){
     job.state = '작가 이름 확인 중'; report();
-    job.title = await imageArtistTitle(job.file);
+    job.title = await imageArtistTitle(file);
   }
   job.state = '변환 중'; report();
-  const { t, g } = await makeVariants(job.file);
+  const { t, g } = await makeVariants(file);
   const ext = b => b.type === 'image/webp' ? 'webp' : 'jpg';
   const rec = { k: job.id, w: g.w, h: g.h };
   if(S.mode === 'github'){
@@ -1371,6 +1515,7 @@ async function prepareImportJob(job, report){
 async function runImport(jobs, report){
   S.importing = true; importStop = false;
   try{
+    await stageImport(jobs, report);
     const pending = jobs.filter(j => !j.saved);
     for(let i = 0; i < pending.length && !importStop; i += IMPORT_BATCH){
       const batch = pending.slice(i, i + IMPORT_BATCH);
@@ -1384,13 +1529,26 @@ async function runImport(jobs, report){
         catch(e){ job.state = '실패'; job.error = e.message; failed = true; report(); }
       });
       const ready = batch.filter(j => j.ready && !j.saved);
+      await checkpointImport(jobs);
       if(ready.length){
         const previous = S.items.slice();
         ready.forEach(j => { j.state = '항목 저장 중'; }); report();
         const firstNo = Math.max(0, ...S.items.map(it => it.no || 0)) + 1;
         S.items.push(...ready.map((j, n) => { j.item.no = firstNo + n; return j.item; }));
         try{
-          await commitAll(ready.flatMap(j => j.changes), 'add ' + ready.length + ' image items');
+          for(let attempt=0; ; attempt++){
+            try{
+              await commitAll(ready.flatMap(j => j.changes), 'add ' + ready.length + ' image items');
+              break;
+            }catch(e){
+              const limited = /요청 한도/.test(e.message);
+              const transient = e instanceof TypeError || /fetch|network|GitHub 오류 5\d\d/i.test(e.message);
+              if(!limited && (!transient || attempt >= 5)) throw e;
+              await waitImport(limited ? Math.max(e.retryAfterMs || 0, Math.min(900000, 60000 * 2 ** Math.min(attempt,4))) : Math.min(60000, 2000 * 2 ** attempt), msg => {
+                ready.forEach(j => {j.state=msg;}); report();
+              });
+            }
+          }
         }catch(e){
           S.items = previous;
           ready.forEach(j => { j.state = '저장 재시도 필요'; j.error = e.message; });
@@ -1401,20 +1559,28 @@ async function runImport(jobs, report){
           // 큰 File 객체는 저장 성공 직후 해제한다.
           j.file = null; j.changes = []; j.uploaded = null;
         });
+        await checkpointImport(jobs);
+        for(const j of ready) await delBlob(sourceKey(j));
         applyFilter(); report();
       }
       if(failed) return;
     }
   }finally{
-    S.importing = false; prog(null); report();
+    try{ await checkpointImport(jobs); }
+    finally{ S.importing = false; prog(null); report(); }
   }
 }
 
-function addSheet(){
-  picked = []; importJobs = []; importStop = false;
+async function addSheet(){
+  if(S.importing || S.queueLoading) return;
+  S.queueLoading = true;
+  try{ importJobs = await restoreImport(); }
+  catch{ toast('기기 저장소를 읽지 못했습니다'); return; }
+  finally{ S.queueLoading = false; }
+  picked = []; importStop = false;
   sheet(`
     <h3>이미지 일괄 추가</h3>
-    <div class="note">사진마다 항목이 생성됩니다. 작가 이름은 자동 입력하고 태그는 비워 둡니다.</div>
+    <div class="note">1,000장도 한 번에 선택할 수 있어요. 저장을 누르면 사진을 기기에 임시 보관한 뒤 차례로 올립니다. 중단되면 같은 브라우저에서 ＋를 눌러 이어 올리세요.</div>
     <div class="drop" id="drop" role="button" tabindex="0"><span class="ic">＋</span>사진 여러 장 선택</div>
     <input type="file" id="file" accept="image/*" multiple hidden>
     <p id="importStatus" role="status" aria-live="polite">사진을 선택하세요</p>
@@ -1440,7 +1606,12 @@ function addSheet(){
     for(const file of files){
       if(!file.type.startsWith('image/')){ skipped++; continue; }
       const stamp = JSON.stringify([file.name, file.size, file.lastModified]);
-      if(stamps.has(stamp)){ skipped++; continue; }
+      if(stamps.has(stamp)){
+        const old = importJobs.find(j => j.stamp === stamp);
+        if(old && !old.saved && !old.staged){old.file=file;old.error='';old.state='대기';}
+        else skipped++;
+        continue;
+      }
       stamps.add(stamp);
       importJobs.push({ id: uid(), file, label: file.name, stamp,
         ts: base + importJobs.length, state: '대기', saved: false });
@@ -1466,7 +1637,7 @@ function addSheet(){
       ${!S.importing ? `<button data-remove="${j.id}" aria-label="${esc(j.label)} 제외" style="float:right">✕</button>` : ''}
       </div>`).join('') + (total - done > 40 ? `<p>외 ${total - done - 40}장</p>` : '');
     $('#save').disabled = S.importing || done === total;
-    $('#save').textContent = S.importing ? '저장 중…' : total && done === total ? '저장 완료' : errors.length ? '남은 사진 재시도' : done ? '남은 사진 저장' : '일괄 저장';
+    $('#save').textContent = S.importing ? '저장 중…' : total && done === total ? '저장 완료' : importJobs.some(j => j.staged || j.ready || j.saved) ? '이어 올리기' : '일괄 저장';
     $('#cancel').textContent = S.importing ? (importStop ? '현재 묶음 저장 후 중단…' : '저장 후 중단') : '닫기';
     $('#cancel').disabled = S.importing && importStop;
     dp.style.opacity = S.importing ? '.5' : '1';
@@ -1474,14 +1645,16 @@ function addSheet(){
     $('#importHint').textContent = S.importing
       ? '이 화면을 열어 두세요. 사진을 변환·전송한 뒤 8장씩 항목을 저장합니다.'
       : done === total && total ? '각 사진이 별도 항목으로 추가되었습니다. 제목과 태그는 항목에서 수정할 수 있어요.'
-      : done || errors.length ? '완료된 항목은 저장되어 있습니다. 이 창에서 남은 사진만 재시도할 수 있어요.'
+      : done || errors.length || importJobs.some(j=>j.staged) ? '완료된 항목은 유지됩니다. 같은 브라우저에서 ＋ → 이어 올리기로 남은 작업을 복구할 수 있어요.'
       : '저장하는 동안 이 화면을 열어 두세요. 중단하면 현재 묶음까지 저장합니다.';
   }
-  $('#importList').onclick = e => {
+  $('#importList').onclick = async e => {
     const b = e.target.closest('[data-remove]'); if(!b || S.importing) return;
     const job = importJobs.find(j => j.id === b.dataset.remove);
     if(job) dropUrls(job.id);
-    importJobs = importJobs.filter(j => j.id !== b.dataset.remove); paint();
+    importJobs = importJobs.filter(j => j.id !== b.dataset.remove);
+    try{await checkpointImport(importJobs);if(job) await delBlob(sourceKey(job));}catch(e){toast('대기 목록 저장 실패');}
+    paint();
   };
   $('#cancel').onclick = () => {
     if(S.importing){ importStop = true; paint(); return; }
@@ -1496,7 +1669,7 @@ function addSheet(){
         closeSheet(); toast(count + '장 저장했습니다');
       }
     }
-    catch(e){ toast('저장 실패: ' + e.message, 4500); }
+    catch(e){ toast('저장 중단: ' + e.message, 7000); }
   };
   paint();
 }
@@ -1508,7 +1681,7 @@ function editSheet(it){
   sheet(`
     <h3>수정</h3>
     <div class="picks" id="ePicks"></div>
-    <button class="btn mini" type="button" id="eAdd" style="margin-bottom:15px">사진 추가</button>
+    <button class="btn mini" type="button" id="eAdd" style="margin-bottom:15px">이미지 추가</button>
     <input type="file" id="eFile" accept="image/*" multiple hidden>
     <label class="f"><span>이름</span><input id="eName" autocomplete="off"></label>
     ${tagField('eTags', tagsOf(it))}
@@ -1690,6 +1863,8 @@ function adminSheet(){
   };
 }
 function setAdminUI(){
+  $('#lockBtn').closest('.lockrow').hidden = !S.admin;
+  paintSelection();
   $('#fab').classList.toggle('on', S.admin);
   $('#editHead').classList.toggle('on', S.admin);
   $('#lockBtn').textContent = S.admin ? '관리자 설정' : '관리';
@@ -1741,9 +1916,10 @@ async function boot(){
     S.mode  = 'local';
     S.items = normalize(await getMeta('items'));
     S.site  = { ...DEF, ...((await getMeta('site')) || {}) };
-    S.admin = true;                                  // 내 PC 파일로 열었을 때
+    S.admin = location.protocol === 'file:' || ['localhost','127.0.0.1'].includes(location.hostname);
   }
   paintHead(); applyTheme(resolveTheme()); setAdminUI(); applyFilter();
+  if(!S.admin && new URLSearchParams(location.search).get('admin') === '1') adminSheet();
 
   // index.html 을 새로 올린 직후라면 링크 미리보기 주소를 한 번만 자동으로 채운다
   const og = document.querySelector('meta[property="og:url"]');
