@@ -4,7 +4,7 @@
  "sub": "계속 추가 예정\n메타데이터 x",
  "theme": "sky",
  "cover": "mtmywfbd",
- "updated": "2026-10-02T00:56:00.210Z",
+ "updated": "2026-10-02T01:04:23.766Z",
  "items": [
   {
    "id": "muq9433kpe6a4",
@@ -31,6 +31,22 @@
    ],
    "ts": 1790902507934,
    "no": 1
+  },
+  {
+   "id": "muq9fw88n2ddl",
+   "name": "mangmuze",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "muq9fw88n2ddl",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/muq9fw88n2ddl.webp",
+     "src": "images/muq9fw88n2ddl.webp"
+    }
+   ],
+   "ts": 1790903058902,
+   "no": 2
   }
  ]
 }
