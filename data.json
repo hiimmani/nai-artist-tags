@@ -4,7 +4,7 @@
  "sub": "리뉴얼중\nv5기준",
  "theme": "sky",
  "cover": "muqqypiu",
- "updated": "2026-10-03T11:24:28.589Z",
+ "updated": "2026-10-06T01:44:59.682Z",
  "items": [
   {
    "id": "musb08kt9yx0z",
@@ -613,22 +613,6 @@
    ],
    "ts": 1791026620035,
    "no": 38
-  },
-  {
-   "id": "musb099cdsfyq",
-   "name": "ningiyau",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "musb099cdsfyq",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/musb099cdsfyq.webp",
-     "src": "images/musb099cdsfyq.webp"
-    }
-   ],
-   "ts": 1791026620036,
-   "no": 39
   }
  ]
 }
