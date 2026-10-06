@@ -10,15 +10,15 @@
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="NAI 작태 모음">
 <meta property="og:title"       content="NAI 작태 모음">
-<meta property="og:description" content="리뉴얼중 v5기준">
+<meta property="og:description" content="V5 기준 계속 추가 예정">
 <meta property="og:url"         content="https://hiimmani.github.io/nai-artist-tags/">
-<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=muqqypiu">
+<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="NAI 작태 모음">
-<meta name="twitter:description" content="리뉴얼중 v5기준">
-<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=muqqypiu">
+<meta name="twitter:description" content="V5 기준 계속 추가 예정">
+<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 
 <title>NAI 작태 모음</title>
 <style>
@@ -446,6 +446,18 @@ label.f .taginput input{border:0!important;background:transparent;padding:5px 3p
 .selecting .card{cursor:pointer}
 .selecting .chosen .thumb{outline:2px solid #343a3b;outline-offset:-2px;opacity:.75}
 
+
+#q{height:34px;padding:5px 32px;font-size:16px}
+.search svg{left:10px;width:13px;height:13px}
+.nm .t{min-height:0}
+.empty{padding:42px 12px}.empty p{font-size:13px}.empty .hint{font-size:11px}
+#deleteDialog{width:calc(100% - 40px);max-width:340px;border:1px solid #e6e6e3;border-radius:10px;padding:22px;background:#fff;color:#292b2c;box-shadow:0 12px 48px #0002}
+#deleteDialog::backdrop{background:#191e1e66}
+#deleteDialog h3{margin:0 0 10px;font-size:17px}
+#deleteDialog p{margin:0;line-height:1.7;font-size:13px;overflow-wrap:anywhere}
+#deleteDialog .btns{display:flex;margin-top:20px}
+#deleteDialog .btns button{flex:1}
+#deleteDialog .danger{background:#a34848;color:#fff;border-color:#a34848}
 </style>
 </head>
 <body>
@@ -686,7 +698,7 @@ async function ghReq(method, path, body){
     if(r.status === 401) throw new Error('토큰이 올바르지 않습니다');
     if(r.status === 429 || (r.status === 403 && (r.headers.get('x-ratelimit-remaining') === '0' || /rate limit|abuse/i.test(txt)))) { const e = new Error('GitHub 요청 한도입니다. 자동으로 기다린 뒤 재시도합니다'); e.retryAfterMs = Math.max((Number(r.headers.get('retry-after')) || 0) * 1000, r.headers.get('x-ratelimit-remaining') === '0' ? (Number(r.headers.get('x-ratelimit-reset')) || 0) * 1000 - Date.now() : 0); throw e; }
     if(r.status === 403) throw new Error('권한이 없습니다 (토큰의 Contents 권한 확인)');
-    if(r.status === 404) throw new Error('저장소나 브랜치를 찾을 수 없습니다');
+    if(r.status === 404){const e=new Error('저장소나 브랜치를 찾을 수 없습니다');e.status=404;throw e;}
     const e = new Error(`GitHub 오류 ${r.status}: ` + txt.slice(0, 140));
     e.status = r.status; e.body = txt;
     throw e;
@@ -695,8 +707,9 @@ async function ghReq(method, path, body){
 }
 
 // changes: [{path, blob|b64}] 추가·교체 / [{path, del:true}] 삭제 — 전부 한 커밋으로
+let headReadId = 0;
 async function headInfo(){
-  const ref = await ghReq('GET', `git/ref/heads/${S.cfg.branch}`);
+  const ref = await ghReq('GET', `git/ref/heads/${S.cfg.branch}?_=${Date.now()}-${++headReadId}`);
   const head = ref.object.sha;
   return { head, base: (await ghReq('GET', `git/commits/${head}`)).tree.sha };
 }
@@ -711,25 +724,23 @@ async function ghCommit(changes, message, onProg){
     onProg && onProg(++done / changes.length);
     return { path: c.path, mode: '100644', type: 'blob', sha: b.sha };
   });
-  const preP = headInfo().catch(() => null);
   const tree = await treeP;
-  let pre = await preP;
 
   let lastErr;
   for(let i = 0; i < 4; i++){
     try{
-      const { head, base } = pre || await headInfo();
-      pre = null;                                   // 재시도 때는 항상 새로 읽는다
+      const { head, base } = await headInfo();
       const nt = await ghReq('POST', 'git/trees', { base_tree: base, tree });
       const nc = await ghReq('POST', 'git/commits', { message, tree: nt.sha, parents: [head] });
-      await ghReq('PATCH', `git/refs/heads/${S.cfg.branch}`, { sha: nc.sha });
+      await ghReq('PATCH', `git/refs/heads/${S.cfg.branch}`, { sha: nc.sha, force: false });
       return;
     }catch(e){
       lastErr = e;
-      if(e.status !== 409 && e.status !== 422) throw e;
+      if(e.status !== 409 && !(e.status === 422 && /fast.forward/i.test(e.body || e.message))) throw e;
       await sleep(700 * (i + 1));
     }
   }
+  if(/fast.forward/i.test(lastErr.body || lastErr.message)) throw new Error('다른 저장 작업과 겹쳤습니다. 잠시 후 저장을 다시 눌러 주세요.');
   throw lastErr;
 }
 
@@ -744,18 +755,22 @@ function dataB64(){
   return utf8b64(JSON.stringify({ version: 3, title: S.site.title, sub: S.site.sub,
     theme: S.site.theme, cover: S.site.cover || '', updated: new Date().toISOString(), items: S.items }, null, 1));
 }
+let commitQueue = Promise.resolve(), pendingCommits = 0;
 async function commitAll(changes, message, onProg){
   if(S.mode !== 'github') return putMeta();
-  S.busy = true;
-  try{ return await doCommit(changes, message, onProg); }
-  finally { S.busy = false; lastLoad = Date.now(); }
+  const payload = dataB64();
+  pendingCommits++; S.busy = true;
+  const task = commitQueue.then(()=>doCommit(changes, message, onProg, payload));
+  commitQueue = task.catch(()=>{});
+  try{return await task;}
+  finally{pendingCommits--; S.busy = pendingCommits > 0; lastLoad = Date.now();}
 }
-async function doCommit(changes, message, onProg){
+async function doCommit(changes, message, onProg, payload = dataB64()){
   try{
-    await ghCommit([...changes, { path: 'data.json', b64: dataB64() }], message, onProg);
+    await ghCommit([...changes, { path: 'data.json', b64: payload }], message, onProg);
   }catch(e){
-    if(e.status === 422 && changes.some(c => c.del)){   // 지울 파일이 이미 없을 때
-      await ghCommit([...changes.filter(c => !c.del), { path: 'data.json', b64: dataB64() }], message, onProg);
+    if(e.status === 422 && /does not exist|not found/i.test(e.body || '') && changes.some(c => c.del)){   // 지울 파일이 이미 없을 때
+      await ghCommit([...changes.filter(c => !c.del), { path: 'data.json', b64: payload }], message, onProg);
       return;
     }
     throw e;
@@ -1011,8 +1026,8 @@ function emptyHTML(){
   const q = $('#q').value.trim();
   if(S.tag) return `<div class="empty"><div class="big">🏷️</div><p>#${esc(S.tag)} 에 해당하는 게 없어요</p></div>`;
   if(q)     return `<div class="empty"><div class="big">🔍</div><p>“${esc(q)}” 검색 결과가 없어요</p></div>`;
-  return `<div class="empty"><div class="big themed">${THEMES[curTheme()].icon}</div><p>아직 이미지가 없어요</p>
-    <p class="hint">${S.admin ? '오른쪽 아래 ＋ 로 추가하세요' : '아래 관리에서 로그인하면 추가할 수 있어요'}</p></div>`;
+  return `<div class="empty"><p>아직 이미지가 없어요</p>
+    ${S.admin ? '<p class="hint">＋ 버튼으로 이미지를 추가하세요</p>' : ''}</div>`;
 }
 function card(it, idx){
   const d = document.createElement('div');
@@ -1117,7 +1132,7 @@ async function removeSelectedItems(ids){
 $('#deleteSelected').onclick = async () => {
   if(!S.admin || S.deleting || !selectedItems.size) return;
   const ids = new Set(selectedItems);
-  if(!confirm(`선택한 ${ids.size}개 항목과 항목 안의 이미지를 삭제할까요?`)) return;
+  if(!await confirmDelete(`선택한 ${ids.size}개 항목과 그 안의 이미지를 삭제합니다.`)) return;
   try{await removeSelectedItems(ids);}catch(e){toast('삭제 실패: '+e.message,5000);}
 };
 
@@ -1643,7 +1658,7 @@ async function addSheet(){
     dp.style.opacity = S.importing ? '.5' : '1';
     dp.setAttribute('aria-disabled', String(!!S.importing));
     $('#importHint').textContent = S.importing
-      ? '이 화면을 열어 두세요. 사진을 변환·전송한 뒤 8장씩 항목을 저장합니다.'
+      ? '이미지를 업로드하고 있습니다. 완료될 때까지 이 화면을 열어 두세요.'
       : done === total && total ? '각 사진이 별도 항목으로 추가되었습니다. 제목과 태그는 항목에서 수정할 수 있어요.'
       : done || errors.length || importJobs.some(j=>j.staged) ? '완료된 항목은 유지됩니다. 같은 브라우저에서 ＋ → 이어 올리기로 남은 작업을 복구할 수 있어요.'
       : '저장하는 동안 이 화면을 열어 두세요. 중단하면 현재 묶음까지 저장합니다.';
@@ -1730,7 +1745,7 @@ function editSheet(it){
 $('#lbEdit').onclick = () => { const it = S.view[S.cur]; if(it) editSheet(it); };
 $('#lbDel').onclick = async () => {
   const it = S.view[S.cur]; if(!it) return;
-  if(!confirm(`“${it.name}” 을(를) 삭제할까요?`)) return;
+  if(!await confirmDelete(`“${it.name || '제목 없음'}” 항목과 그 안의 이미지를 삭제합니다.`)) return;
   try{ await removeItem(it.id); closeLB(); applyFilter(); toast('삭제했습니다'); }
   catch(err){ toast('실패: ' + err.message, 4500); }
 };
@@ -1816,14 +1831,32 @@ function headSheet(){
 $('#editHead').onclick = headSheet;
 
 /* ── 관리자 ───────────────────────────────────────────── */
+function confirmDelete(message){
+  return new Promise(resolve=>{
+    const previous = document.activeElement;
+    const dialog = document.createElement('dialog');
+    dialog.id = 'deleteDialog';
+    dialog.setAttribute('aria-labelledby','deleteTitle');
+    dialog.setAttribute('aria-describedby','deleteMessage');
+    dialog.innerHTML = '<h3 id="deleteTitle">이미지를 삭제할까요?</h3><p id="deleteMessage"></p><div class="btns"><button class="btn" data-cancel autofocus>취소</button><button class="btn danger" data-delete>삭제</button></div>';
+    dialog.querySelector('p').textContent = message;
+    const finish = value=>{dialog.close();dialog.remove();previous?.focus();resolve(value);};
+    dialog.querySelector('[data-cancel]').onclick=()=>finish(false);
+    dialog.querySelector('[data-delete]').onclick=()=>finish(true);
+    dialog.oncancel=e=>{e.preventDefault();finish(false);};
+    dialog.addEventListener('keydown',e=>e.stopPropagation());
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  });
+}
+
 function adminSheet(){
   const c = S.cfg || { owner: '', repo: '', branch: 'main', token: '' };
   sheet(`
     <h3>관리자 로그인</h3>
     <div class="note">
       GitHub <b>토큰을 입력한 이 기기에서만</b> 편집 버튼이 나타납니다.
-      링크를 받은 다른 사람에게는 보기 전용이에요.<br>
-      토큰은 이 브라우저에만 저장되고 어디에도 전송되지 않습니다.
+      <br>토큰은 이 브라우저에 저장되며 GitHub 인증에 사용됩니다.
     </div>
     <label class="f"><span>GitHub 사용자명</span><input id="cOwner" autocomplete="off"></label>
     <label class="f"><span>저장소 이름</span><input id="cRepo" autocomplete="off"></label>
@@ -1847,16 +1880,25 @@ function adminSheet(){
       branch: $('#cBranch').value.trim() || 'main', token: $('#cToken').value.trim()
     };
     if(!cfg.owner || !cfg.repo || !cfg.token){ b.disabled = false; b.textContent = '확인'; return toast('빈 칸을 채워주세요'); }
-    const prev = S.cfg, prevMode = S.mode;
+    const prev = S.cfg, prevMode = S.mode, prevAdmin = S.admin;
     S.cfg = cfg;
     try{
       await ghReq('GET', `git/ref/heads/${cfg.branch}`);
+      const ref = await headInfo();
+      let remote = null;
+      try{
+        let file = await ghReq('GET', 'contents/data.json?ref=' + ref.head);
+        if(!file.content && file.sha) file = await ghReq('GET', 'git/blobs/' + file.sha);
+        remote = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(file.content.replace(/\s/g,'')), c=>c.charCodeAt(0))));
+        if(!Array.isArray(remote.items)) throw new Error('저장된 목록을 읽지 못했습니다. 다시 확인해 주세요.');
+      }catch(e){if(e.status !== 404) throw e;}
       localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
-      S.admin = true;
-      if(S.mode !== 'github'){ S.mode = 'github'; await commitAll([], 'init data.json'); }
-      setAdminUI(); closeSheet(); applyFilter(); toast('관리자 모드 켜짐');
+      S.admin = true; S.mode = 'github';
+      if(remote) applyRemote(remote);
+      paintHead();
+      setAdminUI(); closeSheet(); applyFilter(); toast('저장했습니다');
     }catch(err){
-      S.cfg = prev; S.mode = prevMode;
+      S.cfg = prev; S.mode = prevMode; S.admin = prevAdmin;
       b.disabled = false; b.textContent = '확인';
       toast(err.message, 4000);
     }
