@@ -4,7 +4,7 @@
  "sub": "리뉴얼중\nv5기준",
  "theme": "sky",
  "cover": "muqqypiu",
- "updated": "2026-10-06T01:44:59.682Z",
+ "updated": "2026-10-06T01:46:00.117Z",
  "items": [
   {
    "id": "musb08kt9yx0z",
@@ -597,22 +597,6 @@
    ],
    "ts": 1791026620034,
    "no": 37
-  },
-  {
-   "id": "musb098yh145w",
-   "name": "akadajohnson02",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "musb098yh145w",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/musb098yh145w.webp",
-     "src": "images/musb098yh145w.webp"
-    }
-   ],
-   "ts": 1791026620035,
-   "no": 38
   }
  ]
 }
