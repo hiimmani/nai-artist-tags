@@ -458,6 +458,102 @@ label.f .taginput input{border:0!important;background:transparent;padding:5px 3p
 #deleteDialog .btns{display:flex;margin-top:20px}
 #deleteDialog .btns button{flex:1}
 #deleteDialog .danger{background:#a34848;color:#fff;border-color:#a34848}
+/* Artist Notes — warm paper, blush pink ink, compact image notes. */
+:root,:root[data-theme="sky"]{
+ --bg:#f5f4f0;--card:#fff;--text:#3d3235;--muted:#908386;
+ --line:#e9dfe2;--line-soft:#f1eced;--rose:#d09daa;--rose-deep:#985e6d;
+ --rose-soft:#f9ecef;--rose-chip:#fbf1f4;--grad:linear-gradient(135deg,#ae6e7e,#935c6a);
+ --glow:192,128,150;--c-title:#3f2f33;--c-sub:#938387;--c-name:#4e3c40;
+ --c-cardtag:#a0838a;--c-count:#806f73;--c-tagtext:#917179;--c-soft:#916f77;
+ --c-hint:#a39095;--c-faint:#ab9a9e;--c-toast:#61444b;--c-imgbg:#f5f0f1;
+ --c-dropline:#e1c1c9;--c-dropbg:#fef8fa;--c-inputbg:#fff;--c-grip:#e6d3d8;
+ --c-skel2:#f2e6e9;--c-code:#f6e8ec;
+}
+body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif}
+.wrap{max-width:1060px;min-height:100vh;margin:auto;padding:0 34px;background:#fdfcfa;border-left:1px solid #eae7e3;border-right:1px solid #eae7e3}
+header{padding:30px 0 22px;border-bottom:1px solid #ece2e5}
+header:after{content:'';position:absolute;top:0;right:5px;width:22px;height:47px;background:#f2d9df;clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%)}
+.notebook-label{display:flex;align-items:center;gap:9px;margin-bottom:16px;font-size:9px;font-weight:600;letter-spacing:.19em;color:#ab8991}
+.notebook-mark{display:grid;place-items:center;width:29px;height:32px;border-radius:8px;background:#f7e7eb;color:#a76d7c;transform:rotate(-5deg)}
+.notebook-mark svg{width:20px;height:20px}
+h1{font-size:29px;font-weight:650;letter-spacing:-.055em;line-height:1.35;color:var(--c-title);padding-right:32px}
+.sub{font-size:12px;line-height:1.8;margin-top:7px;color:var(--c-sub)}
+#editHead{margin-top:12px;border:1px solid #efe0e4;background:#faf0f3;color:#9a717b;border-radius:7px;padding:5px 9px;font-size:10px}
+.bar{background:#fdfcfaed;padding:16px 0 10px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#q{height:36px;padding:6px 34px;border:1px solid #eee2e5;border-radius:10px;background:#f5f0f1;box-shadow:none;font-size:16px;color:#5a4449}
+#q::placeholder{color:#b4a0a5;font-weight:400}
+#q:focus{background:#fff;border-color:#d0a2ae;box-shadow:0 0 0 3px #f4e1e666;outline:0}
+.search svg{stroke:#b4939b;left:12px;width:14px;height:14px}
+.collection-label{display:flex;align-items:center;gap:9px;margin:12px 0 9px;color:#8a6a72;font-size:11px;font-weight:600;letter-spacing:.02em}
+.collection-label span{height:1px;flex:1;background:#f0e5e8}
+.meta{min-height:28px}.count{font-size:11px;color:#a09195}.count b{color:#875864;font-weight:650}
+#sort{border:0;background-color:transparent;color:#a1848b;padding:3px 20px 3px 8px;font-size:10px;min-height:28px}
+.tags{gap:6px;margin-top:9px;padding-bottom:3px}
+.tag{border:1px solid #efe0e4;border-radius:7px;background:#fff;padding:5px 9px;color:#9a8087;font-weight:500}
+.tag.sel{background:#f5e4e8;border-color:#edced6;color:#935c6a;box-shadow:none}
+#selectionTools{margin:8px 0 0;gap:6px}
+#selectionTools button{border-color:#eddce0;border-radius:7px;color:#a1838b;background:#fefbfc;font-size:10px;padding:5px 8px;min-height:30px}
+#selectionTools #deleteSelected{background:#fff6f6;color:#b26f7b;border-color:#f0dfe3}
+#grid{gap:18px 14px;padding:13px 0 30px;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));align-items:start}
+.card{background:#fff;border:1px solid #eee4e7;border-radius:10px;padding:5px;box-shadow:0 2px 3px #43252d03,0 5px 13px #43252d03;overflow:hidden;transition:box-shadow .18s,border-color .18s;contain-intrinsic-size:auto 235px}
+.card:hover{transform:none;border-color:#debec6;box-shadow:0 4px 18px #7e4e5a10}
+.card .thumb{border-radius:6px;aspect-ratio:3/4;background:#f6f0f1}
+.cap{padding:8px 4px 5px}
+.item-no{font-size:8px;font-weight:500;letter-spacing:.1em;color:#bea0a8;margin-bottom:3px}
+.nm{font-size:12px;font-weight:550;line-height:1.4;color:#58464a;padding:0;width:100%}
+.nm .t{min-height:0}.nm:active{background:transparent;color:#ac6c7c}
+.tg{font-size:10px;line-height:1.5;margin-top:4px;color:#b09098}
+.select-pick{top:10px;left:10px;accent-color:#a86e7d;border-radius:4px}
+.selecting .chosen{border-color:#c38998;background:#fdf3f6}
+.selecting .chosen .thumb{outline:2px solid #c88f9d;opacity:.8}
+.fab{width:auto;height:43px;display:none;align-items:center;justify-content:center;gap:6px;padding:0 15px;right:22px;bottom:calc(68px + var(--safe-b));border:1px solid #ffffff66;border-radius:14px;background:var(--grad);font-size:22px;color:white;box-shadow:0 5px 20px #90616d30}
+.fab.on{display:flex}.fab-label{font-size:11px;font-weight:550;letter-spacing:0}
+.lockrow{border-color:#efe3e6;padding:14px 0 85px}#lockBtn{color:#b1959c;font-size:10px}
+.sheet,.lb{background:#40242b55;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.sheet-box{background:#fefcfc;border-radius:20px 20px 0 0;border:1px solid #fff9;box-shadow:0 -8px 48px #3b1b2312;padding:7px 20px calc(20px + var(--safe-b))}
+.grip{background:#e7d2d7;width:30px;margin:7px auto 17px}
+.sheet h3{color:#5a4047;font-size:17px;letter-spacing:-.03em;margin-bottom:18px}
+.note{background:#faeff2;border-color:#f3e1e5;border-radius:10px;padding:11px 12px;color:#9a7a82;line-height:1.8;font-size:11px}
+.drop{border:1px dashed #dcb3bd;background:#fdf4f6;border-radius:12px;padding:20px 12px;color:#b28490}
+.drop .ic{font-size:22px;color:#ae7684}.drop:hover{background:#f9e9ed}
+.btn{border:1px solid #eadbdf;border-radius:9px;background:#fff;color:#976f79;font-size:12px;box-shadow:none}
+.btn.pri{background:#a76f7d;border-color:#a76f7d;color:#fff;box-shadow:0 3px 8px #9c5e6d12}
+.btn.mini{border-radius:7px;background:#fcf2f5;color:#a27782}
+label.f>span:first-child{color:#9d7e86;font-size:11px}
+label.f input,label.f textarea,.taginput{background:#fff;border:1px solid #eedee2;border-radius:9px;color:#6d5057}
+label.f input:focus,label.f textarea:focus,.taginput:focus-within{border-color:#cf9da9;box-shadow:0 0 0 3px #f6e5e955;outline:0}
+.taginput .chip{background:#f8e9ed;border-radius:5px;color:#a77380}
+.pick{border-radius:7px}.pick .rm{border-radius:5px;background:#fff;color:#a1838b}
+.lb-img{border-radius:10px}.lb-info{border:1px solid #eedee2;background:#fefdfd;border-radius:12px;padding:17px}
+#lbName{color:#6e454f}.lb-tags .t{border-radius:6px;background:#f9ecef;color:#b27b89}
+.lb-actions button{background:#f8ecef;color:#a26e7b;border-radius:8px}.lb-actions .del{background:#fbf0f2;color:#b57b89}
+.icob,.nav{background:#fefcfc;color:#9f6e7a;border-radius:9px}.lb-pos{background:#fefdfd;color:#a87b86;border-radius:8px}
+#toast{background:#76535c;color:#fff;border-radius:10px;box-shadow:0 5px 20px #56313a20}
+#deleteDialog{border-color:#f0dee2;border-radius:17px;background:#fefdfd;padding:24px}
+#deleteDialog h3{color:#764b56}#deleteDialog p{color:#a1838b;font-size:12px}
+#deleteDialog .danger{background:#b77e91;border-color:#b77e91}
+#deleteDialog::backdrop{background:#40242b55;backdrop-filter:blur(3px)}
+.empty{margin:16px 0;padding:40px 16px;border:1px dashed #ead6db;border-radius:12px;background:#fcf7f8;color:#b8979f}
+.empty .hint{color:#c4a5ad}.empty p{font-weight:500}
+button:focus-visible,select:focus-visible{outline:2px solid #c78595;outline-offset:3px}
+@media(max-width:699px){
+ .wrap{padding:0 14px;border:0}header{padding:19px 0 17px}.notebook-label{margin-bottom:12px;font-size:8px;gap:7px}.notebook-mark{width:25px;height:28px}.notebook-mark svg{width:18px;height:18px}
+ header:after{height:37px;width:18px;right:3px}h1{font-size:23px}.sub{font-size:11px}#editHead{font-size:9px;padding:4px 7px;margin-top:10px}
+ .bar{padding:12px 0 7px}#q{height:34px}.collection-label{font-size:10px;margin-top:9px;margin-bottom:5px}
+ #grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 7px;padding-top:12px}.card{padding:3px;border-radius:7px;contain-intrinsic-size:auto 150px}.card .thumb{border-radius:4px}
+ .cap{padding:5px 2px 3px}.item-no{font-size:7px;letter-spacing:.06em;margin-bottom:2px}.nm{font-size:10px}.tg{font-size:8px;margin-top:3px}
+ .select-pick{top:6px;left:6px;width:16px;height:16px}.fab{right:16px;height:42px;padding:0 12px;border-radius:13px}.fab-label{font-size:10px}
+}
+@media(min-width:720px){.sheet-box{border-radius:18px;padding:24px;width:480px}.fab{right:max(26px,calc((100vw - 1060px)/2 + 26px))}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Blush accents with dark rose lettering for legibility. */
+:root,:root[data-theme="sky"]{--grad:linear-gradient(135deg,#f2ced9,#e6afc1)}
+.fab{color:#714653;border-color:#f7dfe7;box-shadow:0 5px 20px #a56a7e24}
+.btn.pri{background:#ebbdcc;border-color:#e5adbf;color:#714653}
+.notebook-mark{background:#f9e7ed;color:#b77f91}
+header:after{background:#f0cdd9}
+
 </style>
 </head>
 <body>
@@ -465,7 +561,7 @@ label.f .taginput input{border:0!important;background:transparent;padding:5px 3p
 <div id="prog"></div>
 
 <div class="wrap">
-  <header>
+  <header><div class="notebook-label"><span class="notebook-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="3" width="15" height="18" rx="3"/><path d="M9 3v18M3 7h4M3 12h4M3 17h4M12 8h5M12 12h4"/></svg></span><span>ARTIST NOTES</span></div>
     <h1 id="siteTitle">NAI 작태 모음</h1>
     <p class="sub" id="siteSub">V5 기준 계속 추가 됨</p>
     <button id="editHead">사이트 설정</button>
@@ -479,6 +575,7 @@ label.f .taginput input{border:0!important;background:transparent;padding:5px 3p
     </div>
   </div>
 
+  <div class="collection-label">이미지 노트<span aria-hidden="true"></span></div>
   <div class="meta">
     <span class="count" id="count">총 <b>0</b>개</span>
     <span class="grow"></span>
@@ -496,7 +593,7 @@ label.f .taginput input{border:0!important;background:transparent;padding:5px 3p
 </div>
 
 <button id="themeBtn" aria-label="색 바꾸기" title="색 바꾸기">🌸</button>
-<button class="fab" id="fab" aria-label="이미지 추가">＋</button>
+<button class="fab" id="fab" aria-label="이미지 추가"><span aria-hidden="true">＋</span><span class="fab-label">이미지 추가</span></button>
 
 <div class="lb" id="lb">
   <div class="lb-scroll" id="lbScroll">
