@@ -4,7 +4,7 @@
  "sub": "리뉴얼중\nv5기준",
  "theme": "sky",
  "cover": "muqqypiu",
- "updated": "2026-10-07T08:15:53.679Z",
+ "updated": "2026-10-07T08:16:22.647Z",
  "items": [
   {
    "id": "muwts4ztgiden",
@@ -157,7 +157,9 @@
   {
    "id": "muxu2114c4e0j",
    "name": "hatena (nazequestion)",
-   "tags": [],
+   "tags": [
+    "투디"
+   ],
    "imgs": [
     {
      "k": "muxu2114c4e0j",
