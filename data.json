@@ -4,7 +4,7 @@
  "sub": "리뉴얼중\nv5기준",
  "theme": "sky",
  "cover": "muqqypiu",
- "updated": "2026-10-06T15:20:58.476Z",
+ "updated": "2026-10-07T08:15:22.027Z",
  "items": [
   {
    "id": "muwts4ztgiden",
@@ -25,7 +25,9 @@
   {
    "id": "muwts507m5a5k",
    "name": "pong (pong_o0)",
-   "tags": [],
+   "tags": [
+    "투디"
+   ],
    "imgs": [
     {
      "k": "muwts507m5a5k",
