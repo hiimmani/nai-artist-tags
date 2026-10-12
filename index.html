@@ -10,15 +10,15 @@
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="NAI 작태 모음">
 <meta property="og:title"       content="NAI 작태 모음">
-<meta property="og:description" content="리뉴얼중 v5기준 내가 쓸것만 모음 exif O">
+<meta property="og:description" content="V5 기준 계속 추가 예정">
 <meta property="og:url"         content="https://hiimmani.github.io/nai-artist-tags/">
-<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=muqqypiu">
+<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="NAI 작태 모음">
-<meta name="twitter:description" content="리뉴얼중 v5기준 내가 쓸것만 모음 exif O">
-<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=muqqypiu">
+<meta name="twitter:description" content="V5 기준 계속 추가 예정">
+<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 
 <title>NAI 작태 모음</title>
 <style>
@@ -460,7 +460,7 @@ label.f .taginput input{border:0!important;background:transparent;padding:5px 3p
 #deleteDialog .danger{background:#a34848;color:#fff;border-color:#a34848}
 /* Artist Notes — warm paper, lavender ink, compact image notes. */
 :root,:root[data-theme="sky"]{
- --bg:#f5f4f0;--card:#fff;--text:#38323d;--muted:#8a8390;
+ --bg:#f5f1fb;--card:#fff;--text:#38323d;--muted:#8a8390;
  --line:#e4dfe9;--line-soft:#efecf1;--rose:#b79dd0;--rose-deep:#7b5e98;
  --rose-soft:#f3ecf9;--rose-chip:#f6f1fb;--grad:linear-gradient(135deg,#8e6eae,#785c93);
  --glow:155,128,192;--c-title:#372f3f;--c-sub:#8b8393;--c-name:#453c4e;
@@ -580,6 +580,12 @@ header:after{background:#ede3f6}
 /* Keep sort text next to a consistently positioned chevron. */
 #sort{appearance:none;-webkit-appearance:none;width:68px;min-width:0;padding:3px 18px 3px 0;text-align:right;text-align-last:right;border-radius:5px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%239883ad' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 4.5 3 3 3-3'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 3px center;background-size:12px 12px}
 
+
+.pagination{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;padding:12px 0;color:#9885ac}
+.pagination button{min-width:30px;height:32px;padding:0 8px;border:1px solid #e8dff0;border-radius:7px;background:#fdfbff;color:#89749c;font-size:11px}
+.pagination button[aria-current="page"]{background:#eee4f7;border-color:#d8c5e9;color:#624b79;font-weight:600}
+.pagination button:disabled{opacity:.35;cursor:default}
+.pagination small{width:100%;text-align:center;font-size:10px;color:#a494b2;margin-top:2px}
 </style>
 </head>
 <body>
@@ -611,9 +617,11 @@ header:after{background:#ede3f6}
     </select>
   </div>
 
-  <div id="selectionTools" hidden><button id="selectMode" type="button">선택 삭제</button><button id="selectAll" type="button" hidden>현재 목록 전체 선택</button><button id="deleteSelected" type="button" hidden disabled>선택 0개 삭제</button></div>
+  <div id="selectionTools" hidden><button id="selectMode" type="button">선택 삭제</button><button id="selectAll" type="button" hidden>현재 페이지 전체 선택</button><button id="deleteSelected" type="button" hidden disabled>선택 0개 삭제</button></div>
   <div class="tags" id="tagbar"></div>
+  <nav class="pagination" id="pagesTop" aria-label="상단 페이지 이동"></nav>
   <div id="grid"></div>
+  <nav class="pagination" id="pagesBottom" aria-label="하단 페이지 이동"></nav>
   <div class="lockrow"><button id="lockBtn">관리</button></div>
 </div>
 
@@ -656,7 +664,8 @@ header:after{background:#ede3f6}
 const $ = s => document.querySelector(s);
 const CFG_KEY = 'nai_gallery_cfg_v1';
 const THEME_KEY = 'nai_theme_v1';
-const CHUNK = 60;
+const CHUNK = 200;
+const PAGE_SIZE = 200;
 const THUMB = { max: 420,  q: .72 };
 const FULL  = { max: 1600, q: .86 };
 const PARALLEL = 2;                       // GitHub 업로드 동시 개수
@@ -924,16 +933,35 @@ function applyRemote(d){
   lastLoad = Date.now();
 }
 // 다른 기기에서 바꾼 내용을 가져온다 (편집 중이거나 저장 중이면 건드리지 않는다)
+let refreshing = false;
 async function refresh(){
-  if(S.mode !== 'github' || S.busy || S.importing) return;
-  if($('#sheet').classList.contains('on') || $('#lb').classList.contains('on')) return;
-  const before = JSON.stringify(S.items.map(i => i.id + ':' + i.name));
-  const d = await fetchData();
-  if(!d || !Array.isArray(d.items)) return;
-  applyRemote(d);
-  paintHead(); applyTheme(resolveTheme()); applyFilter();
-  if(before !== JSON.stringify(S.items.map(i => i.id + ':' + i.name)))
-    toast('다른 기기에서 바뀐 내용을 불러왔어요', 2500);
+  const blocked = () => S.mode !== 'github' || S.busy || S.importing ||
+    $('#sheet').classList.contains('on') || $('#lb').classList.contains('on');
+  if(refreshing || blocked()) return;
+  refreshing = true;
+  try{
+    const before = JSON.stringify({items:S.items,site:S.site});
+    const d = await fetchData();
+    if(!d || !Array.isArray(d.items) || blocked() ||
+       before !== JSON.stringify({items:S.items,site:S.site})) return;
+    const nextItems = normalize(d.items);
+    const nextSite = {title:d.title || DEF.title,sub:d.sub ?? DEF.sub,theme:d.theme || DEF.theme,cover:d.cover || ''};
+    lastLoad = Date.now();
+    if(before === JSON.stringify({items:nextItems,site:nextSite})) return;
+    const y = window.scrollY, drawn = S.drawn;
+    const anchor = [...grid.children].find(el => el.getBoundingClientRect().bottom > 0);
+    const anchorId = anchor ? S.view[+anchor.dataset.i]?.id : null;
+    const top = anchor?.getBoundingClientRect().top;
+    S.items = nextItems; S.site = nextSite;
+    paintHead(); applyTheme(resolveTheme()); applyFilter();
+    const index = S.view.findIndex(it=>it.id===anchorId);
+    const target = Math.min(S.view.length,Math.max(drawn,index+1));
+    while(S.drawn < target) drawMore();
+    window.scrollTo(0,y);
+    const nextAnchor = index < 0 ? null : grid.querySelector('[data-i="'+index+'"]');
+    if(nextAnchor && Number.isFinite(top)) window.scrollBy(0,nextAnchor.getBoundingClientRect().top-top);
+    toast('다른 기기에서 바뀐 내용을 불러왔어요',2500);
+  }finally{refreshing = false;}
 }
 // 앱을 다시 켜거나 탭으로 돌아왔을 때 자동으로 맞춘다
 document.addEventListener('visibilitychange', () => {
@@ -1099,6 +1127,7 @@ function paintHead(){
 const grid = $('#grid');
 let io, ioMore;
 
+let currentPage = 1, lastFilterKey = null;
 function applyFilter(){
   const q = $('#q').value.trim().toLowerCase();
   let v = S.items;
@@ -1109,15 +1138,41 @@ function applyFilter(){
   if(s === 'new')      v.sort((a, b) => b.ts - a.ts);
   else if(s === 'old') v.sort((a, b) => a.ts - b.ts);
   else                 v.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
-  S.view = v; S.drawn = 0;
+  const key = JSON.stringify([q,S.tag,s]);
+  if(key !== lastFilterKey) currentPage = 1;
+  lastFilterKey = key;
+  S.filtered = v;
+  currentPage = Math.max(1,Math.min(currentPage,Math.ceil(v.length/PAGE_SIZE) || 1));
+  S.view = v.slice((currentPage-1)*PAGE_SIZE,currentPage*PAGE_SIZE); S.drawn = 0;
+  io?.disconnect(); ioMore?.disconnect();
   grid.innerHTML = '';
-  drawMore(); paintCount(q); paintTags(); paintSelection();
+  drawMore(); paintCount(q); paintTags(); paintSelection(); paintPages();
 }
+function paintPages(){
+  const total = Math.max(1,Math.ceil(S.filtered.length/PAGE_SIZE));
+  const nums = [...new Set([1,total,currentPage-1,currentPage,currentPage+1])].filter(n=>n>0&&n<=total).sort((a,b)=>a-b);
+  let previous = 0;
+  const buttons = nums.map(n=>{
+    const gap = previous && n-previous>1 ? '<span aria-hidden="true">…</span>' : '';
+    previous=n;
+    return gap+'<button type="button" data-page="'+n+'" aria-label="'+n+'페이지"'+(n===currentPage?' aria-current="page"':'')+'>'+n+'</button>';
+  }).join('');
+  for(const id of ['pagesTop','pagesBottom']){
+    const el=$('#'+id); el.hidden=total<=1;
+    el.innerHTML='<button type="button" data-page="'+(currentPage-1)+'"'+(currentPage===1?' disabled':'')+'>이전</button>'+buttons+'<button type="button" data-page="'+(currentPage+1)+'"'+(currentPage===total?' disabled':'')+'>다음</button><small>'+currentPage+' / '+total+' 페이지</small>';
+  }
+}
+for(const id of ['pagesTop','pagesBottom']) $('#'+id).addEventListener('click',e=>{
+  const b=e.target.closest('button[data-page]'); if(!b||b.disabled) return;
+  currentPage=Number(b.dataset.page); applyFilter();
+  $('#bar').scrollIntoView({block:'start'});
+  $('#pagesTop [aria-current="page"]')?.focus({preventScroll:true});
+});
 function paintCount(q){
   const el = $('#count'), total = S.items.length.toLocaleString('ko-KR');
   el.classList.toggle('clickable', !!S.tag);
-  if(S.tag)  el.innerHTML = `#${esc(S.tag)} <b>${S.view.length}</b>개 <span class="x">✕</span>`;
-  else if(q) el.innerHTML = `검색 <b>${S.view.length}</b>개 · 전체 ${total}개`;
+  if(S.tag)  el.innerHTML = `#${esc(S.tag)} <b>${S.filtered.length}</b>개 <span class="x">✕</span>`;
+  else if(q) el.innerHTML = `검색 <b>${S.filtered.length}</b>개 · 전체 ${total}개`;
   else       el.innerHTML = `총 <b>${total}</b>개`;
 }
 function paintTags(){
@@ -1521,6 +1576,26 @@ let importStop = false;
 const queueTarget = () => S.mode === 'github' ? ['github', S.cfg?.owner, S.cfg?.repo, S.cfg?.branch].join('/') : 'local';
 const queueKey = () => 'importQueue:' + queueTarget();
 const sourceKey = job => 'importSource:' + job.id;
+const importFinished = job => job.saved || job.skipped;
+const artistKey = name => String(name || '').normalize('NFKC').trim().replace(/\s+/g, ' ').toLowerCase();
+async function checkArtistDuplicates(batch, names, report){
+  for(const job of batch){
+    if(importFinished(job)) continue;
+    if(job.title === undefined){
+      const stored = job.file || await getBlob(sourceKey(job));
+      if(!stored) throw new Error('원본을 다시 선택해야 합니다: ' + job.label);
+      const file = stored.name ? stored : new File([stored], job.label, {type:stored.type});
+      job.title = await imageArtistTitle(file);
+    }
+    const key = artistKey(job.title);
+    if(key && names.has(key) && names.get(key) !== job.id){
+      job.skipped = true; job.ready = false; job.state = '작가명 중복 · 제외'; job.error = '';
+      job.file = null; job.changes = []; job.uploaded = null;
+      await delBlob(sourceKey(job));
+    }else if(key) names.set(key, job.id);
+    report();
+  }
+}
 async function checkpointImport(jobs){
   const records = jobs.map(({file, ...j}) => j);
   await idb('meta', 'readwrite', store => store.put(records, queueKey()));
@@ -1530,14 +1605,14 @@ async function restoreImport(){
   const existing = new Set(S.items.map(it => it.id));
   for(const j of jobs){
     if(existing.has(j.id)) j.saved = true;
-    if(j.saved){ await delBlob(sourceKey(j)); continue; }
+    if(importFinished(j)){ await delBlob(sourceKey(j)); continue; }
     j.file = null; j.state = j.ready ? '저장 대기' : '이어 올리기 대기'; j.error = '';
     if(!j.ready && !await getBlob(sourceKey(j))){
       j.staged = false; j.state = '사진 다시 선택 필요';
       j.error = '기기에 원본이 없습니다. 같은 사진을 다시 선택하세요';
     }
   }
-  return jobs.some(j => !j.saved) ? jobs : [];
+  return jobs.some(j => !importFinished(j)) ? jobs : [];
 }
 async function waitImport(ms, report){
   // 제한 대기는 화면이 잠겨도 경과한 실제 시간을 기준으로 계산한다.
@@ -1551,7 +1626,7 @@ async function waitImport(ms, report){
 async function stageImport(jobs, report){
   await checkpointImport(jobs);
   for(let i=0; i<jobs.length; i++){
-    const job = jobs[i]; if(job.saved || job.staged || job.ready) continue;
+    const job = jobs[i]; if(importFinished(job) || job.staged || job.ready) continue;
     if(importStop) break;
     job.state = '이어 올리기 준비 ' + (i+1) + '/' + jobs.length; report();
     if(!job.file){
@@ -1653,14 +1728,16 @@ async function runImport(jobs, report){
   S.importing = true; importStop = false;
   try{
     await stageImport(jobs, report);
-    const pending = jobs.filter(j => !j.saved);
+    const names = new Map(S.items.map(it => [artistKey(it.name),it.id]).filter(([key])=>key));
+    const pending = jobs.filter(j => !importFinished(j));
     for(let i = 0; i < pending.length && !importStop; i += IMPORT_BATCH){
       const batch = pending.slice(i, i + IMPORT_BATCH);
+      await checkArtistDuplicates(batch, names, report);
       // 두 사진까지만 처리하여 메모리 사용량을 제한한다.
       // 실패한 작업이 있어도 실행 중인 다른 작업이 끝난 뒤 상태를 정리한다.
       let failed = false;
       await mapLimit(batch, 2, async job => {
-        if(failed) return;
+        if(failed || job.skipped) return;
         job.error = '';
         try { await prepareImportJob(job, report); }
         catch(e){ job.state = '실패'; job.error = e.message; failed = true; report(); }
@@ -1717,7 +1794,7 @@ async function addSheet(){
   picked = []; importStop = false;
   sheet(`
     <h3>이미지 일괄 추가</h3>
-    <div class="note">1,000장도 한 번에 선택할 수 있어요. 저장을 누르면 사진을 기기에 임시 보관한 뒤 차례로 올립니다. 중단되면 같은 브라우저에서 ＋를 눌러 이어 올리세요.</div>
+    <div class="note">1,000장도 한 번에 선택할 수 있어요. 이미 등록된 작가명은 중복으로 제외합니다. 저장 중 중단되면 같은 브라우저에서 ＋를 눌러 이어 올리세요.</div>
     <div class="drop" id="drop" role="button" tabindex="0"><span class="ic">＋</span>사진 여러 장 선택</div>
     <input type="file" id="file" accept="image/*" multiple hidden>
     <p id="importStatus" role="status" aria-live="polite">사진을 선택하세요</p>
@@ -1758,15 +1835,16 @@ async function addSheet(){
     if(skipped) toast('중복 또는 이미지가 아닌 파일 ' + skipped + '개 제외');
   }
   function paint(){
-    const total = importJobs.length, done = importJobs.filter(j => j.saved).length;
+    const total = importJobs.length, done = importJobs.filter(importFinished).length;
+    const saved = importJobs.filter(j => j.saved).length, duplicates = importJobs.filter(j => j.skipped).length;
     const errors = importJobs.filter(j => j.error);
     $('#importStatus').textContent = total
-      ? (S.importing ? '저장 중 · ' : done === total ? '저장 완료 · ' : '선택 ' + total + '장 · ') + done + '/' + total + '장 저장됨'
+      ? (S.importing ? '저장 중 · ' : done === total ? '처리 완료 · ' : '선택 ' + total + '장 · ') + saved + '장 저장됨' + (duplicates ? ' · 작가명 중복 ' + duplicates + '장 제외' : '')
       : '사진을 선택하세요';
     const progress = $('#importProgress'); progress.max = Math.max(1, total); progress.value = done;
     if(S.importing) prog(done / Math.max(1, total));
     // 처리 중인 파일과 아직 남은 파일 위주로 최대 40개만 표시한다.
-    const visible = importJobs.filter(j => !j.saved).slice(0, 40);
+    const visible = importJobs.filter(j => !importFinished(j)).slice(0, 40);
     $('#importList').innerHTML = visible.map(j => `<div style="padding:7px 0;border-bottom:1px solid var(--line-soft)">
       <span>${importJobs.indexOf(j) + 1}. ${esc(j.label)}</span> · <b>${esc(j.state)}</b>
       ${j.title ? `<div>제목: ${esc(j.title)}</div>` : ''}
@@ -1781,7 +1859,7 @@ async function addSheet(){
     dp.setAttribute('aria-disabled', String(!!S.importing));
     $('#importHint').textContent = S.importing
       ? '이미지를 업로드하고 있습니다. 완료될 때까지 이 화면을 열어 두세요.'
-      : done === total && total ? '각 사진이 별도 항목으로 추가되었습니다. 제목과 태그는 항목에서 수정할 수 있어요.'
+      : done === total && total ? '저장된 이미지는 각각 별도 항목으로 추가됩니다. 작가명 중복 이미지는 제외되었습니다.'
       : done || errors.length || importJobs.some(j=>j.staged) ? '완료된 항목은 유지됩니다. 같은 브라우저에서 ＋ → 이어 올리기로 남은 작업을 복구할 수 있어요.'
       : '저장하는 동안 이 화면을 열어 두세요. 중단하면 현재 묶음까지 저장합니다.';
   }
@@ -1801,9 +1879,9 @@ async function addSheet(){
     if(S.importing) return;
     try{
       await runImport(importJobs, paint);
-      if(importJobs.length && importJobs.every(j => j.saved)){
-        const count = importJobs.length;
-        closeSheet(); toast(count + '장 저장했습니다');
+      if(importJobs.length && importJobs.every(importFinished)){
+        const count = importJobs.filter(j=>j.saved).length, duplicates = importJobs.filter(j=>j.skipped).length;
+        closeSheet(); toast(count + '장 저장했습니다' + (duplicates ? ' · 작가명 중복 ' + duplicates + '장 제외' : ''), 6000);
       }
     }
     catch(e){ toast('저장 중단: ' + e.message, 7000); }
