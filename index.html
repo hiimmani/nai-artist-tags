@@ -586,6 +586,42 @@ header:after{background:#ede3f6}
 .pagination button[aria-current="page"]{background:#eee4f7;border-color:#d8c5e9;color:#624b79;font-weight:600}
 .pagination button:disabled{opacity:.35;cursor:default}
 .pagination small{width:100%;text-align:center;font-size:10px;color:#a494b2;margin-top:2px}
+.desktop-sort{display:none}
+@media(min-width:700px){
+ body{background:#fcfaff;font-size:15px}
+ .wrap{max-width:1200px;padding:0 40px}
+ h1{font-size:34px}.sub{font-size:15px;line-height:1.8}
+ .notebook-label{font-size:11px;gap:11px}.notebook-mark{width:35px;height:38px}.notebook-mark svg{width:25px;height:25px}
+ #editHead{font-size:13px;padding:7px 12px;min-height:34px}
+ #q{height:44px;font-size:15px;padding:0 42px}.search svg{width:19px;height:19px;left:14px}#clearQ{font-size:18px}
+ .count{font-size:15px;gap:6px}.meta{min-height:38px}
+ .tag{font-size:13px;padding:7px 12px}.tag .n{font-size:12px}
+ #selectionTools button{font-size:13px;padding:7px 12px;min-height:36px}
+ #grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:18px 14px}
+ .cap{padding:9px 6px 7px}.item-no{font-size:11px}.nm{font-size:15px;line-height:1.45}.tg{font-size:12px}
+ .select-pick{width:21px;height:21px}
+ .fab{width:52px;height:52px;right:max(24px,calc((100vw - 1200px)/2 + 26px))}.fab svg{width:30px;height:30px}
+ #lockBtn{font-size:13px}.pagination button{font-size:14px;min-width:36px;height:38px}.pagination small{font-size:12px}
+ .sheet-box{width:540px}.sheet h3{font-size:21px}.note{font-size:14px}.drop{font-size:15px}.drop .ic{font-size:28px}
+ .btn{font-size:15px;min-height:44px}.btn.mini{font-size:13px}
+ label.f>span:first-child{font-size:14px}label.f .tip{font-size:12px}.taginput .chip{font-size:13px}
+ .picks{gap:10px}.pick{width:66px;height:88px}.pick .no{font-size:11px}.pick .rm{width:20px;height:20px}.pick .rm svg{width:14px;height:14px}
+ #importStatus{font-size:14px}#importList{font-size:13px!important}#importHint{font-size:12px!important}
+ #lbName{font-size:21px}#lbName .ci,#lbName .ci svg{width:20px;height:20px}.cphint{font-size:13px}
+ .lb-tags .t{font-size:14px}.lb-actions button{font-size:15px}.lb-pos{font-size:14px}.icob,.nav{width:40px;height:40px;font-size:24px}
+ #toast{font-size:14px}#deleteDialog h3{font-size:20px}#deleteDialog p{font-size:14px}
+ #sort{display:none}
+ .desktop-sort{display:block;position:relative;z-index:15}
+ #sortToggle{display:flex;align-items:center;gap:7px;min-height:36px;padding:7px 10px;background:#fcfaff;border:1px solid #eee7f5;border-radius:8px;color:#8e7c9f;font-size:14px}
+ #sortToggle svg{width:15px;height:15px;flex:none}
+ #sortToggle[aria-expanded="true"]{border-color:#dacbe8;background:#f7f2fc}
+ #sortMenu{position:absolute;right:0;top:calc(100% + 6px);min-width:146px;padding:5px;background:#fff;border:1px solid #eae2f2;border-radius:10px;box-shadow:0 8px 28px #5f427514}
+ #sortMenu button{display:flex;align-items:center;justify-content:space-between;gap:15px;width:100%;border:0;border-radius:6px;padding:10px 12px;text-align:left;background:transparent;color:#8b7b99;font-size:14px}
+ #sortMenu button:hover,#sortMenu button:focus-visible{background:#faf6fe;outline:none}
+ #sortMenu button[aria-checked="true"]{background:#f3ebfa;color:#73548f}
+ #sortMenu button[aria-checked="true"]:after{content:'✓';font-size:13px}
+}
+
 </style>
 </head>
 <body>
@@ -614,7 +650,13 @@ header:after{background:#ede3f6}
       <option value="new">최신순</option>
       <option value="old">오래된순</option>
       <option value="name">이름순</option>
-    </select>
+    </select><div class="desktop-sort">
+    <button id="sortToggle" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="sortMenu" aria-label="정렬: 최신순"><span>최신순</span><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m4 6 4 4 4-4"/></svg></button>
+    <div id="sortMenu" role="menu" aria-label="이미지 정렬" hidden>
+      <button type="button" role="menuitemradio" aria-checked="true" data-sort="new">최신순</button>
+      <button type="button" role="menuitemradio" aria-checked="false" data-sort="old">오래된순</button>
+      <button type="button" role="menuitemradio" aria-checked="false" data-sort="name">이름순</button>
+    </div></div>
   </div>
 
   <div id="selectionTools" hidden><button id="selectMode" type="button">선택 삭제</button><button id="selectAll" type="button" hidden>현재 페이지 전체 선택</button><button id="deleteSelected" type="button" hidden disabled>선택 0개 삭제</button></div>
@@ -2122,6 +2164,38 @@ $('#q').addEventListener('input', () => {
 });
 $('#clearQ').onclick = () => { $('#q').value = ''; $('#clearQ').classList.remove('on'); applyFilter(); $('#q').focus(); };
 $('#sort').addEventListener('change', applyFilter);
+const sortToggle = $('#sortToggle'), sortMenu = $('#sortMenu');
+const sortOptions = [...sortMenu.querySelectorAll('[data-sort]')];
+function syncSortMenu(){
+  const value = $('#sort').value;
+  sortOptions.forEach(b=>b.setAttribute('aria-checked',String(b.dataset.sort===value)));
+  const label = sortOptions.find(b=>b.dataset.sort===value)?.textContent || '최신순';
+  sortToggle.querySelector('span').textContent=label;
+  sortToggle.setAttribute('aria-label','정렬: '+label);
+}
+function closeSortMenu(focus=false){sortMenu.hidden=true;sortToggle.setAttribute('aria-expanded','false');if(focus)sortToggle.focus();}
+function openSortMenu(){syncSortMenu();sortMenu.hidden=false;sortToggle.setAttribute('aria-expanded','true');sortOptions.find(b=>b.dataset.sort===$('#sort').value)?.focus();}
+sortToggle.onclick=()=>sortMenu.hidden?openSortMenu():closeSortMenu();
+sortToggle.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();openSortMenu();}});
+sortMenu.addEventListener('click',e=>{
+ const b=e.target.closest('[data-sort]');if(!b)return;
+ $('#sort').value=b.dataset.sort;$('#sort').dispatchEvent(new Event('change',{bubbles:true}));
+ syncSortMenu();closeSortMenu(true);
+});
+sortMenu.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){e.preventDefault();e.stopPropagation();closeSortMenu(true);}
+ if(e.key==='Tab')closeSortMenu();
+ const index=sortOptions.indexOf(document.activeElement);
+ if(['ArrowDown','ArrowUp','Home','End'].includes(e.key)){
+   e.preventDefault();
+   const next=e.key==='Home'?0:e.key==='End'?sortOptions.length-1:(index+(e.key==='ArrowDown'?1:-1)+sortOptions.length)%sortOptions.length;
+   sortOptions[next].focus();
+ }
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.desktop-sort'))closeSortMenu();});
+$('#sort').addEventListener('change',syncSortMenu);
+syncSortMenu();
+
 $('#q').addEventListener('keydown', e => { if(e.key === 'Enter') e.target.blur(); });
 
 /* ── 시작 ─────────────────────────────────────────────── */
