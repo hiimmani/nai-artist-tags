@@ -10,15 +10,15 @@
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="NAI 작태 모음">
 <meta property="og:title"       content="NAI 작태 모음">
-<meta property="og:description" content="v5기준 내가 쓸것만 모음 계속 추가중 exif O 링크 퍼날 X">
+<meta property="og:description" content="V5 기준 계속 추가 예정">
 <meta property="og:url"         content="https://hiimmani.github.io/nai-artist-tags/">
-<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mv52jpaa">
+<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="NAI 작태 모음">
-<meta name="twitter:description" content="v5기준 내가 쓸것만 모음 계속 추가중 exif O 링크 퍼날 X">
-<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mv52jpaa">
+<meta name="twitter:description" content="V5 기준 계속 추가 예정">
+<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 
 <title>NAI 작태 모음</title>
 <style>
@@ -581,6 +581,8 @@ header:after{background:#ede3f6}
 #sort{appearance:none;-webkit-appearance:none;width:68px;min-width:0;padding:3px 18px 3px 0;text-align:right;text-align-last:right;border-radius:5px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%239883ad' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 4.5 3 3 3-3'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 3px center;background-size:12px 12px}
 
 
+#grid{padding-bottom:14px}
+#pagesBottom{padding:8px 0 calc(88px + var(--safe-b))}
 .pagination{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;padding:12px 0;color:#9885ac}
 .pagination button{min-width:30px;height:32px;padding:0 8px;border:1px solid #e8dff0;border-radius:7px;background:#fdfbff;color:#89749c;font-size:11px}
 .pagination button[aria-current="page"]{background:#eee4f7;border-color:#d8c5e9;color:#624b79;font-weight:600}
@@ -622,6 +624,14 @@ header:after{background:#ede3f6}
  #sortMenu button[aria-checked="true"]:after{content:'✓';font-size:13px}
 }
 
+#grid{padding-bottom:14px}
+#bar:focus{outline:none}
+#backToTop{position:fixed;right:16px;bottom:calc(16px + var(--safe-b));z-index:20;width:44px;height:44px;display:grid;place-items:center;padding:0;border:1px solid #e8dff0;border-radius:50%;background:#fdfbff;color:#89749c;box-shadow:0 3px 12px #886aa514;cursor:pointer}
+#backToTop svg{width:23px;height:23px}
+#backToTop:hover{background:#f3edf9}
+#backToTop:focus-visible{outline:2px solid #b59bcf;outline-offset:3px}
+@media(min-width:700px){#backToTop{right:max(24px,calc((100vw - 1200px)/2 + 26px));width:52px;height:44px}#backToTop svg{width:26px;height:26px}}
+
 </style>
 </head>
 <body>
@@ -661,7 +671,6 @@ header:after{background:#ede3f6}
 
   <div id="selectionTools" hidden><button id="selectMode" type="button">선택 삭제</button><button id="selectAll" type="button" hidden>현재 페이지 전체 선택</button><button id="deleteSelected" type="button" hidden disabled>선택 0개 삭제</button></div>
   <div class="tags" id="tagbar"></div>
-  <nav class="pagination" id="pagesTop" aria-label="상단 페이지 이동"></nav>
   <div id="grid"></div>
   <nav class="pagination" id="pagesBottom" aria-label="하단 페이지 이동"></nav>
   <div class="lockrow"><button id="lockBtn">관리</button></div>
@@ -696,6 +705,7 @@ header:after{background:#ede3f6}
 <div class="sheet" id="sheet"><div class="sheet-box" id="sheetBox"></div></div>
 <div id="toast"></div>
 
+<button id="backToTop" type="button" aria-label="맨 위로" title="맨 위로" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m6 13 6-6 6 6M12 7v12"/></svg></button>
 <script>
 /* =========================================================
    NAI 작태 모음 — 단일 파일 갤러리
@@ -1199,16 +1209,16 @@ function paintPages(){
     previous=n;
     return gap+'<button type="button" data-page="'+n+'" aria-label="'+n+'페이지"'+(n===currentPage?' aria-current="page"':'')+'>'+n+'</button>';
   }).join('');
-  for(const id of ['pagesTop','pagesBottom']){
+  for(const id of ['pagesBottom']){
     const el=$('#'+id); el.hidden=total<=1;
     el.innerHTML='<button type="button" data-page="'+(currentPage-1)+'"'+(currentPage===1?' disabled':'')+'>이전</button>'+buttons+'<button type="button" data-page="'+(currentPage+1)+'"'+(currentPage===total?' disabled':'')+'>다음</button><small>'+currentPage+' / '+total+' 페이지</small>';
   }
 }
-for(const id of ['pagesTop','pagesBottom']) $('#'+id).addEventListener('click',e=>{
+for(const id of ['pagesBottom']) $('#'+id).addEventListener('click',e=>{
   const b=e.target.closest('button[data-page]'); if(!b||b.disabled) return;
   currentPage=Number(b.dataset.page); applyFilter();
   $('#bar').scrollIntoView({block:'start'});
-  $('#pagesTop [aria-current="page"]')?.focus({preventScroll:true});
+  $('#bar').setAttribute('tabindex','-1'); $('#bar').focus({preventScroll:true});
 });
 function paintCount(q){
   const el = $('#count'), total = S.items.length.toLocaleString('ko-KR');
@@ -2246,6 +2256,15 @@ async function boot(){
     }catch(e){ console.warn('og 자동설정 실패', e); }
   }
 }
+const backToTop = $('#backToTop');
+function updateBackToTop(){backToTop.hidden=window.scrollY<400;}
+window.addEventListener('scroll',updateBackToTop,{passive:true});
+window.addEventListener('pageshow',updateBackToTop);
+backToTop.addEventListener('click',()=>{
+  window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+});
+updateBackToTop();
+
 </script>
 </body>
 </html>
