@@ -626,6 +626,7 @@ header:after{background:#ede3f6}
 
 @media(min-width:1000px){#grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 
+
 #grid{padding-bottom:14px}
 #bar:focus{outline:none}
 #backToTop{position:fixed;right:16px;bottom:calc(16px + var(--safe-b));z-index:20;width:44px;height:44px;display:grid;place-items:center;padding:0;border:1px solid #e8dff0;border-radius:50%;background:#fdfbff;color:#89749c;box-shadow:0 3px 12px #886aa514;cursor:pointer}
@@ -1189,6 +1190,7 @@ function applyFilter(){
   if(q) v = v.filter(it => (it.name || '').toLowerCase().includes(q) || tagsOf(it).some(t => t.toLowerCase().includes(q)));
   v = v.slice();
   const s = $('#sort').value;
+  grid.dataset.sort = s;
   if(s === 'new')      v.sort((a, b) => b.ts - a.ts);
   else if(s === 'old') v.sort((a, b) => a.ts - b.ts);
   else                 v.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
