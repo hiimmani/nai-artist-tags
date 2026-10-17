@@ -4,7 +4,7 @@
  "sub": "v5기준\nexif O\n링크 퍼날 X\n이름 누르면 복사\n계속 추가중",
  "theme": "sky",
  "cover": "mv52jpaa",
- "updated": "2026-10-16T09:38:20.902Z",
+ "updated": "2026-10-17T17:49:43.805Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -3687,116 +3687,68 @@
    "no": 230
   },
   {
-   "id": "mvarynok8hiu0",
-   "name": "yoru uyo",
+   "id": "mvcoyhzbcw09m",
+   "name": "beidieryou",
    "tags": [],
    "imgs": [
     {
-     "k": "mvarynok8hiu0",
+     "k": "mvcoyhzbcw09m",
      "w": 832,
      "h": 1216,
-     "thumb": "thumbs/mvarynok8hiu0.webp",
-     "src": "images/mvarynok8hiu0.png"
+     "thumb": "thumbs/mvcoyhzbcw09m.webp",
+     "src": "images/mvcoyhzbcw09m.png"
     }
    ],
-   "ts": 1792143490886,
+   "ts": 1792259376998,
    "no": 231
   },
   {
-   "id": "mvarynp6d7ka8",
-   "name": "wktdms1",
+   "id": "mvcoyhzrk939k",
+   "name": "nial",
    "tags": [],
    "imgs": [
     {
-     "k": "mvarynp6d7ka8",
+     "k": "mvcoyhzrk939k",
      "w": 832,
      "h": 1216,
-     "thumb": "thumbs/mvarynp6d7ka8.webp",
-     "src": "images/mvarynp6d7ka8.png"
+     "thumb": "thumbs/mvcoyhzrk939k.webp",
+     "src": "images/mvcoyhzrk939k.png"
     }
    ],
-   "ts": 1792143490887,
+   "ts": 1792259376999,
    "no": 232
   },
   {
-   "id": "mvarynpj88q9f",
-   "name": "rikini sushi",
+   "id": "mvcoyi07j1j2j",
+   "name": "yana mori",
    "tags": [],
    "imgs": [
     {
-     "k": "mvarynpj88q9f",
+     "k": "mvcoyi07j1j2j",
      "w": 832,
      "h": 1216,
-     "thumb": "thumbs/mvarynpj88q9f.webp",
-     "src": "images/mvarynpj88q9f.png"
+     "thumb": "thumbs/mvcoyi07j1j2j.webp",
+     "src": "images/mvcoyi07j1j2j.png"
     }
    ],
-   "ts": 1792143490888,
+   "ts": 1792259377000,
    "no": 233
   },
   {
-   "id": "mvarynpwcnxdg",
-   "name": "gutaiyou",
+   "id": "mvcoyi0ktswv7",
+   "name": "caicaicaicai ni caicai",
    "tags": [],
    "imgs": [
     {
-     "k": "mvarynpwcnxdg",
+     "k": "mvcoyi0ktswv7",
      "w": 832,
      "h": 1216,
-     "thumb": "thumbs/mvarynpwcnxdg.webp",
-     "src": "images/mvarynpwcnxdg.png"
+     "thumb": "thumbs/mvcoyi0ktswv7.webp",
+     "src": "images/mvcoyi0ktswv7.png"
     }
    ],
-   "ts": 1792143490889,
+   "ts": 1792259377001,
    "no": 234
-  },
-  {
-   "id": "mvarynqbo78qh",
-   "name": "wayon154",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mvarynqbo78qh",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mvarynqbo78qh.webp",
-     "src": "images/mvarynqbo78qh.png"
-    }
-   ],
-   "ts": 1792143490890,
-   "no": 235
-  },
-  {
-   "id": "mvarynqtaiqdp",
-   "name": "nyzziz",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mvarynqtaiqdp",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mvarynqtaiqdp.webp",
-     "src": "images/mvarynqtaiqdp.png"
-    }
-   ],
-   "ts": 1792143490891,
-   "no": 236
-  },
-  {
-   "id": "mvarynrgqcxeh",
-   "name": "hynn0x x",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mvarynrgqcxeh",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mvarynrgqcxeh.webp",
-     "src": "images/mvarynrgqcxeh.png"
-    }
-   ],
-   "ts": 1792143490892,
-   "no": 237
   }
  ]
 }
