@@ -10,15 +10,15 @@
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="NAI 작태 모음">
 <meta property="og:title"       content="NAI 작태 모음">
-<meta property="og:description" content="v5기준 링크 퍼날 X 이름 누르면 복사 계속 추가중">
+<meta property="og:description" content="V5 기준 계속 추가 예정">
 <meta property="og:url"         content="https://hiimmani.github.io/nai-artist-tags/">
-<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mv52jpaa">
+<meta property="og:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 <meta property="og:image:width"  content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card"        content="summary_large_image">
 <meta name="twitter:title"       content="NAI 작태 모음">
-<meta name="twitter:description" content="v5기준 링크 퍼날 X 이름 누르면 복사 계속 추가중">
-<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mv52jpaa">
+<meta name="twitter:description" content="V5 기준 계속 추가 예정">
+<meta name="twitter:image"       content="https://hiimmani.github.io/nai-artist-tags/cover.jpg?v=mtmywfbd">
 
 <title>NAI 작태 모음</title>
 <style>
@@ -582,7 +582,7 @@ header:after{background:#ede3f6}
 
 
 #grid{padding-bottom:14px}
-#pagesBottom{padding:8px 0 calc(88px + var(--safe-b))}
+#pagesBottom{padding:22px 0 24px}
 .pagination{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;padding:12px 0;color:#9885ac}
 .pagination button{min-width:30px;height:32px;padding:0 8px;border:1px solid #e8dff0;border-radius:7px;background:#fdfbff;color:#89749c;font-size:11px}
 .pagination button[aria-current="page"]{background:#eee4f7;border-color:#d8c5e9;color:#624b79;font-weight:600}
@@ -719,8 +719,8 @@ header:after{background:#ede3f6}
 const $ = s => document.querySelector(s);
 const CFG_KEY = 'nai_gallery_cfg_v1';
 const THEME_KEY = 'nai_theme_v1';
-const CHUNK = 200;
-const PAGE_SIZE = 200;
+const CHUNK = 100;
+const PAGE_SIZE = 100;
 const THUMB = { max: 420,  q: .72 };
 const FULL  = { max: 1600, q: .86 };
 const PARALLEL = 2;                       // GitHub 업로드 동시 개수
@@ -967,13 +967,14 @@ async function doCommit(changes, message, onProg, payload = dataB64()){
    관리자는 GitHub 에서 바로 읽는다. github.io 배포는 1~2분 걸리는데
    그걸 기다리면 "PC 에서 지웠는데 폰에는 그대로"인 상황이 생긴다.        */
 let lastLoad = 0;
-async function fetchData(){
+async function fetchData(allowPublishedFallback = true){
   if(S.cfg && S.cfg.token){
     try{
       const r = await fetch(api('contents/data.json?ref=' + S.cfg.branch),
         { headers: { ...ghHead(), Accept: 'application/vnd.github.raw' }, cache: 'no-store' });
       if(r.ok) return await r.json();
     }catch{}
+    if(!allowPublishedFallback) return null;
   }
   try{
     const r = await fetch('data.json?_=' + Date.now(), { cache: 'no-store' });
@@ -996,7 +997,7 @@ async function refresh(){
   refreshing = true;
   try{
     const before = JSON.stringify({items:S.items,site:S.site});
-    const d = await fetchData();
+    const d = await fetchData(false);
     if(!d || !Array.isArray(d.items) || blocked() ||
        before !== JSON.stringify({items:S.items,site:S.site})) return;
     const nextItems = normalize(d.items);
@@ -1183,6 +1184,7 @@ const grid = $('#grid');
 let io, ioMore;
 
 let currentPage = 1, lastFilterKey = null;
+const pagePositions = new Map();
 function applyFilter(){
   const q = $('#q').value.trim().toLowerCase();
   let v = S.items;
@@ -1195,7 +1197,7 @@ function applyFilter(){
   else if(s === 'old') v.sort((a, b) => a.ts - b.ts);
   else                 v.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
   const key = JSON.stringify([q,S.tag,s]);
-  if(key !== lastFilterKey) currentPage = 1;
+  if(key !== lastFilterKey){ currentPage = 1; pagePositions.clear(); }
   lastFilterKey = key;
   S.filtered = v;
   currentPage = Math.max(1,Math.min(currentPage,Math.ceil(v.length/PAGE_SIZE) || 1));
@@ -1218,12 +1220,32 @@ function paintPages(){
     el.innerHTML='<button type="button" data-page="'+(currentPage-1)+'"'+(currentPage===1?' disabled':'')+'>이전</button>'+buttons+'<button type="button" data-page="'+(currentPage+1)+'"'+(currentPage===total?' disabled':'')+'>다음</button><small>'+currentPage+' / '+total+' 페이지</small>';
   }
 }
-for(const id of ['pagesBottom']) $('#'+id).addEventListener('click',e=>{
-  const b=e.target.closest('button[data-page]'); if(!b||b.disabled) return;
-  currentPage=Number(b.dataset.page); applyFilter();
-  $('#bar').scrollIntoView({block:'start'});
-  $('#bar').setAttribute('tabindex','-1'); $('#bar').focus({preventScroll:true});
+function rememberPagePosition(){
+  const card = [...grid.children].find(el=>el.getBoundingClientRect().bottom>0);
+  pagePositions.set(currentPage, {y:window.scrollY,id:card ? S.view[Number(card.dataset.i)]?.id : null,offset:card?.getBoundingClientRect().top});
+}
+$('#pagesBottom').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-page]');
+  if(!b || b.disabled) return;
+  const next=Number(b.dataset.page);
+  if(next===currentPage || next<1 || next>Math.ceil(S.filtered.length/PAGE_SIZE)) return;
+  rememberPagePosition();
+  currentPage=next; applyFilter();
+  const saved=pagePositions.get(next), filterKey=lastFilterKey;
+  const restore=()=>{
+    if(currentPage!==next || lastFilterKey!==filterKey) return;
+    if(!saved){ $('#bar').scrollIntoView({block:'start',behavior:'instant'}); return; }
+    const index=S.view.findIndex(it=>it.id===saved.id);
+    const card=index<0?null:grid.querySelector('[data-i="'+index+'"]');
+    const y=card && Number.isFinite(saved.offset) ? window.scrollY+card.getBoundingClientRect().top-saved.offset : saved.y;
+    window.scrollTo({top:Math.max(0,y),behavior:'instant'});
+  };
+  const focusTarget=saved ? $('#pagesBottom [aria-current="page"]') : $('#bar');
+  focusTarget?.setAttribute('tabindex','-1');
+  focusTarget?.focus({preventScroll:true});
+  restore(); requestAnimationFrame(restore);
 });
+
 function paintCount(q){
   const el = $('#count'), total = S.items.length.toLocaleString('ko-KR');
   el.classList.toggle('clickable', !!S.tag);
