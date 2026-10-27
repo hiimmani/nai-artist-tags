@@ -582,12 +582,13 @@ header:after{background:#ede3f6}
 
 
 #grid{padding-bottom:14px}
-#pagesBottom{padding:22px 0 24px}
+#pagesBottom{padding:22px 0 56px}
 .pagination{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;padding:12px 0;color:#9885ac}
 .pagination button{min-width:30px;height:32px;padding:0 8px;border:1px solid #e8dff0;border-radius:7px;background:#fdfbff;color:#89749c;font-size:11px}
 .pagination button[aria-current="page"]{background:#eee4f7;border-color:#d8c5e9;color:#624b79;font-weight:600}
 .pagination button:disabled{opacity:.35;cursor:default}
 .pagination small{width:100%;text-align:center;font-size:10px;color:#a494b2;margin-top:2px}
+.site-credit{text-align:center;font-size:11px;line-height:1.6;letter-spacing:.04em;color:#b5a9c1;padding:18px 60px calc(32px + var(--safe-b))}.lockrow{padding-bottom:20px}
 .desktop-sort{display:none}
 @media(min-width:700px){
  body{background:#fcfaff;font-size:15px}
@@ -677,6 +678,7 @@ header:after{background:#ede3f6}
   <div id="grid"></div>
   <nav class="pagination" id="pagesBottom" aria-label="하단 페이지 이동"></nav>
   <div class="lockrow"><button id="lockBtn">관리</button></div>
+  <footer class="site-credit">Curated by mani</footer>
 </div>
 
 <button id="themeBtn" aria-label="색 바꾸기" title="색 바꾸기">🌸</button>
