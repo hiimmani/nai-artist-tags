@@ -637,11 +637,12 @@ header:after{background:#ede3f6}
 @media(min-width:700px){#backToTop{right:28px;bottom:calc(28px + var(--safe-b));width:52px;height:52px;aspect-ratio:1}#backToTop svg{width:26px;height:26px}}
 
 @media(max-width:699px){
- .lb-scroll{padding-left:72px;padding-right:72px}
+ .lb-scroll{padding-top:calc(112px + env(safe-area-inset-top,0px));padding-left:72px;padding-right:72px}
  .lb .nav{width:48px;height:48px;padding:0;border-radius:14px;font-size:30px;touch-action:manipulation;box-shadow:0 3px 12px #49365c18}
  .lb .nav.prev{left:max(14px,env(safe-area-inset-left,0px))}
  .lb .nav.next{right:max(14px,env(safe-area-inset-right,0px))}
  .lb-info{padding:14px 12px}
+ .lb-tags .none{font-size:11px;font-weight:400;line-height:1.5}
  #lbName{overflow-wrap:anywhere}
 }
 
