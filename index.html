@@ -1196,7 +1196,6 @@ const grid = $('#grid');
 let io, ioMore;
 
 let currentPage = 1, lastFilterKey = null;
-const pagePositions = new Map();
 function applyFilter(){
   const q = $('#q').value.trim().toLowerCase();
   let v = S.items;
@@ -1209,7 +1208,7 @@ function applyFilter(){
   else if(s === 'old') v.sort((a, b) => a.ts - b.ts);
   else                 v.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
   const key = JSON.stringify([q,S.tag,s]);
-  if(key !== lastFilterKey){ currentPage = 1; pagePositions.clear(); }
+  if(key !== lastFilterKey) currentPage = 1;
   lastFilterKey = key;
   S.filtered = v;
   currentPage = Math.max(1,Math.min(currentPage,Math.ceil(v.length/PAGE_SIZE) || 1));
@@ -1232,30 +1231,14 @@ function paintPages(){
     el.innerHTML='<button type="button" data-page="'+(currentPage-1)+'"'+(currentPage===1?' disabled':'')+'>이전</button>'+buttons+'<button type="button" data-page="'+(currentPage+1)+'"'+(currentPage===total?' disabled':'')+'>다음</button><small>'+currentPage+' / '+total+' 페이지</small>';
   }
 }
-function rememberPagePosition(){
-  const card = [...grid.children].find(el=>el.getBoundingClientRect().bottom>0);
-  pagePositions.set(currentPage, {y:window.scrollY,id:card ? S.view[Number(card.dataset.i)]?.id : null,offset:card?.getBoundingClientRect().top});
-}
 $('#pagesBottom').addEventListener('click',e=>{
   const b=e.target.closest('button[data-page]');
   if(!b || b.disabled) return;
   const next=Number(b.dataset.page);
   if(next===currentPage || next<1 || next>Math.ceil(S.filtered.length/PAGE_SIZE)) return;
-  rememberPagePosition();
   currentPage=next; applyFilter();
-  const saved=pagePositions.get(next), filterKey=lastFilterKey;
-  const restore=()=>{
-    if(currentPage!==next || lastFilterKey!==filterKey) return;
-    if(!saved){ $('#bar').scrollIntoView({block:'start',behavior:'instant'}); return; }
-    const index=S.view.findIndex(it=>it.id===saved.id);
-    const card=index<0?null:grid.querySelector('[data-i="'+index+'"]');
-    const y=card && Number.isFinite(saved.offset) ? window.scrollY+card.getBoundingClientRect().top-saved.offset : saved.y;
-    window.scrollTo({top:Math.max(0,y),behavior:'instant'});
-  };
-  const focusTarget=saved ? $('#pagesBottom [aria-current="page"]') : $('#bar');
-  focusTarget?.setAttribute('tabindex','-1');
-  focusTarget?.focus({preventScroll:true});
-  restore(); requestAnimationFrame(restore);
+  grid.setAttribute('tabindex','-1'); grid.focus({preventScroll:true});
+  grid.scrollIntoView({block:'start',behavior:'instant'});
 });
 
 function paintCount(q){
@@ -1416,7 +1399,7 @@ $('#count').addEventListener('click', () => { if(S.tag) selectTag(''); });
 /* ── 라이트박스 ───────────────────────────────────────── */
 let lbStartPage = 1;
 async function openLB(i){
-  if(!$('#lb').classList.contains('on')){lbStartPage=currentPage;rememberPagePosition();}
+  if(!$('#lb').classList.contains('on')){lbStartPage=currentPage;}
   if(i < 0){
     if(currentPage<=1) return;
     currentPage--; applyFilter(); i=S.view.length-1;
