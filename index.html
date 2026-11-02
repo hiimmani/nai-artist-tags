@@ -1238,6 +1238,8 @@ $('#pagesBottom').addEventListener('click',e=>{
   if(next===currentPage || next<1 || next>Math.ceil(S.filtered.length/PAGE_SIZE)) return;
   currentPage=next; applyFilter();
   grid.setAttribute('tabindex','-1'); grid.focus({preventScroll:true});
+  const barHeight = $('#bar').getBoundingClientRect().height;
+  grid.style.scrollMarginTop = barHeight + 'px';
   grid.scrollIntoView({block:'start',behavior:'instant'});
 });
 
