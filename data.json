@@ -4,7 +4,7 @@
  "sub": "v5기준\n링크 퍼날 X\n이름 누르면 복사\n계속 추가중",
  "theme": "sky",
  "cover": "mv52jpaa",
- "updated": "2026-11-05T09:26:11.070Z",
+ "updated": "2026-11-06T09:29:59.955Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -7287,212 +7287,84 @@
    "no": 455
   },
   {
-   "id": "mw3cbo47vll7m",
-   "name": "npppiyo",
+   "id": "mw4rwukcc50sf",
+   "name": "crab d",
    "tags": [],
    "imgs": [
     {
-     "k": "mw3cbo47vll7m",
+     "k": "mw4rwukcc50sf",
      "w": 832,
      "h": 1216,
-     "thumb": "thumbs/mw3cbo47vll7m.webp",
-     "src": "images/mw3cbo47vll7m.png"
+     "thumb": "thumbs/mw4rwukcc50sf.webp",
+     "src": "images/mw4rwukcc50sf.png"
     }
    ],
-   "ts": 1793870743199,
+   "ts": 1793957391785,
    "no": 456
   },
   {
-   "id": "mw3cbo4pq925e",
-   "name": "miclot",
+   "id": "mw4rwukv3sni9",
+   "name": "58 (opal 00 58)",
    "tags": [],
    "imgs": [
     {
-     "k": "mw3cbo4pq925e",
+     "k": "mw4rwukv3sni9",
      "w": 832,
      "h": 1216,
-     "thumb": "thumbs/mw3cbo4pq925e.webp",
-     "src": "images/mw3cbo4pq925e.png"
+     "thumb": "thumbs/mw4rwukv3sni9.webp",
+     "src": "images/mw4rwukv3sni9.png"
     }
    ],
-   "ts": 1793870743200,
+   "ts": 1793957391786,
    "no": 457
   },
   {
-   "id": "mw3cbo55ywul6",
-   "name": "kasukasugom1",
+   "id": "mw4rwul6nu41i",
+   "name": "koujisako",
    "tags": [],
    "imgs": [
     {
-     "k": "mw3cbo55ywul6",
+     "k": "mw4rwul6nu41i",
      "w": 832,
      "h": 1216,
-     "thumb": "thumbs/mw3cbo55ywul6.webp",
-     "src": "images/mw3cbo55ywul6.png"
+     "thumb": "thumbs/mw4rwul6nu41i.webp",
+     "src": "images/mw4rwul6nu41i.png"
     }
    ],
-   "ts": 1793870743201,
+   "ts": 1793957391787,
    "no": 458
   },
   {
-   "id": "mw3cbo5pb66ir",
-   "name": "min (mts2314)",
+   "id": "mw4rwulo2ya3i",
+   "name": "hirayama kanna",
    "tags": [],
    "imgs": [
     {
-     "k": "mw3cbo5pb66ir",
+     "k": "mw4rwulo2ya3i",
      "w": 832,
      "h": 1216,
-     "thumb": "thumbs/mw3cbo5pb66ir.webp",
-     "src": "images/mw3cbo5pb66ir.png"
+     "thumb": "thumbs/mw4rwulo2ya3i.webp",
+     "src": "images/mw4rwulo2ya3i.png"
     }
    ],
-   "ts": 1793870743202,
+   "ts": 1793957391788,
    "no": 459
   },
   {
-   "id": "mw3cbo68c4kg1",
-   "name": "yakitori egg",
+   "id": "mw4rwum4cvv6n",
+   "name": "mika pikazo",
    "tags": [],
    "imgs": [
     {
-     "k": "mw3cbo68c4kg1",
+     "k": "mw4rwum4cvv6n",
      "w": 832,
      "h": 1216,
-     "thumb": "thumbs/mw3cbo68c4kg1.webp",
-     "src": "images/mw3cbo68c4kg1.png"
+     "thumb": "thumbs/mw4rwum4cvv6n.webp",
+     "src": "images/mw4rwum4cvv6n.png"
     }
    ],
-   "ts": 1793870743203,
+   "ts": 1793957391789,
    "no": 460
-  },
-  {
-   "id": "mw3cbo6scx8q3",
-   "name": "itou hachi",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mw3cbo6scx8q3",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mw3cbo6scx8q3.webp",
-     "src": "images/mw3cbo6scx8q3.png"
-    }
-   ],
-   "ts": 1793870743204,
-   "no": 461
-  },
-  {
-   "id": "mw3cbo7bbhvms",
-   "name": "fcx4l",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mw3cbo7bbhvms",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mw3cbo7bbhvms.webp",
-     "src": "images/mw3cbo7bbhvms.png"
-    }
-   ],
-   "ts": 1793870743205,
-   "no": 462
-  },
-  {
-   "id": "mw3cbo7t26o82",
-   "name": "o (pottypottp)",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mw3cbo7t26o82",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mw3cbo7t26o82.webp",
-     "src": "images/mw3cbo7t26o82.png"
-    }
-   ],
-   "ts": 1793870743206,
-   "no": 463
-  },
-  {
-   "id": "mw3cbo89scvw2",
-   "name": "mugi (mugimugi_9kv)",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mw3cbo89scvw2",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mw3cbo89scvw2.webp",
-     "src": "images/mw3cbo89scvw2.png"
-    }
-   ],
-   "ts": 1793870743207,
-   "no": 464
-  },
-  {
-   "id": "mw3cbo8s4u7an",
-   "name": "himo (himodayoo)",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mw3cbo8s4u7an",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mw3cbo8s4u7an.webp",
-     "src": "images/mw3cbo8s4u7an.png"
-    }
-   ],
-   "ts": 1793870743208,
-   "no": 465
-  },
-  {
-   "id": "mw3cbo9agqfuh",
-   "name": "nanonome",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mw3cbo9agqfuh",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mw3cbo9agqfuh.webp",
-     "src": "images/mw3cbo9agqfuh.png"
-    }
-   ],
-   "ts": 1793870743209,
-   "no": 466
-  },
-  {
-   "id": "mw3cbo9tf0yen",
-   "name": "kmnk (kumanuko)",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mw3cbo9tf0yen",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mw3cbo9tf0yen.webp",
-     "src": "images/mw3cbo9tf0yen.png"
-    }
-   ],
-   "ts": 1793870743210,
-   "no": 467
-  },
-  {
-   "id": "mw3cboacfqccm",
-   "name": "mikan03 26",
-   "tags": [],
-   "imgs": [
-    {
-     "k": "mw3cboacfqccm",
-     "w": 832,
-     "h": 1216,
-     "thumb": "thumbs/mw3cboacfqccm.webp",
-     "src": "images/mw3cboacfqccm.png"
-    }
-   ],
-   "ts": 1793870743211,
-   "no": 468
   }
  ]
 }
