@@ -627,6 +627,8 @@ header:after{background:#ede3f6}
 
 @media(min-width:1000px){#grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 
+#grid .nm{box-sizing:border-box;width:100%;min-height:44px;align-items:center;padding:5px 2px;text-align:left}
+@media(max-width:699px){#grid .nm{font-size:12px}}
 
 #grid{padding-bottom:14px}
 #bar:focus{outline:none}
@@ -646,7 +648,7 @@ header:after{background:#ede3f6}
  #lbName{overflow-wrap:anywhere}
 }
 
-</style>
+.admin-heading{display:flex;align-items:center;justify-content:space-between}#adminDismiss{width:44px;height:44px;border:0;background:transparent;color:inherit;font-size:24px}@media(max-width:699px){#sheetBox:has(#adminDismiss){max-height:calc(100dvh - 52px);overflow-y:auto}}</style>
 </head>
 <body>
 
@@ -2138,10 +2140,11 @@ function confirmDelete(message){
   });
 }
 
+$('#sheet').addEventListener('click', e=>{if(e.target===e.currentTarget && $('#adminDismiss')) closeSheet();});
 function adminSheet(){
   const c = S.cfg || { owner: '', repo: '', branch: 'main', token: '' };
   sheet(`
-    <h3>관리자 로그인</h3>
+    <h3 class="admin-heading">관리자 로그인<button id="adminDismiss" type="button" aria-label="닫기">×</button></h3>
     <div class="note">
       GitHub <b>토큰을 입력한 이 기기에서만</b> 편집 버튼이 나타납니다.
       <br>토큰은 이 브라우저에 저장되며 GitHub 인증에 사용됩니다.
@@ -2156,6 +2159,7 @@ function adminSheet(){
       ${S.cfg ? '<button class="btn" id="out">로그아웃</button>' : '<button class="btn" id="cancel">취소</button>'}
       <button class="btn pri" id="save">확인</button>
     </div>`);
+  $('#adminDismiss').onclick = closeSheet;
   $('#cOwner').value = c.owner; $('#cRepo').value = c.repo;
   $('#cBranch').value = c.branch || 'main'; $('#cToken').value = c.token;
   $('#cancel') && ($('#cancel').onclick = closeSheet);
