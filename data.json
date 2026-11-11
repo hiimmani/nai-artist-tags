@@ -4,7 +4,7 @@
  "sub": "v5기준\n링크 퍼날 X\n이름 누르면 복사\n계속 추가중",
  "theme": "sky",
  "cover": "mv52jpaa",
- "updated": "2026-11-11T01:11:36.152Z",
+ "updated": "2026-11-11T09:16:11.243Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -7833,7 +7833,9 @@
   {
    "id": "mwbfa5b00auh6",
    "name": "mnnd",
-   "tags": [],
+   "tags": [
+    "ㅇ"
+   ],
    "imgs": [
     {
      "k": "mwbfa5b00auh6",
