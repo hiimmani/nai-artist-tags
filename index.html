@@ -549,7 +549,7 @@ button:focus-visible,select:focus-visible{outline:2px solid #a685c7;outline-offs
 
 /* Lavender accents with dark violet lettering for legibility. */
 :root,:root[data-theme="sky"]{--grad:linear-gradient(135deg,#f3ecfa,#e9ddf5)}
-.fab{color:#5c4671;border-color:#ebdff7;box-shadow:0 5px 20px #886aa524}
+.fab{background:#e9ddf5;color:#5c4671;border-color:#d8c7e7;box-shadow:0 5px 20px #886aa524}
 .btn.pri{background:#eee4f7;border-color:#e5d7f1;color:#5c4671}
 .notebook-mark{background:#f8f3fc;color:#9b7fb7}
 header:after{background:#ede3f6}
@@ -627,8 +627,11 @@ header:after{background:#ede3f6}
 
 @media(min-width:1000px){#grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 
-#grid .nm{box-sizing:border-box;width:100%;min-height:44px;align-items:center;padding:5px 2px;text-align:left}
-@media(max-width:699px){#grid .nm{font-size:12px}}
+/* The number and caption padding share the name button's tap area. */
+#grid .cap{position:relative}
+#grid .nm{position:static;width:100%;min-height:0;padding:1px 0;text-align:left}
+#grid .nm::after{content:"";position:absolute;inset:0;cursor:pointer}
+@media(max-width:699px){#grid .nm{font-size:11px;line-height:1.35}}
 
 #grid{padding-bottom:14px}
 #bar:focus{outline:none}
