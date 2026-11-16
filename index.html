@@ -1205,7 +1205,8 @@ function applyFilter(){
   const q = $('#q').value.trim().toLowerCase();
   let v = S.items;
   if(S.tag) v = v.filter(it => tagsOf(it).includes(S.tag));
-  if(q) v = v.filter(it => (it.name || '').toLowerCase().includes(q) || tagsOf(it).some(t => t.toLowerCase().includes(q)));
+  const nameQuery = q.replace(/\s+/g, '');
+  if(q) v = v.filter(it => (it.name || '').toLowerCase().replace(/\s+/g, '').includes(nameQuery) || tagsOf(it).some(t => t.toLowerCase().includes(q)));
   v = v.slice();
   const s = $('#sort').value;
   grid.dataset.sort = s;
