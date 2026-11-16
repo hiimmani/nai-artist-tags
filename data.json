@@ -3,7 +3,7 @@
  "title": "NAI 작태 모음",
  "sub": "v5기준\n링크 퍼날 X\n이름 누르면 복사\n계속 추가중",
  "cover": "mv52jpaa",
- "updated": "2026-11-16T19:05:26.757Z",
+ "updated": "2026-11-16T19:05:34.996Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -9172,6 +9172,22 @@
    ],
    "ts": 1794855877197,
    "no": 573
+  },
+  {
+   "id": "mwjmuiwawjo75",
+   "name": "harada (basashi)",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwjmuiwawjo75",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwjmuiwawjo75.webp",
+     "src": "images/mwjmuiwawjo75.png"
+    }
+   ],
+   "ts": 1794855877198,
+   "no": 574
   }
  ]
 }
