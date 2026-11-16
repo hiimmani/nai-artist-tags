@@ -2,9 +2,8 @@
  "version": 3,
  "title": "NAI 작태 모음",
  "sub": "v5기준\n링크 퍼날 X\n이름 누르면 복사\n계속 추가중",
- "theme": "sky",
  "cover": "mv52jpaa",
- "updated": "2026-11-15T18:36:44.337Z",
+ "updated": "2026-11-16T15:20:28.408Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -8549,6 +8548,38 @@
    ],
    "ts": 1794767734415,
    "no": 534
+  },
+  {
+   "id": "mwjeu2pkitzcz",
+   "name": "roru (lol_dessin)",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwjeu2pkitzcz",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwjeu2pkitzcz.webp",
+     "src": "images/mwjeu2pkitzcz.png"
+    }
+   ],
+   "ts": 1794842418927,
+   "no": 535
+  },
+  {
+   "id": "mwjeu2qw5m28a",
+   "name": "kabane (rjev8385)",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwjeu2qw5m28a",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwjeu2qw5m28a.webp",
+     "src": "images/mwjeu2qw5m28a.png"
+    }
+   ],
+   "ts": 1794842418928,
+   "no": 536
   }
  ]
 }
