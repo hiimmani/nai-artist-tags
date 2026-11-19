@@ -3,7 +3,7 @@
  "title": "작태 노트",
  "sub": "v5 기준\n링크 퍼날 X\n이름 누르면 복사",
  "cover": "mv52jpaa",
- "updated": "2026-11-17T05:45:20.466Z",
+ "updated": "2026-11-19T13:25:11.028Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -9188,6 +9188,134 @@
    ],
    "ts": 1794855877198,
    "no": 574
+  },
+  {
+   "id": "mwnl15vnrwezk",
+   "name": "guu (hakahonoo)",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl15vnrwezk",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl15vnrwezk.webp",
+     "src": "images/mwnl15vnrwezk.png"
+    }
+   ],
+   "ts": 1795094692459,
+   "no": 575
+  },
+  {
+   "id": "mwnl15wlqdogv",
+   "name": "nolja cz",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl15wlqdogv",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl15wlqdogv.webp",
+     "src": "images/mwnl15wlqdogv.png"
+    }
+   ],
+   "ts": 1795094692460,
+   "no": 576
+  },
+  {
+   "id": "mwnl15xb2moa3",
+   "name": "tekito midori",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl15xb2moa3",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl15xb2moa3.webp",
+     "src": "images/mwnl15xb2moa3.png"
+    }
+   ],
+   "ts": 1795094692461,
+   "no": 577
+  },
+  {
+   "id": "mwnl15y5uodum",
+   "name": "junro",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl15y5uodum",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl15y5uodum.webp",
+     "src": "images/mwnl15y5uodum.png"
+    }
+   ],
+   "ts": 1795094692462,
+   "no": 578
+  },
+  {
+   "id": "mwnl15z0bmkwk",
+   "name": "maco22",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl15z0bmkwk",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl15z0bmkwk.webp",
+     "src": "images/mwnl15z0bmkwk.png"
+    }
+   ],
+   "ts": 1795094692463,
+   "no": 579
+  },
+  {
+   "id": "mwnl15zt1tsse",
+   "name": "obata takeshi",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl15zt1tsse",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl15zt1tsse.webp",
+     "src": "images/mwnl15zt1tsse.png"
+    }
+   ],
+   "ts": 1795094692464,
+   "no": 580
+  },
+  {
+   "id": "mwnl160h3hkjs",
+   "name": "sugano manami",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl160h3hkjs",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl160h3hkjs.webp",
+     "src": "images/mwnl160h3hkjs.png"
+    }
+   ],
+   "ts": 1795094692465,
+   "no": 581
+  },
+  {
+   "id": "mwnl1613c47q2",
+   "name": "kosherea",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl1613c47q2",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl1613c47q2.webp",
+     "src": "images/mwnl1613c47q2.png"
+    }
+   ],
+   "ts": 1795094692466,
+   "no": 582
   }
  ]
 }
