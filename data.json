@@ -3,7 +3,7 @@
  "title": "작태 노트",
  "sub": "v5 기준\n링크 퍼날 X\n이름 누르면 복사",
  "cover": "mv52jpaa",
- "updated": "2026-11-19T13:26:46.951Z",
+ "updated": "2026-11-19T13:47:11.729Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -9508,6 +9508,102 @@
    ],
    "ts": 1795094692479,
    "no": 594
+  },
+  {
+   "id": "mwnltn8293cd9",
+   "name": "mikan03 26",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnltn8293cd9",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnltn8293cd9.webp",
+     "src": "images/mwnltn8293cd9.png"
+    }
+   ],
+   "ts": 1795096021928,
+   "no": 595
+  },
+  {
+   "id": "mwnltn8kakxmn",
+   "name": "22kolink",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnltn8kakxmn",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnltn8kakxmn.webp",
+     "src": "images/mwnltn8kakxmn.png"
+    }
+   ],
+   "ts": 1795096021929,
+   "no": 596
+  },
+  {
+   "id": "mwnltn8wwlkr7",
+   "name": "anirrie",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnltn8wwlkr7",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnltn8wwlkr7.webp",
+     "src": "images/mwnltn8wwlkr7.png"
+    }
+   ],
+   "ts": 1795096021930,
+   "no": 597
+  },
+  {
+   "id": "mwnltn9di1bbm",
+   "name": "sin 090",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnltn9di1bbm",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnltn9di1bbm.webp",
+     "src": "images/mwnltn9di1bbm.png"
+    }
+   ],
+   "ts": 1795096021931,
+   "no": 598
+  },
+  {
+   "id": "mwnltn9uua7og",
+   "name": "shikishima (eiri)",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnltn9uua7og",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnltn9uua7og.webp",
+     "src": "images/mwnltn9uua7og.png"
+    }
+   ],
+   "ts": 1795096021932,
+   "no": 599
+  },
+  {
+   "id": "mwnltnact6phy",
+   "name": "tamomoko",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnltnact6phy",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnltnact6phy.webp",
+     "src": "images/mwnltnact6phy.png"
+    }
+   ],
+   "ts": 1795096021933,
+   "no": 600
   }
  ]
 }
