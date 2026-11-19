@@ -3,7 +3,7 @@
  "title": "작태 노트",
  "sub": "v5 기준\n링크 퍼날 X\n이름 누르면 복사",
  "cover": "mv52jpaa",
- "updated": "2026-11-19T13:26:33.900Z",
+ "updated": "2026-11-19T13:26:46.951Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -9444,6 +9444,70 @@
    ],
    "ts": 1795094692474,
    "no": 590
+  },
+  {
+   "id": "mwnl168z38822",
+   "name": "rokkatera",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl168z38822",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl168z38822.webp",
+     "src": "images/mwnl168z38822.png"
+    }
+   ],
+   "ts": 1795094692475,
+   "no": 591
+  },
+  {
+   "id": "mwnl169w64kly",
+   "name": "michelle (ooo-anteat)",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl169w64kly",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl169w64kly.webp",
+     "src": "images/mwnl169w64kly.png"
+    }
+   ],
+   "ts": 1795094692476,
+   "no": 592
+  },
+  {
+   "id": "mwnl16bhngsnx",
+   "name": "bannriishi",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl16bhngsnx",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl16bhngsnx.webp",
+     "src": "images/mwnl16bhngsnx.png"
+    }
+   ],
+   "ts": 1795094692478,
+   "no": 593
+  },
+  {
+   "id": "mwnl16cge08qd",
+   "name": "sushisushi iiii",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl16cge08qd",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl16cge08qd.webp",
+     "src": "images/mwnl16cge08qd.png"
+    }
+   ],
+   "ts": 1795094692479,
+   "no": 594
   }
  ]
 }
