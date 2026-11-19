@@ -3,7 +3,7 @@
  "title": "작태 노트",
  "sub": "v5 기준\n링크 퍼날 X\n이름 누르면 복사",
  "cover": "mv52jpaa",
- "updated": "2026-11-19T13:25:11.028Z",
+ "updated": "2026-11-19T13:26:33.900Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -9316,6 +9316,134 @@
    ],
    "ts": 1795094692466,
    "no": 582
+  },
+  {
+   "id": "mwnl1622z5ilr",
+   "name": "budo (budoboros)",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl1622z5ilr",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl1622z5ilr.webp",
+     "src": "images/mwnl1622z5ilr.png"
+    }
+   ],
+   "ts": 1795094692467,
+   "no": 583
+  },
+  {
+   "id": "mwnl162xg3nyv",
+   "name": "drowsyww",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl162xg3nyv",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl162xg3nyv.webp",
+     "src": "images/mwnl162xg3nyv.png"
+    }
+   ],
+   "ts": 1795094692468,
+   "no": 584
+  },
+  {
+   "id": "mwnl163wtx8pq",
+   "name": "kawasaki (kwsk_8765)",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl163wtx8pq",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl163wtx8pq.webp",
+     "src": "images/mwnl163wtx8pq.png"
+    }
+   ],
+   "ts": 1795094692469,
+   "no": 585
+  },
+  {
+   "id": "mwnl164lnq2np",
+   "name": "caru c1",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl164lnq2np",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl164lnq2np.webp",
+     "src": "images/mwnl164lnq2np.png"
+    }
+   ],
+   "ts": 1795094692470,
+   "no": 586
+  },
+  {
+   "id": "mwnl165cd06vv",
+   "name": "kurono mitsuki",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl165cd06vv",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl165cd06vv.webp",
+     "src": "images/mwnl165cd06vv.png"
+    }
+   ],
+   "ts": 1795094692471,
+   "no": 587
+  },
+  {
+   "id": "mwnl166106emz",
+   "name": "love cacao",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl166106emz",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl166106emz.webp",
+     "src": "images/mwnl166106emz.png"
+    }
+   ],
+   "ts": 1795094692472,
+   "no": 588
+  },
+  {
+   "id": "mwnl16794ut54",
+   "name": "nzeneee",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl16794ut54",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl16794ut54.webp",
+     "src": "images/mwnl16794ut54.png"
+    }
+   ],
+   "ts": 1795094692473,
+   "no": 589
+  },
+  {
+   "id": "mwnl1686aurig",
+   "name": "tami tome mo",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwnl1686aurig",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwnl1686aurig.webp",
+     "src": "images/mwnl1686aurig.png"
+    }
+   ],
+   "ts": 1795094692474,
+   "no": 590
   }
  ]
 }
