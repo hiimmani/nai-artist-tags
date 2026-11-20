@@ -135,6 +135,7 @@ h1{margin:0;font-size:29px;font-weight:650;letter-spacing:-.055em;line-height:1.
 .nav{position:fixed;top:50%;transform:translateY(-50%);display:grid;place-items:center;line-height:1;z-index:3;width:32px;height:32px;font-size:19px;box-shadow:none;background:#fefcfc;color:#876e9f;border-radius:9px}
 .nav:active{transform:translateY(-50%) scale(.9)}
 .nav[disabled]{opacity:.3;pointer-events:none}
+.nav svg{width:.8em;height:.8em;display:block}
 
 /* ── 추가 버튼 ──────────────────────── */
 .fab{position:fixed;z-index:40;font-weight:300;place-items:center;align-items:center;justify-content:center;right:22px;bottom:calc(68px + var(--safe-b));border:1px solid #d8c7e7;font-size:22px;background:#e9ddf5;color:#5c4671;box-shadow:0 4px 16px #886aa514;width:44px;height:44px;padding:0;gap:0;border-radius:50%;line-height:1}
@@ -359,6 +360,22 @@ button:focus-visible,select:focus-visible{outline:2px solid #a685c7;outline-offs
   #sortMenu button[aria-checked="true"]:after{content:'✓';font-size:13px}
 }
 @media (min-width:1000px){#grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media (min-width:700px){
+  .lb .nav{width:60px;height:60px;font-size:34px;border-radius:16px;border:1px solid #ece4f3;box-shadow:0 4px 18px #49365c1f;transition:background .14s}
+  .lb .nav.prev{left:max(16px,calc(50% - 260px - 92px))}
+  .lb .nav.next{right:max(16px,calc(50% - 260px - 92px))}
+  .lb .nav:hover{background:#f5eefb}
+}
+
+/* 작태 / UC 탭 */
+.cat-tabs{display:flex;gap:4px;margin-top:8px;border-bottom:1px solid #e9e3ef}
+.cat-tab{position:relative;padding:8px 14px 9px;font-size:12px;font-weight:500;color:#a497b2;border-radius:6px 6px 0 0;transition:color .14s,background .14s}
+.cat-tab .n{margin-left:5px;font-size:10px;opacity:.6;font-variant-numeric:tabular-nums}
+.cat-tab[aria-selected="true"]{color:#5f467a;font-weight:650}
+.cat-tab[aria-selected="true"]::after{content:"";position:absolute;left:8px;right:8px;bottom:-1px;height:2px;border-radius:2px;background:#8b6aab}
+@media (hover:hover){.cat-tab:hover{background:#f6f1fb;color:#7b5e98}}
+.cat-tab:focus-visible{outline:2px solid #b59bcf;outline-offset:-2px}
+@media (min-width:700px){.cat-tab{font-size:15px;padding:10px 18px 11px}.cat-tab .n{font-size:12px}}
 
 /* The number and caption padding share the name button's tap area. */
 #grid .cap{position:relative}
@@ -423,6 +440,11 @@ button:focus-visible,select:focus-visible{outline:2px solid #a685c7;outline-offs
     </div></div>
   </div>
 
+  <div class="cat-tabs" id="catTabs" role="tablist" aria-label="분류">
+    <button class="cat-tab" type="button" role="tab" data-cat="artist" aria-selected="true">작태<span class="n" id="nArtist"></span></button>
+    <button class="cat-tab" type="button" role="tab" data-cat="uc" aria-selected="false">UC<span class="n" id="nUc"></span></button>
+  </div>
+
   <div id="selectionTools" hidden><button id="selectMode" type="button">선택 삭제</button><button id="selectAll" type="button" hidden>현재 페이지 전체 선택</button><button id="deleteSelected" type="button" hidden disabled>선택 0개 삭제</button></div>
   <div class="tags" id="tagbar"></div>
   <div id="grid"></div>
@@ -452,8 +474,8 @@ button:focus-visible,select:focus-visible{outline:2px solid #a685c7;outline-offs
     <span class="lb-pos" id="lbPos"></span>
     <button class="icob" id="lbClose" aria-label="닫기">✕</button>
   </div>
-  <button class="nav prev" id="lbPrev" aria-label="이전">‹</button>
-  <button class="nav next" id="lbNext" aria-label="다음">›</button>
+  <button class="nav prev" id="lbPrev" aria-label="이전"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+  <button class="nav next" id="lbNext" aria-label="다음"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
 </div>
 
 <div class="sheet" id="sheet"><div class="sheet-box" id="sheetBox"></div></div>
@@ -480,8 +502,13 @@ const S = {
   items: [], site: { ...DEF },
   view: [], drawn: 0, tag: null,
   mode: 'local', cfg: null, admin: false,
-  cur: -1, urls: new Map()
+  cur: -1, urls: new Map(),
+  tab: location.hash === '#uc' ? 'uc' : 'artist'
 };
+// 항목 분류: cat 이 'uc' 면 UC 탭, 없으면 작태 탭 (기존 데이터는 모두 작태)
+const CATS = { artist: '작태', uc: 'UC' };
+const catOf = it => it && it.cat === 'uc' ? 'uc' : 'artist';
+const tabItems = () => S.items.filter(it => catOf(it) === S.tab);
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -850,10 +877,11 @@ async function prepImages(files, changes){
 }
 
 /* ── 추가 / 수정 / 삭제 ───────────────────────────────── */
-async function updateItem(id, name, tags, addFiles, removeKeys){
+async function updateItem(id, name, tags, addFiles, removeKeys, cat){
   const it = S.items.find(x => x.id === id);
   if(!it) return;
-  const before = { name: it.name, tags: it.tags, imgs: it.imgs };
+  const before = { name: it.name, tags: it.tags, imgs: it.imgs, cat: it.cat, no: it.no };
+  if(!('cat' in it)) delete before.cat;
   const changes = [];
   try{
     prog(.05);
@@ -870,9 +898,14 @@ async function updateItem(id, name, tags, addFiles, removeKeys){
     }
     if(addFiles && addFiles.length) imgs = imgs.concat(await prepImages(addFiles, changes));
     it.name = name; it.tags = tags; it.imgs = imgs;
+    if(CATS[cat] && cat !== catOf(it)){
+      // 다른 탭으로 옮기면 그 탭의 마지막 번호 다음 번호를 받는다
+      it.no = Math.max(0, ...S.items.filter(x => catOf(x) === cat).map(x => x.no || 0)) + 1;
+      if(cat === 'uc') it.cat = 'uc'; else delete it.cat;
+    }
     prog(.2);
     try{ await commitAll(changes, 'edit item', p => prog(.2 + p * .75)); }
-    catch(e){ Object.assign(it, before); throw e; }
+    catch(e){ if(!('cat' in before)) delete it.cat; Object.assign(it, before); throw e; }
   } finally { prog(null); }
 }
 
@@ -907,7 +940,8 @@ let io, ioMore;
 let currentPage = 1, lastFilterKey = null;
 function applyFilter(){
   const q = $('#q').value.trim().toLowerCase();
-  let v = S.items;
+  let v = tabItems();
+  if(S.tag && !v.some(it => tagsOf(it).includes(S.tag))) S.tag = null;
   if(S.tag) v = v.filter(it => tagsOf(it).includes(S.tag));
   const nameQuery = q.replace(/\s+/g, '');
   if(q) v = v.filter(it => (it.name || '').toLowerCase().replace(/\s+/g, '').includes(nameQuery) || tagsOf(it).some(t => t.toLowerCase().includes(q)));
@@ -917,7 +951,7 @@ function applyFilter(){
   if(s === 'new')      v.sort((a, b) => b.ts - a.ts);
   else if(s === 'old') v.sort((a, b) => a.ts - b.ts);
   else                 v.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ko'));
-  const key = JSON.stringify([q,S.tag,s]);
+  const key = JSON.stringify([S.tab,q,S.tag,s]);
   if(key !== lastFilterKey) currentPage = 1;
   lastFilterKey = key;
   S.filtered = v;
@@ -925,8 +959,33 @@ function applyFilter(){
   S.view = v.slice((currentPage-1)*PAGE_SIZE,currentPage*PAGE_SIZE); S.drawn = 0;
   io?.disconnect(); ioMore?.disconnect();
   grid.innerHTML = '';
-  drawMore(); paintCount(q); paintTags(); paintSelection(); paintPages();
+  drawMore(); paintCount(q); paintTags(); paintSelection(); paintPages(); paintCatTabs();
 }
+function paintCatTabs(){
+  document.querySelectorAll('.cat-tab').forEach(b => {
+    const on = b.dataset.cat === S.tab;
+    b.setAttribute('aria-selected', String(on));
+    b.tabIndex = on ? 0 : -1;
+  });
+  const n = c => S.items.filter(it => catOf(it) === c).length.toLocaleString('ko-KR');
+  $('#nArtist').textContent = n('artist');
+  $('#nUc').textContent = n('uc');
+  $('#fab').setAttribute('aria-label', CATS[S.tab] + ' 탭에 이미지 추가');
+}
+function selectCat(c){
+  if(!CATS[c] || c === S.tab) return;
+  S.tab = c; S.tag = null;
+  selectedItems.clear(); selectingItems = false;
+  try{ history.replaceState(null, '', c === 'uc' ? '#uc' : location.pathname + location.search); }catch{}
+  applyFilter();
+}
+$('#catTabs').addEventListener('click', e => { const b = e.target.closest('.cat-tab'); if(b) selectCat(b.dataset.cat); });
+$('#catTabs').addEventListener('keydown', e => {
+  if(e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  e.preventDefault(); selectCat(S.tab === 'uc' ? 'artist' : 'uc');
+  document.querySelector(`.cat-tab[data-cat="${S.tab}"]`)?.focus();
+});
+window.addEventListener('hashchange', () => selectCat(location.hash === '#uc' ? 'uc' : 'artist'));
 function paintPages(){
   const total = Math.max(1,Math.ceil(S.filtered.length/PAGE_SIZE));
   const nums = [...new Set([1,total,currentPage-1,currentPage,currentPage+1])].filter(n=>n>0&&n<=total).sort((a,b)=>a-b);
@@ -954,19 +1013,19 @@ $('#pagesBottom').addEventListener('click',e=>{
 });
 
 function paintCount(q){
-  const el = $('#count'), total = S.items.length.toLocaleString('ko-KR');
+  const el = $('#count'), total = tabItems().length.toLocaleString('ko-KR');
   el.classList.toggle('clickable', !!S.tag);
   if(S.tag)  el.innerHTML = `#${esc(S.tag)} <b>${S.filtered.length}</b>개 <span class="x">✕</span>`;
   else if(q) el.innerHTML = `검색 <b>${S.filtered.length}</b>개 · 전체 ${total}개`;
   else       el.innerHTML = `총 <b>${total}</b>개`;
 }
 function paintTags(){
-  const bar = $('#tagbar'), cnt = new Map();
-  S.items.forEach(it => tagsOf(it).forEach(t => cnt.set(t, (cnt.get(t) || 0) + 1)));
+  const bar = $('#tagbar'), cnt = new Map(), items = tabItems();
+  items.forEach(it => tagsOf(it).forEach(t => cnt.set(t, (cnt.get(t) || 0) + 1)));
   if(!cnt.size){ bar.classList.remove('on'); bar.innerHTML = ''; return; }
   const list = [...cnt.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'ko'));
   bar.classList.add('on');
-  bar.innerHTML = `<button class="tag${S.tag ? '' : ' sel'}" data-t="">전체<span class="n">${S.items.length}</span></button>` +
+  bar.innerHTML = `<button class="tag${S.tag ? '' : ' sel'}" data-t="">전체<span class="n">${items.length}</span></button>` +
     list.map(([t, n]) => `<button class="tag${S.tag === t ? ' sel' : ''}" data-t="${esc(t)}">#${esc(t)}<span class="n">${n}</span></button>`).join('');
 }
 function drawMore(){
@@ -988,7 +1047,7 @@ function emptyHTML(){
   const q = $('#q').value.trim();
   if(S.tag) return `<div class="empty"><div class="big">🏷️</div><p>#${esc(S.tag)} 에 해당하는 게 없어요</p></div>`;
   if(q)     return `<div class="empty"><div class="big">🔍</div><p>“${esc(q)}” 검색 결과가 없어요</p></div>`;
-  return `<div class="empty"><p>아직 이미지가 없어요</p>
+  return `<div class="empty"><p>${CATS[S.tab]} 탭에 아직 이미지가 없어요</p>
     ${S.admin ? '<p class="hint">＋ 버튼으로 이미지를 추가하세요</p>' : ''}</div>`;
 }
 function card(it, idx){
@@ -1385,7 +1444,8 @@ async function checkArtistDuplicates(batch, names, report){
       const file = stored.name ? stored : new File([stored], job.label, {type:stored.type});
       job.title = await imageArtistTitle(file);
     }
-    const key = artistKey(job.title);
+    // 중복은 같은 탭 안에서만 검사한다 (작태와 UC 는 서로 따로)
+    const key = artistKey(job.title) && (job.cat === 'uc' ? 'uc:' : 'artist:') + artistKey(job.title);
     if(key && names.has(key) && names.get(key) !== job.id){
       job.skipped = true; job.ready = false; job.state = '작가명 중복 · 제외'; job.error = '';
       job.file = null; job.changes = []; job.uploaded = null;
@@ -1519,6 +1579,7 @@ async function prepareImportJob(job, report){
     job.changes = [];
   }
   job.item = { id: job.id, name: job.title, tags: [], imgs: [rec], ts: job.ts };
+  if(job.cat === 'uc') job.item.cat = 'uc';
   job.ready = true; job.state = '저장 대기'; report();
 }
 
@@ -1526,7 +1587,7 @@ async function runImport(jobs, report){
   S.importing = true; importStop = false;
   try{
     await stageImport(jobs, report);
-    const names = new Map(S.items.map(it => [artistKey(it.name),it.id]).filter(([key])=>key));
+    const names = new Map(S.items.filter(it => artistKey(it.name)).map(it => [catOf(it) + ':' + artistKey(it.name), it.id]));
     const pending = jobs.filter(j => !importFinished(j));
     for(let i = 0; i < pending.length && !importStop; i += IMPORT_BATCH){
       const batch = pending.slice(i, i + IMPORT_BATCH);
@@ -1545,8 +1606,10 @@ async function runImport(jobs, report){
       if(ready.length){
         const previous = S.items.slice();
         ready.forEach(j => { j.state = '항목 저장 중'; }); report();
-        const firstNo = Math.max(0, ...S.items.map(it => it.no || 0)) + 1;
-        S.items.push(...ready.map((j, n) => { j.item.no = firstNo + n; return j.item; }));
+        // 번호(NO.)는 탭마다 따로 매긴다
+        const lastNo = {};
+        S.items.forEach(it => { const c = catOf(it); lastNo[c] = Math.max(lastNo[c] || 0, it.no || 0); });
+        S.items.push(...ready.map(j => { const c = catOf(j.item); j.item.no = lastNo[c] = (lastNo[c] || 0) + 1; return j.item; }));
         try{
           for(let attempt=0; ; attempt++){
             try{
@@ -1591,7 +1654,7 @@ async function addSheet(){
   finally{ S.queueLoading = false; }
   picked = []; importStop = false;
   sheet(`
-    <h3>이미지 일괄 추가</h3>
+    <h3>이미지 일괄 추가 · ${CATS[S.tab]} 탭</h3>
     <div class="note">1,000장도 한 번에 선택할 수 있어요. 이미 등록된 작가명은 중복으로 제외합니다. 저장 중 중단되면 같은 브라우저에서 ＋를 눌러 이어 올리세요.</div>
     <div class="drop" id="drop" role="button" tabindex="0"><span class="ic">＋</span>사진 여러 장 선택</div>
     <input type="file" id="file" accept="image/*" multiple hidden>
@@ -1625,7 +1688,7 @@ async function addSheet(){
         continue;
       }
       stamps.add(stamp);
-      importJobs.push({ id: uid(), file, label: file.name, stamp,
+      importJobs.push({ id: uid(), file, label: file.name, stamp, cat: S.tab,
         ts: base + importJobs.length, state: '대기', saved: false });
     }
     // 고해상도 원본 미리보기를 수백 개 띄우지 않는다.
@@ -1644,7 +1707,7 @@ async function addSheet(){
     // 처리 중인 파일과 아직 남은 파일 위주로 최대 40개만 표시한다.
     const visible = importJobs.filter(j => !importFinished(j)).slice(0, 40);
     $('#importList').innerHTML = visible.map(j => `<div style="padding:7px 0;border-bottom:1px solid var(--line-soft)">
-      <span>${importJobs.indexOf(j) + 1}. ${esc(j.label)}</span> · <b>${esc(j.state)}</b>
+      <span>${importJobs.indexOf(j) + 1}. [${CATS[j.cat === 'uc' ? 'uc' : 'artist']}] ${esc(j.label)}</span> · <b>${esc(j.state)}</b>
       ${j.title ? `<div>제목: ${esc(j.title)}</div>` : ''}
       ${j.error ? `<div style="color:#b44">${esc(j.error)}</div>` : ''}
       ${!S.importing ? `<button data-remove="${j.id}" aria-label="${esc(j.label)} 제외" style="float:right">✕</button>` : ''}
@@ -1698,6 +1761,9 @@ function editSheet(it){
     <input type="file" id="eFile" accept="image/*" multiple hidden>
     <label class="f"><span>이름</span><input id="eName" autocomplete="off"></label>
     ${tagField('eTags', tagsOf(it))}
+    <label class="f"><span>탭</span><select id="eCat" style="width:100%;padding:8px 10px;font-size:16px;background:#fff;border:1px solid #e6deee;border-radius:9px;color:#5f506d">
+      ${Object.entries(CATS).map(([c, l]) => `<option value="${c}"${catOf(it) === c ? ' selected' : ''}>${l}</option>`).join('')}
+    </select></label>
     <div class="btns">
       <button class="btn" id="cancel">취소</button>
       <button class="btn pri" id="save">저장</button>
@@ -1732,11 +1798,12 @@ function editSheet(it){
       return toast('사진이 최소 한 장은 있어야 합니다');
     b.disabled = true; b.textContent = '저장 중…';
     try{
-      await updateItem(it.id, $('#eName').value.trim(), tf.get(), addFiles, removeKeys);
+      const moved = $('#eCat').value !== catOf(it);
+      await updateItem(it.id, $('#eName').value.trim(), tf.get(), addFiles, removeKeys, $('#eCat').value);
       closeSheet(); applyFilter();
       const i = S.view.findIndex(x => x.id === it.id);
       if(i >= 0) openLB(i); else closeLB();
-      toast('수정했습니다');
+      toast(moved ? CATS[catOf(it)] + ' 탭으로 옮겼습니다' : '수정했습니다');
     }catch(err){ b.disabled = false; b.textContent = '저장'; toast('실패: ' + err.message, 4500); }
   };
 }
@@ -1940,9 +2007,12 @@ $('#q').addEventListener('keydown', e => { if(e.key === 'Enter') e.target.blur()
 /* ── 시작 ─────────────────────────────────────────────── */
 // 예전 형식(항목 하나에 사진 한 장) → imgs 배열로 자동 변환
 function normalize(items){
-  let next = Math.max(0, ...(items || []).map(it => Number.isSafeInteger(it.no) && it.no > 0 ? it.no : 0));
-  const missing = (items || []).filter(it => !Number.isSafeInteger(it.no) || it.no < 1).slice().sort((a,b) => (a.ts || 0) - (b.ts || 0));
-  missing.forEach(it => { it.no = ++next; });
+  for(const c of Object.keys(CATS)){
+    const group = (items || []).filter(it => catOf(it) === c);
+    let next = Math.max(0, ...group.map(it => Number.isSafeInteger(it.no) && it.no > 0 ? it.no : 0));
+    const missing = group.filter(it => !Number.isSafeInteger(it.no) || it.no < 1).sort((a,b) => (a.ts || 0) - (b.ts || 0));
+    missing.forEach(it => { it.no = ++next; });
+  }
   return (items || []).map(it => {
     if(!Array.isArray(it.tags)) it.tags = it.desc ? parseTags(it.desc) : [];
     delete it.desc;
