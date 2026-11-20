@@ -114,8 +114,8 @@ h1{margin:0;font-size:29px;font-weight:650;letter-spacing:-.055em;line-height:1.
 
 /* 그림 비율을 그대로 살린다. 위아래에 빈 칸이 생기지 않는다.
    불러오기 전에도 자리가 흔들리지 않도록 비율은 인라인으로 넣어 준다. */
-.lb-img{width:100%;height:auto;display:block;background:var(--c-imgbg);box-shadow:none;margin-bottom:8px;border-radius:10px}
-.lb-info{margin-top:6px;box-shadow:none;border:1px solid #e6deee;background:#fefdfd;border-radius:12px;padding:17px}
+.lb-img{width:100%;height:auto;display:block;background:var(--c-imgbg);box-shadow:none;margin-bottom:10px;border-radius:10px}
+.lb-info{margin-top:16px;box-shadow:none;border:1px solid #e6deee;background:#fefdfd;border-radius:12px;padding:17px}
 #lbName{display:flex;line-height:1.35;border-radius:14px;transition:background .14s;font-size:16px;font-weight:600;align-items:center;gap:8px;margin:0;padding:0;width:100%;text-align:left;color:#5a456e}
 #lbName .ci{font-size:14px;display:flex;align-items:center;justify-content:center;width:16px;height:16px;margin:0;flex:none}
 @media (hover:hover){#lbName:hover{background:var(--rose-chip)}}
@@ -361,7 +361,7 @@ button:focus-visible,select:focus-visible{outline:2px solid #a685c7;outline-offs
 }
 @media (min-width:1000px){#grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media (min-width:700px){
-  .lb .nav{width:60px;height:60px;font-size:34px;border-radius:16px;border:1px solid #ece4f3;box-shadow:0 4px 18px #49365c1f;transition:background .14s}
+  .lb .nav{width:60px;height:60px;font-size:34px;border-radius:16px;border:1px solid #ece4f3;box-shadow:0 4px 18px #49365c1f;transition:background .14s,top .12s ease-out}
   .lb .nav.prev{left:max(16px,calc(50% - 260px - 92px))}
   .lb .nav.next{right:max(16px,calc(50% - 260px - 92px))}
   .lb .nav:hover{background:#f5eefb}
@@ -393,15 +393,71 @@ button:focus-visible,select:focus-visible{outline:2px solid #a685c7;outline-offs
 }
 @media (max-width:699px){
   .lb-scroll{padding-top:calc(112px + env(safe-area-inset-top,0px));padding-left:72px;padding-right:72px}
-  .lb .nav{width:48px;height:48px;padding:0;border-radius:14px;font-size:30px;touch-action:manipulation;box-shadow:0 3px 12px #49365c18}
-  .lb .nav.prev{left:max(14px,env(safe-area-inset-left,0px))}
-  .lb .nav.next{right:max(14px,env(safe-area-inset-right,0px))}
+  .lb-scroll{padding-left:60px;padding-right:60px}
+  .lb .nav{width:36px;height:36px;padding:0;border-radius:10px;font-size:24px;touch-action:manipulation;box-shadow:0 2px 10px #49365c18}
+  .lb .nav.prev{left:max(12px,env(safe-area-inset-left,0px))}
+  .lb .nav.next{right:max(12px,env(safe-area-inset-right,0px))}
   .lb-info{padding:14px 12px}
   .lb-tags .none{font-size:11px;font-weight:400;line-height:1.5}
   #lbName{overflow-wrap:anywhere}
 }
 .admin-heading{display:flex;align-items:center;justify-content:space-between}
 #adminDismiss{width:44px;height:44px;border:0;background:transparent;color:inherit;font-size:24px}
+
+/* 즐겨찾기 하트 */
+.fav-btn{display:grid;place-items:center;padding:0;color:#a593b6;transition:opacity .15s,transform .15s,color .15s,background .15s}
+.fav-btn svg{display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.fav-btn.on{color:#e0648f}
+.fav-btn.on svg{fill:currentColor}
+.fav-btn:active{transform:scale(.86)}
+.card .fav-btn{position:absolute;z-index:2;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:#ffffffde;box-shadow:0 1px 5px #3a28481a}
+.card .fav-btn svg{width:17px;height:17px}
+@media (hover:hover){.card .fav-btn:not(.on){opacity:0}.card:hover .fav-btn,.card .fav-btn:focus-visible{opacity:1}}
+@media (max-width:699px){.card .fav-btn{top:6px;right:6px;width:22px;height:22px}.card .fav-btn svg{width:13px;height:13px}}
+.lb-namerow{display:flex;align-items:center;gap:10px}
+.lb-namerow #lbName{flex:1;min-width:0;width:auto}
+#lbFav{flex:none;width:40px;height:40px;border-radius:12px;background:#f6f0fb}
+#lbFav svg{width:22px;height:22px}
+#lbFav.on{background:#fdeef3}
+.cat-tab .heart{width:.95em;height:.95em;margin-right:4px;vertical-align:-.12em;fill:#e0648f;stroke:none}
+
+/* PC 에서는 글자와 여백을 한 단계 키운다 */
+@media (min-width:700px){
+  h1{font-size:38px}
+  .sub{font-size:17px}
+  .notebook-label{font-size:12px}
+  #editHead{font-size:14px}
+  #q{font-size:17px;height:48px}
+  .count{font-size:17px}
+  #sortToggle,#sortMenu button{font-size:16px}
+  .cat-tab{font-size:17px}
+  .cat-tab .n{font-size:13px}
+  .tag{font-size:15px}
+  .tag .n{font-size:13px}
+  #selectionTools button{font-size:14px}
+  .item-no{font-size:12px}
+  #grid .nm{font-size:17px}
+  .tg{font-size:14px}
+  .pagination button{font-size:15px}
+  .pagination small{font-size:13px}
+  .site-credit{font-size:13px}
+  .lb-img{margin-bottom:12px}
+  .lb-info{margin-top:22px;padding:22px 24px}
+  #lbName{font-size:25px}
+  #lbName .ci,#lbName .ci svg{width:22px;height:22px}
+  .cphint{font-size:15px}
+  .lb-tags .t{font-size:16px}
+  .lb-tags .none{font-size:15px}
+  .lb-actions button{font-size:16px;padding:10px}
+  .lb-pos{font-size:15px}
+  #lbFav{width:46px;height:46px}
+  #lbFav svg{width:25px;height:25px}
+  #toast{font-size:15px}
+  .sheet h3{font-size:22px}
+  .note{font-size:15px}
+  label.f>span:first-child{font-size:15px}
+  .btn{font-size:16px}
+}
 @media (max-width:699px){#sheetBox:has(#adminDismiss){max-height:calc(100dvh - 52px);overflow-y:auto}}
 </style>
 </head>
@@ -443,6 +499,7 @@ button:focus-visible,select:focus-visible{outline:2px solid #a685c7;outline-offs
   <div class="cat-tabs" id="catTabs" role="tablist" aria-label="분류">
     <button class="cat-tab" type="button" role="tab" data-cat="artist" aria-selected="true">작태<span class="n" id="nArtist"></span></button>
     <button class="cat-tab" type="button" role="tab" data-cat="uc" aria-selected="false">UC<span class="n" id="nUc"></span></button>
+    <button class="cat-tab" type="button" role="tab" data-cat="fav" aria-selected="false"><svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.3 0 5.5 3.1 4.2 6.6-1.8 4.8-9.3 9.4-9.3 9.4z"/></svg>즐겨찾기<span class="n" id="nFav"></span></button>
   </div>
 
   <div id="selectionTools" hidden><button id="selectMode" type="button">선택 삭제</button><button id="selectAll" type="button" hidden>현재 페이지 전체 선택</button><button id="deleteSelected" type="button" hidden disabled>선택 0개 삭제</button></div>
@@ -460,7 +517,10 @@ button:focus-visible,select:focus-visible{outline:2px solid #a685c7;outline-offs
     <div class="lb-inner">
       <div id="lbImgs"></div>
       <div class="lb-info">
-        <button id="lbName"><span class="t"></span><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></svg></span></button>
+        <div class="lb-namerow">
+          <button id="lbName"><span class="t"></span><span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></svg></span></button>
+          <button id="lbFav" class="fav-btn" type="button" aria-pressed="false" aria-label="즐겨찾기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.3 0 5.5 3.1 4.2 6.6-1.8 4.8-9.3 9.4-9.3 9.4z"/></svg></button>
+        </div>
         <p class="cphint">이름을 누르면 복사됩니다</p>
         <div class="lb-tags" id="lbTags"></div>
         <div class="lb-actions" id="lbActions" style="display:none">
@@ -503,12 +563,31 @@ const S = {
   view: [], drawn: 0, tag: null,
   mode: 'local', cfg: null, admin: false,
   cur: -1, urls: new Map(),
-  tab: location.hash === '#uc' ? 'uc' : 'artist'
+  tab: 'artist'
 };
 // 항목 분류: cat 이 'uc' 면 UC 탭, 없으면 작태 탭 (기존 데이터는 모두 작태)
 const CATS = { artist: '작태', uc: 'UC' };
+// 즐겨찾기 탭은 분류가 아니라 보는 사람마다 따로 저장되는 모음이다
+const TABS = { ...CATS, fav: '즐겨찾기' };
+const tabFromHash = () => ({ '#uc': 'uc', '#fav': 'fav' })[location.hash] || 'artist';
+S.tab = tabFromHash();
 const catOf = it => it && it.cat === 'uc' ? 'uc' : 'artist';
-const tabItems = () => S.items.filter(it => catOf(it) === S.tab);
+const addCat = () => S.tab === 'uc' ? 'uc' : 'artist';
+
+/* 즐겨찾기 — 이 브라우저에만 저장 (localStorage) */
+const FAV_KEY = 'nai_artist_tags_favs_v1';
+const FAV = new Set((() => { try{ const v = JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); return Array.isArray(v) ? v : []; }catch{ return []; } })());
+const isFav = it => !!it && FAV.has(it.id);
+function saveFav(){ try{ localStorage.setItem(FAV_KEY, JSON.stringify([...FAV])); }catch{} }
+function toggleFav(id){
+  const on = !FAV.has(id);
+  if(on) FAV.add(id); else FAV.delete(id);
+  saveFav();
+  toast(on ? '즐겨찾기에 추가했습니다' : '즐겨찾기에서 뺐습니다', 1400);
+  return on;
+}
+const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.3 0 5.5 3.1 4.2 6.6-1.8 4.8-9.3 9.4-9.3 9.4z"/></svg>';
+const tabItems = () => S.tab === 'fav' ? S.items.filter(isFav) : S.items.filter(it => catOf(it) === S.tab);
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -970,22 +1049,26 @@ function paintCatTabs(){
   const n = c => S.items.filter(it => catOf(it) === c).length.toLocaleString('ko-KR');
   $('#nArtist').textContent = n('artist');
   $('#nUc').textContent = n('uc');
-  $('#fab').setAttribute('aria-label', CATS[S.tab] + ' 탭에 이미지 추가');
+  $('#nFav').textContent = S.items.filter(isFav).length.toLocaleString('ko-KR');
+  $('#fab').hidden = S.tab === 'fav';
+  $('#fab').setAttribute('aria-label', CATS[addCat()] + ' 탭에 이미지 추가');
 }
 function selectCat(c){
-  if(!CATS[c] || c === S.tab) return;
+  if(!TABS[c] || c === S.tab) return;
   S.tab = c; S.tag = null;
   selectedItems.clear(); selectingItems = false;
-  try{ history.replaceState(null, '', c === 'uc' ? '#uc' : location.pathname + location.search); }catch{}
+  try{ history.replaceState(null, '', c === 'artist' ? location.pathname + location.search : '#' + c); }catch{}
   applyFilter();
 }
 $('#catTabs').addEventListener('click', e => { const b = e.target.closest('.cat-tab'); if(b) selectCat(b.dataset.cat); });
 $('#catTabs').addEventListener('keydown', e => {
   if(e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-  e.preventDefault(); selectCat(S.tab === 'uc' ? 'artist' : 'uc');
+  e.preventDefault();
+  const order = Object.keys(TABS), i = order.indexOf(S.tab);
+  selectCat(order[(i + (e.key === 'ArrowRight' ? 1 : -1) + order.length) % order.length]);
   document.querySelector(`.cat-tab[data-cat="${S.tab}"]`)?.focus();
 });
-window.addEventListener('hashchange', () => selectCat(location.hash === '#uc' ? 'uc' : 'artist'));
+window.addEventListener('hashchange', () => selectCat(tabFromHash()));
 function paintPages(){
   const total = Math.max(1,Math.ceil(S.filtered.length/PAGE_SIZE));
   const nums = [...new Set([1,total,currentPage-1,currentPage,currentPage+1])].filter(n=>n>0&&n<=total).sort((a,b)=>a-b);
@@ -1047,6 +1130,7 @@ function emptyHTML(){
   const q = $('#q').value.trim();
   if(S.tag) return `<div class="empty"><div class="big">🏷️</div><p>#${esc(S.tag)} 에 해당하는 게 없어요</p></div>`;
   if(q)     return `<div class="empty"><div class="big">🔍</div><p>“${esc(q)}” 검색 결과가 없어요</p></div>`;
+  if(S.tab === 'fav') return `<div class="empty"><div class="big">♡</div><p>아직 즐겨찾기한 이미지가 없어요</p><p class="hint">이미지의 하트를 누르면 여기에 모여요</p></div>`;
   return `<div class="empty"><p>${CATS[S.tab]} 탭에 아직 이미지가 없어요</p>
     ${S.admin ? '<p class="hint">＋ 버튼으로 이미지를 추가하세요</p>' : ''}</div>`;
 }
@@ -1058,7 +1142,8 @@ function card(it, idx){
   d.innerHTML =
     `<input class="select-pick" type="checkbox" data-id="${esc(it.id)}" aria-label="${esc(it.name || '제목 없음')} 항목 선택">
      <button class="thumb skel" aria-label="크게 보기"><img alt="" loading="lazy" decoding="async"></button>
-     <div class="cap"><span class="item-no">NO. ${String(it.no || S.items.indexOf(it) + 1).padStart(4, '0')}</span>
+     <button class="fav-btn${isFav(it) ? ' on' : ''}" type="button" data-id="${esc(it.id)}" aria-pressed="${isFav(it)}" aria-label="즐겨찾기">${HEART}</button>
+     <div class="cap"><span class="item-no">${S.tab === 'fav' ? CATS[catOf(it)] + ' · ' : ''}NO. ${String(it.no || S.items.indexOf(it) + 1).padStart(4, '0')}</span>
        <button class="nm"><span class="t">${esc(it.name || '제목 없음')}</span><span class="ci">⧉</span></button>
        <div class="tg">${tg.map(t => '#' + esc(t)).join(' ')}</div>
      </div>`;
@@ -1083,6 +1168,13 @@ function card(it, idx){
 grid.addEventListener('click', e => {
   const c = e.target.closest('.card'); if(!c) return;
   const i = +c.dataset.i;
+  const fb = e.target.closest('.fav-btn');
+  if(fb){
+    const on = toggleFav(S.view[i].id);
+    if(S.tab === 'fav' && !on) applyFilter();   // 즐겨찾기 탭에서 빼면 목록에서 바로 사라진다
+    else { paintFavBtn(fb, on); paintCatTabs(); }
+    return;
+  }
   if(selectingItems && S.admin){
     if(S.deleting || e.target.closest('.select-pick')) return;
     const id = S.view[i].id;
@@ -1187,7 +1279,7 @@ async function openLB(i){
   $('#lbTags').innerHTML = tg.length
     ? tg.map(t => `<button class="t" data-t="${esc(t)}">#${esc(t)}</button>`).join('')
     : '<span class="none">태그 없음</span>';
-  $('#lbPos').textContent = `NO. ${String(it.no || S.items.indexOf(it) + 1).padStart(4, '0')} · ${i + 1} / ${S.view.length}`;
+  $('#lbPos').textContent = `${S.tab === 'fav' ? CATS[catOf(it)] + ' · ' : ''}NO. ${String(it.no || S.items.indexOf(it) + 1).padStart(4, '0')} · ${i + 1} / ${S.view.length}`;
   $('#lbActions').style.display = S.admin ? 'flex' : 'none';
   $('#lbPrev').disabled = currentPage === 1 && i === 0;
   $('#lbNext').disabled = currentPage === Math.ceil(S.filtered.length/PAGE_SIZE) && i === S.view.length - 1;
@@ -1205,15 +1297,51 @@ async function openLB(i){
     }
   });
 
+  els.forEach(el => el.addEventListener('load', placeNav, { once: true }));
+  paintLbFav();
+
   $('#lb').classList.add('on');
   $('#lbScroll').scrollTop = 0;
   document.body.style.overflow = 'hidden';
+  placeNav();
 }
+// 좌우 버튼을 화면 가운데가 아니라 보이는 이미지의 세로 가운데에 둔다
+function placeNav(){
+  if(!$('#lb').classList.contains('on')) return;
+  const r = $('#lbImgs').getBoundingClientRect();
+  const topLimit = $('.lb-top').getBoundingClientRect().bottom + 8, bottomLimit = innerHeight - 8;
+  const top = Math.max(r.top, topLimit), bottom = Math.min(r.bottom, bottomLimit);
+  const half = $('#lbPrev').offsetHeight / 2;
+  let y = bottom - top > half * 2 ? (top + bottom) / 2 : innerHeight / 2;
+  y = Math.min(Math.max(y, topLimit + half), bottomLimit - half);
+  $('#lbPrev').style.top = $('#lbNext').style.top = y + 'px';
+}
+let navRaf = 0;
+const queueNav = () => { cancelAnimationFrame(navRaf); navRaf = requestAnimationFrame(placeNav); };
+$('#lbScroll').addEventListener('scroll', queueNav, { passive: true });
+window.addEventListener('resize', queueNav);
 function closeLB(){
   $('#lb').classList.remove('on'); document.body.style.overflow = '';
   if(currentPage !== lbStartPage) grid.querySelector('[data-i="'+S.cur+'"]')?.scrollIntoView({block:'center',behavior:'instant'});
   S.cur = -1;
+  // 즐겨찾기 탭에서 상세 보기 중에 하트를 뺐다면 닫을 때 목록을 다시 그린다
+  if(S.favDirty){ S.favDirty = false; if(S.tab === 'fav'){ const y = scrollY; applyFilter(); scrollTo(0, y); } }
 }
+function paintFavBtn(b, on){
+  b.classList.toggle('on', on);
+  b.setAttribute('aria-pressed', String(on));
+  b.setAttribute('aria-label', on ? '즐겨찾기 해제' : '즐겨찾기');
+}
+function paintLbFav(){ paintFavBtn($('#lbFav'), isFav(S.view[S.cur])); }
+$('#lbFav').onclick = () => {
+  const it = S.view[S.cur]; if(!it) return;
+  const on = toggleFav(it.id);
+  paintFavBtn($('#lbFav'), on);
+  const cardBtn = grid.querySelector(`.fav-btn[data-id="${CSS.escape(it.id)}"]`);
+  if(cardBtn) paintFavBtn(cardBtn, on);
+  if(S.tab === 'fav') S.favDirty = true;
+  paintCatTabs();
+};
 $('#lbClose').onclick = closeLB;
 $('#lb').addEventListener('click', e => { if(e.target.id === 'lb' || e.target.id === 'lbScroll') closeLB(); });
 $('#lbPrev').onclick = () => openLB(S.cur - 1);
@@ -1654,7 +1782,7 @@ async function addSheet(){
   finally{ S.queueLoading = false; }
   picked = []; importStop = false;
   sheet(`
-    <h3>이미지 일괄 추가 · ${CATS[S.tab]} 탭</h3>
+    <h3>이미지 일괄 추가 · ${CATS[addCat()]} 탭</h3>
     <div class="note">1,000장도 한 번에 선택할 수 있어요. 이미 등록된 작가명은 중복으로 제외합니다. 저장 중 중단되면 같은 브라우저에서 ＋를 눌러 이어 올리세요.</div>
     <div class="drop" id="drop" role="button" tabindex="0"><span class="ic">＋</span>사진 여러 장 선택</div>
     <input type="file" id="file" accept="image/*" multiple hidden>
@@ -1688,7 +1816,7 @@ async function addSheet(){
         continue;
       }
       stamps.add(stamp);
-      importJobs.push({ id: uid(), file, label: file.name, stamp, cat: S.tab,
+      importJobs.push({ id: uid(), file, label: file.name, stamp, cat: addCat(),
         ts: base + importJobs.length, state: '대기', saved: false });
     }
     // 고해상도 원본 미리보기를 수백 개 띄우지 않는다.
