@@ -3,7 +3,7 @@
  "title": "NAI 작태 모음",
  "sub": "v5기준\n링크 퍼날 X\n이름 누르면 복사\n계속 추가중",
  "cover": "mv52jpaa",
- "updated": "2026-11-21T05:31:23.950Z",
+ "updated": "2026-11-21T05:31:46.075Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -8100,6 +8100,70 @@
    ],
    "ts": 1795238922875,
    "no": 506
+  },
+  {
+   "id": "mwpywiigoj7fn",
+   "name": "zetacat",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpywiigoj7fn",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpywiigoj7fn.webp",
+     "src": "images/mwpywiigoj7fn.png"
+    }
+   ],
+   "ts": 1795238922876,
+   "no": 507
+  },
+  {
+   "id": "mwpywij31zanw",
+   "name": "ushikani kassen",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpywij31zanw",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpywij31zanw.webp",
+     "src": "images/mwpywij31zanw.png"
+    }
+   ],
+   "ts": 1795238922877,
+   "no": 508
+  },
+  {
+   "id": "mwpywijw63k37",
+   "name": "minaba hideo",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpywijw63k37",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpywijw63k37.webp",
+     "src": "images/mwpywijw63k37.png"
+    }
+   ],
+   "ts": 1795238922878,
+   "no": 509
+  },
+  {
+   "id": "mwpywikjm2406",
+   "name": "mikan03 26",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpywikjm2406",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpywikjm2406.webp",
+     "src": "images/mwpywikjm2406.png"
+    }
+   ],
+   "ts": 1795238922879,
+   "no": 510
   }
  ]
 }
