@@ -3,7 +3,7 @@
  "title": "NAI 작태 모음",
  "sub": "v5기준\n링크 퍼날 X\n이름 누르면 복사\n계속 추가중",
  "cover": "mv52jpaa",
- "updated": "2026-11-21T05:45:36.853Z",
+ "updated": "2026-11-21T05:45:44.885Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -8300,6 +8300,40 @@
    "ts": 1795239926250,
    "cat": "uc",
    "no": 8
+  },
+  {
+   "id": "mwpzi0kvqlgyu",
+   "name": "meyoco",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0kvqlgyu",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0kvqlgyu.webp",
+     "src": "images/mwpzi0kvqlgyu.png"
+    }
+   ],
+   "ts": 1795239926251,
+   "cat": "uc",
+   "no": 9
+  },
+  {
+   "id": "mwpzi0lkzadz8",
+   "name": "kurukurumagical",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0lkzadz8",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0lkzadz8.webp",
+     "src": "images/mwpzi0lkzadz8.png"
+    }
+   ],
+   "ts": 1795239926252,
+   "cat": "uc",
+   "no": 10
   }
  ]
 }
