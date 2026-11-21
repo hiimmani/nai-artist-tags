@@ -3,7 +3,7 @@
  "title": "NAI 작태 모음",
  "sub": "v5기준\n링크 퍼날 X\n이름 누르면 복사\n계속 추가중",
  "cover": "mv52jpaa",
- "updated": "2026-11-21T05:31:46.075Z",
+ "updated": "2026-11-21T05:45:36.853Z",
  "items": [
   {
    "id": "muzgzyd2j07hz",
@@ -8164,6 +8164,142 @@
    ],
    "ts": 1795238922879,
    "no": 510
+  },
+  {
+   "id": "mwpzi0hiumafy",
+   "name": "xinzoruo",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0hiumafy",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0hiumafy.webp",
+     "src": "images/mwpzi0hiumafy.png"
+    }
+   ],
+   "ts": 1795239926243,
+   "cat": "uc",
+   "no": 1
+  },
+  {
+   "id": "mwpzi0htkde18",
+   "name": "bkub",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0htkde18",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0htkde18.webp",
+     "src": "images/mwpzi0htkde18.png"
+    }
+   ],
+   "ts": 1795239926244,
+   "cat": "uc",
+   "no": 2
+  },
+  {
+   "id": "mwpzi0i8awt55",
+   "name": "milkpanda",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0i8awt55",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0i8awt55.webp",
+     "src": "images/mwpzi0i8awt55.png"
+    }
+   ],
+   "ts": 1795239926245,
+   "cat": "uc",
+   "no": 3
+  },
+  {
+   "id": "mwpzi0ilphim2",
+   "name": "combos & doodles",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0ilphim2",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0ilphim2.webp",
+     "src": "images/mwpzi0ilphim2.png"
+    }
+   ],
+   "ts": 1795239926246,
+   "cat": "uc",
+   "no": 4
+  },
+  {
+   "id": "mwpzi0iyaqw52",
+   "name": "zunusama",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0iyaqw52",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0iyaqw52.webp",
+     "src": "images/mwpzi0iyaqw52.png"
+    }
+   ],
+   "ts": 1795239926247,
+   "cat": "uc",
+   "no": 5
+  },
+  {
+   "id": "mwpzi0j83mor3",
+   "name": "riz",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0j83mor3",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0j83mor3.webp",
+     "src": "images/mwpzi0j83mor3.png"
+    }
+   ],
+   "ts": 1795239926248,
+   "cat": "uc",
+   "no": 6
+  },
+  {
+   "id": "mwpzi0jnxm4rp",
+   "name": "blushyspicy",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0jnxm4rp",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0jnxm4rp.webp",
+     "src": "images/mwpzi0jnxm4rp.png"
+    }
+   ],
+   "ts": 1795239926249,
+   "cat": "uc",
+   "no": 7
+  },
+  {
+   "id": "mwpzi0k8jugqz",
+   "name": "as109",
+   "tags": [],
+   "imgs": [
+    {
+     "k": "mwpzi0k8jugqz",
+     "w": 832,
+     "h": 1216,
+     "thumb": "thumbs/mwpzi0k8jugqz.webp",
+     "src": "images/mwpzi0k8jugqz.png"
+    }
+   ],
+   "ts": 1795239926250,
+   "cat": "uc",
+   "no": 8
   }
  ]
 }
